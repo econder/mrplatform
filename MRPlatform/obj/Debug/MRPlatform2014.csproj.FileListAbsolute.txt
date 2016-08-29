@@ -1,0 +1,20 @@
+C:\Users\econder\Documents\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\bin\Debug\MRPlatform2014.dll
+C:\Users\econder\Documents\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\bin\Debug\MRPlatform2014.pdb
+C:\Users\econder\Documents\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.csprojResolveAssemblyReference.cache
+C:\Users\econder\Documents\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.dll
+C:\Users\econder\Documents\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.pdb
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\bin\Debug\MRPlatform2014.dll
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\bin\Debug\MRPlatform2014.pdb
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.csprojResolveAssemblyReference.cache
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.dll
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.pdb
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\bin\Debug\MRPlatform2014.dll
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\bin\Debug\MRPlatform2014.pdb
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.csprojResolveAssemblyReference.cache
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.dll
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.pdb
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.dll
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.pdb
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform2014\bin\Debug\MRPlatform2014.dll
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform2014\bin\Debug\MRPlatform2014.pdb
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform2014\obj\Debug\MRPlatform2014.csprojResolveAssemblyReference.cache

@@ -1,0 +1,6 @@
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\bin\Release\MRPlatform2014.dll
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Release\MRPlatform2014.csprojResolveAssemblyReference.cache
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Release\MRPlatform2014.dll
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\bin\Release\MRPlatform2014.dll
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Release\MRPlatform2014.dll
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform2014\obj\Release\MRPlatform2014.csprojResolveAssemblyReference.cache

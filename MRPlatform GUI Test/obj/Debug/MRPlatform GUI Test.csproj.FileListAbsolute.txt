@@ -1,0 +1,36 @@
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.exe
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.pdb
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform2014.dll
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform2014.pdb
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csprojResolveAssemblyReference.cache
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform_GUI_Test.MainForm.resources
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csproj.GenerateResource.Cache
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.exe
+Z:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.pdb
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.exe
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.pdb
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform2014.dll
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform2014.pdb
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csprojResolveAssemblyReference.cache
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform_GUI_Test.MainForm.resources
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csproj.GenerateResource.Cache
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.exe
+C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.pdb
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.exe
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.pdb
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform2014.dll
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\bin\Debug\MRPlatform2014.pdb
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csprojResolveAssemblyReference.cache
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform_GUI_Test.MainForm.resources
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csproj.GenerateResource.Cache
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.exe
+C:\Users\mrsystems\repos\mrplatform2014\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csprojResolveAssemblyReference.cache
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Debug\MRPlatform_GUI_Test.MainForm.resources
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csproj.GenerateResource.Cache
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.exe
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRPlatform2014.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRPlatform2014.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.exe
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.pdb

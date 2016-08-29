@@ -48,6 +48,9 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MRDbSync">
+      <HintPath>..\..\MRDbSync\MRDbSync\bin\Release\MRDbSync.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -65,11 +68,6 @@
     <Compile Include="Message\MRMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Sql" />
-    <Folder Include="AlarmEvent" />
-    <Folder Include="Message" />
-    <Folder Include="Data" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

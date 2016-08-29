@@ -28,8 +28,9 @@ namespace MRPlatform.AlarmEvent
 	public class MREvent
 	{
 		private SqlConnection _dbConn;
-		
-		
+        private SqlConnection _dbSyncConn;
+        private bool _syncTables;
+
 		/// <summary>
 		/// Class constructor
 		/// </summary>
@@ -37,12 +38,34 @@ namespace MRPlatform.AlarmEvent
 		/// <example>Example:<code>
 		/// MREvent mrel = new MREvent();
 		///</code></example>
-		public MREvent(string dbServerName, string dbInstanceName, string userName, string password)
+		public MREvent(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword)
 		{
 			MRDbConnection mrdb = new MRDbConnection();
-			mrdb.ConnectionString = "Server=" + dbServerName + "; Database=" + dbInstanceName + "; Uid=" + userName + "; Pwd=" + password;
-			this._dbConn = mrdb.Open(dbServerName, dbInstanceName, userName, password);
+			mrdb.ConnectionString = "Server=" + dbServerName + "; Database=" + dbInstanceName + "; Uid=" + dbUserName + "; Pwd=" + dbPassword;
+			this._dbConn = mrdb.OpenDatabase(dbServerName, dbInstanceName, dbUserName, dbPassword);
 		}
+
+
+        public MREvent(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword,
+                       string dbSyncServerName, string dbSyncInstanceName, string dbSyncUserName, string dbSyncPassword)
+        {
+            MRDbConnection mrdb = new MRDbConnection();
+
+            //Get primary SQL server connection
+            mrdb.ConnectionString = "Server=" + dbServerName + "; Database=" + dbInstanceName + "; Uid=" + dbUserName + "; Pwd=" + dbPassword;
+            this._dbConn = mrdb.OpenDatabase(dbServerName, dbInstanceName, dbUserName, dbPassword);
+
+            //Get sync'd SQL server connection
+            mrdb.SyncConnectionString = "Server=" + dbSyncServerName + "; Database=" + dbSyncInstanceName + "; Uid=" + dbSyncUserName + "; Pwd=" + dbSyncPassword;
+            this._dbSyncConn = mrdb.OpenDatabase(dbSyncServerName, dbSyncInstanceName, dbSyncUserName, dbSyncPassword);
+
+            //Check if sync database connection is open and update SyncTables property
+            if(this._dbSyncConn.State == ConnectionState.Open)
+            {
+                SyncTables = true;
+            }
+        }
+
 		
 		~MREvent()
 		{
@@ -79,9 +102,16 @@ namespace MRPlatform.AlarmEvent
 			
 			dbCmd.CommandText = sQuery;
 			dbCmd.Connection = this._dbConn;
-			dbCmd.ExecuteNonQuery();
+            int recCount = dbCmd.ExecuteNonQuery();
+            
+            
+            if (recCount > 0 && SyncTables == true)
+            {
+                //MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(_dbConn, _dbSyncConn);
+                //TODO: Update MRDbSync to accept SqlConnections - not just connection strings
+            }
 		}
-		
+        
 		
 		/// <summary>GetEventHistory Method</summary>
 		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
@@ -149,6 +179,8 @@ namespace MRPlatform.AlarmEvent
 		}
 		
 		
+        //Class Properties
 		public DataSet EventHistory { get; set; }
+        private bool SyncTables { get; set; }
 	}
 }

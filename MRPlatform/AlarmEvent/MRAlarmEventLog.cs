@@ -6,6 +6,9 @@
  * Changes:
  * 2014-04-01	Renamed MRAlarm to MRAlarmEventLog to be more descriptive. Added
  * 				GetTopAlarmOccurrences() classes.
+ * 				
+ * 2016-08-29   Updated MRDbConnection methods to match method name changes in MRDbConnection. Added
+ *              comments to all methods and properties.
  * 
  * *************************************************************************************************/
 using System;
@@ -28,7 +31,7 @@ namespace MRPlatform.AlarmEvent
 		{
 			MRDbConnection mrdb = new MRDbConnection();
 			mrdb.ConnectionString = "Server=" + serverName + "; Database=" + dbInstanceName + "; Uid=" + userName + "; Pwd=" + password;
-			this._dbConn = mrdb.Open(serverName, dbInstanceName, userName, password);
+			this._dbConn = mrdb.OpenDatabase(serverName, dbInstanceName, userName, password);
 		}
 		
 		~MRAlarmEventLog()

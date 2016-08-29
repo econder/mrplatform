@@ -13,8 +13,8 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
-using MRPlatform2014.AlarmEvent;
-using MRPlatform2014.Message;
+using MRPlatform.AlarmEvent;
+using MRPlatform.Message;
 
 
 namespace MRPlatform_GUI_Test

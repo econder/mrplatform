@@ -13,11 +13,11 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-using MRPlatform2014.AlarmEvent;
-using MRPlatform2014.Data.Sql;
+using MRPlatform.AlarmEvent;
+using MRPlatform.Data.Sql;
 
 
-namespace MRPlatform2014.Message
+namespace MRPlatform.Message
 {
 	/// <summary>
 	/// Description of MRAreaMessage.

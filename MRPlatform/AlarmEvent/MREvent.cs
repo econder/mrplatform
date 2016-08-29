@@ -17,10 +17,10 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-using MRPlatform2014.Data.Sql;
+using MRPlatform.Data.Sql;
 
 
-namespace MRPlatform2014.AlarmEvent
+namespace MRPlatform.AlarmEvent
 {
 	/// <summary>
 	/// Description of MREvent.

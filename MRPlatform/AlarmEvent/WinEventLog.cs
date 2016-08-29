@@ -13,7 +13,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace MRPlatform2014.AlarmEvent
+namespace MRPlatform.AlarmEvent
 {
 	/// <summary>
 	/// Description of WinEventLog.

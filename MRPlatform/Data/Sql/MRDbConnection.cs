@@ -26,98 +26,62 @@ namespace MRPlatform.Data.Sql
 {
     public class MRDbConnection
 	{
-		private SqlConnection _dbConn;
-        private SqlConnection _dbSyncConn;
-
         /// <summary>
         /// MRDbConnection class constructor.
         /// </summary>
         /// <remarks>Creates a new instance of MRDbConnection.</remarks>
+        /// <param name="dbConnection">SqlConnection object</param>
         /// <returns>MRDbConnection object.</returns>
         /// <example>Example:<code>
         /// MRDbConnection mrdb = new MRDbConnection();
         /// </code></example>
-        public MRDbConnection()
-		{
-			this.DbConnected = false;
-            this.SyncDbConnected = false;
-		}
-
-        /// <summary>
-        /// OpenDatabase method.
-        /// </summary>
-        /// <remarks>Method to open a database connection. This connection is also the primary connection when using MRDbSync
-        /// to synchronize two or more SQL databases with each other using the MRDbSync library which utilizes Microsoft's
-        /// SyncFramework.</remarks>
-        /// <param name="dbServerName">SQL database server name as a string.</param>
-        /// <param name="dbInstanceName">SQL database instance name as a string.</param>
-        /// <param name="dbUserName">SQL database user name as a string.</param>
-        /// <param name="dbPassword">SQL database password as a string.</param>
-        /// <returns>System.Data.SqlClient.SqlConnection object.</returns>
-        /// <example>Example:<code>
-        /// MRDbConnection mrdb = new MRDbConnection();
-        /// SqlConnection conn = mrdb.OpenDatabase("ServerName", "InstanceName", "User Name", "Password");
-        /// </code></example>
-        public SqlConnection OpenDatabase(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword)
-		{
-			//Set property values for master SQL database
-			this.ServerName = dbServerName;
-			this.DatabaseName = dbInstanceName;
-			this.UserName = dbUserName;
-			this.Password = dbPassword;
-			
-			//Connect to master SQL Database
-			string connStr = "Server=" + this.ServerName + "; Database=" + this.DatabaseName + "; User Id=" + this.UserName + "; Password=" + this.Password + ";";  
-			this._dbConn = new SqlConnection(connStr);
-			
-			try
-			{
-				this._dbConn.Open();
-				
-				if(this._dbConn.State == ConnectionState.Open)
-				{
-					DbConnected = true;
-					return this._dbConn;
-				}
-				return null;
-			}
-			catch(InvalidOperationException e)
-			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("InvalidOperationException: " + e.Message);
-				return null;
-			}
-			catch(SqlException e)
-			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return null;
-			}
-			catch(ArgumentException e)
-			{
-				WinEventLog winel	 = new WinEventLog();
-				winel.WriteEvent("ArgumentException: " + e.Message);
-				return null;
-			}
+        public MRDbConnection(SqlConnection dbConnection)
+        {
+            this.DbConnection = dbConnection;
+            this.OpenDatabase(DbConnection);
         }
 
 
-        /// <summary>
-        /// OpenSyncDatabase method.
-        /// </summary>
-        /// <remarks>Method to open a database connection to the backup SQL synchronization database.</remarks>
-        /// <param name="dbSyncServerName">SQL database server name as a string.</param>
-        /// <param name="dbSyncInstanceName">SQL database instance name as a string.</param>
-        /// <param name="dbSyncUserName">SQL database user name as a string.</param>
-        /// <param name="dbSyncPassword">SQL database password as a string.</param>
-        /// <returns>System.Data.SqlClient.SqlConnection object.</returns>
-        /// <example>Example:<code>
-        /// MRDbConnection mrdbSync = new MRDbConnection();
-        /// SqlConnection conn = mrdbSync.OpenDatabase("SyncServerName", "SyncInstanceName", "Sync User Name", "Sync Password");
-        /// </code></example>
-        public SqlConnection OpenSyncDatabase(string dbSyncServerName = null, string dbSyncInstanceName = null, string dbSyncUserName = null, string dbSyncPassword = null)
+        public MRDbConnection(SqlConnection dbConnection, SqlConnection dbSyncConnection)
+        {
+            this.DbConnection = dbConnection;
+            this.OpenDatabase(DbConnection);
+
+            this.SyncDbConnection = dbSyncConnection;
+            this.OpenDatabase(SyncDbConnection);
+        }
+
+
+        public MRDbConnection(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword)
         {
             //Set property values for master SQL database
+            this.ServerName = dbServerName;
+            this.DatabaseName = dbInstanceName;
+            this.UserName = dbUserName;
+            this.Password = dbPassword;
+
+            //Connect to master SQL Database
+            string connStr = "Server=" + this.ServerName + "; Database=" + this.DatabaseName + "; User Id=" + this.UserName + "; Password=" + this.Password + ";";
+            this.DbConnection = new SqlConnection(connStr);
+            this.OpenDatabase(DbConnection);
+        }
+
+
+        public MRDbConnection(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword,
+                              string dbSyncServerName, string dbSyncInstanceName, string dbSyncUserName, string dbSyncPassword)
+        {
+            //Set property values for master SQL database
+            this.ServerName = dbServerName;
+            this.DatabaseName = dbInstanceName;
+            this.UserName = dbUserName;
+            this.Password = dbPassword;
+
+            //Connect to master SQL Database
+            string connStr = "Server=" + this.ServerName + "; Database=" + this.DatabaseName + "; User Id=" + this.UserName + "; Password=" + this.Password + ";";
+            this.DbConnection = new SqlConnection(connStr);
+            this.OpenDatabase(DbConnection);
+
+            //Set property values for sync SQL database
             this.SyncServerName = dbSyncServerName;
             this.SyncDatabaseName = dbSyncInstanceName;
             this.SyncUserName = dbSyncUserName;
@@ -125,41 +89,48 @@ namespace MRPlatform.Data.Sql
 
             //Connect to sync SQL Database
             string syncConnStr = "Server=" + this.SyncServerName + "; Database=" + this.SyncDatabaseName + "; User Id=" + this.SyncUserName + "; Password=" + this.SyncPassword + ";";
-            this._dbSyncConn = new SqlConnection(syncConnStr);
-
-            try
-            {
-                this._dbSyncConn.Open();
-
-                if (this._dbSyncConn.State == ConnectionState.Open)
-                {
-                    SyncDbConnected = true;
-                    return this._dbSyncConn;
-                }
-                return null;
-            }
-            catch (InvalidOperationException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent("InvalidOperationException: " + e.Message);
-                return null;
-            }
-            catch (SqlException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent("SqlException: " + e.Message);
-                return null;
-            }
-            catch (ArgumentException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent("ArgumentException: " + e.Message);
-                return null;
-            }
+            this.SyncDbConnection = new SqlConnection(syncConnStr);
+            this.OpenDatabase(SyncDbConnection);
         }
+
+
+        /// <summary>
+        /// OpenDatabase method.
+        /// </summary>
+        /// <remarks>Method to open a database connection.</remarks>
+        /// <param name="dbConnection">SQL database connection object reference.</param>
+        private void OpenDatabase(SqlConnection dbConnection)
+		{
+			try
+			{
+				dbConnection.Open();
+				
+				if(dbConnection.State == ConnectionState.Open)
+				{
+					this.DbConnected = true;
+				}
+			}
+			catch(InvalidOperationException e)
+			{
+				WinEventLog winel = new WinEventLog();
+				winel.WriteEvent("InvalidOperationException: " + e.Message);
+			}
+			catch(SqlException e)
+			{
+				WinEventLog winel = new WinEventLog();
+				winel.WriteEvent("SqlException: " + e.Message);
+			}
+			catch(ArgumentException e)
+			{
+				WinEventLog winel	 = new WinEventLog();
+				winel.WriteEvent("ArgumentException: " + e.Message);
+			}
+        }
+
 
 		//Master SQL database properties
 		public string ConnectionString { get; set; }
+        public SqlConnection DbConnection { get; set; }
 		public string ServerName { get; set; }
 		public string DatabaseName { get; set; }
 		public string UserName { get; set; }
@@ -168,6 +139,7 @@ namespace MRPlatform.Data.Sql
 
         //Sync SQL database properties
         public string SyncConnectionString { get; set; }
+        public SqlConnection SyncDbConnection { get; set; }
         public string SyncServerName { get; set; }
         public string SyncDatabaseName { get; set; }
         public string SyncUserName { get; set; }

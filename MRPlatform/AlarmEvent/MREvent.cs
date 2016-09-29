@@ -38,12 +38,18 @@ namespace MRPlatform.AlarmEvent
 		/// <example>Example:<code>
 		/// MREvent mrel = new MREvent();
 		///</code></example>
-		public MREvent(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword)
+		public MREvent(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword, string dbProvider)
 		{
 			MRDbConnection mrdb = new MRDbConnection();
 			mrdb.ConnectionString = "Server=" + dbServerName + "; Database=" + dbInstanceName + "; Uid=" + dbUserName + "; Pwd=" + dbPassword;
 			this._dbConn = mrdb.OpenDatabase(dbServerName, dbInstanceName, dbUserName, dbPassword);
 		}
+
+
+        public MREvent(SqlConnection dbConnection)
+        {
+            
+        }
 
 
         public MREvent(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword,
@@ -107,8 +113,8 @@ namespace MRPlatform.AlarmEvent
             
             if (recCount > 0 && SyncTables == true)
             {
-                //MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(_dbConn, _dbSyncConn);
-                //TODO: Update MRDbSync to accept SqlConnections - not just connection strings
+                MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(_dbConn, _dbSyncConn);
+                
             }
 		}
         

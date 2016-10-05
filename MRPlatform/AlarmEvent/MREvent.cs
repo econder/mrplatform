@@ -12,6 +12,13 @@
  * 				the database connection on class destruction.
  * 
  * 2014-04-01	Changed namespace from MRPlatform2014.Event to MRPlatform2014.AlarmEvent
+ * 
+ * 2016-09-29   Added overloaded constructors to accept SqlConnection objects to be more flexible
+ *              and compatible with the newly added MRDbSync library for syncing 2 databases.
+ *              
+ * 2016-10-05   Removed overloaded constructors and changed the only constructor to only accept
+ *              a MRDbConnection object as its parameter. This object contains one or both database
+ *              connections to also allow syncing while keeping the code straighforward.
  * *************************************************************************************************/
 using System;
 using System.Data;
@@ -27,59 +34,20 @@ namespace MRPlatform.AlarmEvent
 	/// </summary>
 	public class MREvent
 	{
-		private SqlConnection _dbConn;
-        private SqlConnection _dbSyncConn;
-        private bool _syncTables;
 
-		/// <summary>
-		/// Class constructor
-		/// </summary>
-		/// <remarks>Creates a new instance of MREvent.</remarks>
-		/// <example>Example:<code>
-		/// MREvent mrel = new MREvent();
-		///</code></example>
-		public MREvent(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword, string dbProvider)
-		{
-			MRDbConnection mrdb = new MRDbConnection();
-			mrdb.ConnectionString = "Server=" + dbServerName + "; Database=" + dbInstanceName + "; Uid=" + dbUserName + "; Pwd=" + dbPassword;
-			this._dbConn = mrdb.OpenDatabase(dbServerName, dbInstanceName, dbUserName, dbPassword);
-		}
-
-
-        public MREvent(SqlConnection dbConnection)
+        public MREvent(MRDbConnection mrdb)
         {
-            
-        }
-
-
-        public MREvent(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword,
-                       string dbSyncServerName, string dbSyncInstanceName, string dbSyncUserName, string dbSyncPassword)
-        {
-            MRDbConnection mrdb = new MRDbConnection();
-
-            //Get primary SQL server connection
-            mrdb.ConnectionString = "Server=" + dbServerName + "; Database=" + dbInstanceName + "; Uid=" + dbUserName + "; Pwd=" + dbPassword;
-            this._dbConn = mrdb.OpenDatabase(dbServerName, dbInstanceName, dbUserName, dbPassword);
-
-            //Get sync'd SQL server connection
-            mrdb.SyncConnectionString = "Server=" + dbSyncServerName + "; Database=" + dbSyncInstanceName + "; Uid=" + dbSyncUserName + "; Pwd=" + dbSyncPassword;
-            this._dbSyncConn = mrdb.OpenDatabase(dbSyncServerName, dbSyncInstanceName, dbSyncUserName, dbSyncPassword);
-
-            //Check if sync database connection is open and update SyncTables property
-            if(this._dbSyncConn.State == ConnectionState.Open)
-            {
-                SyncTables = true;
-            }
+            //Any constructor code goes here
         }
 
 		
+        /// <summary>
+        /// Class destructor
+        /// </summary>
 		~MREvent()
 		{
-			if(this._dbConn.State == ConnectionState.Open)
-			{
-				this._dbConn.Close();
-			}
-		}
+            //Any destructor code goes here
+        }
 		
 		
 		/// <summary>
@@ -107,15 +75,8 @@ namespace MRPlatform.AlarmEvent
 			sQuery = "INSERT INTO EventLog(userName, nodeName, evtMessage, evtType, evtSource VALUES('" + userName + "', '" + nodeName + "', '" + eventMessage + "', " + eventType + ", '" + eventSource + "')";
 			
 			dbCmd.CommandText = sQuery;
-			dbCmd.Connection = this._dbConn;
-            int recCount = dbCmd.ExecuteNonQuery();
-            
-            
-            if (recCount > 0 && SyncTables == true)
-            {
-                MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(_dbConn, _dbSyncConn);
-                
-            }
+			dbCmd.Connection = this.DbConnection.DbConnection;
+            dbCmd.ExecuteNonQuery();
 		}
         
 		
@@ -186,7 +147,7 @@ namespace MRPlatform.AlarmEvent
 		
 		
         //Class Properties
+        private MRDbConnection DbConnection { get; set; }
 		public DataSet EventHistory { get; set; }
-        private bool SyncTables { get; set; }
 	}
 }

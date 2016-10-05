@@ -21,6 +21,8 @@ using MRPlatform.Data.Sql;
 
 namespace MRPlatform.Message
 {
+    // TODO: Rename MRMessage to MRUserMessage?
+
 	/// <summary>
 	/// Description of MRMessage.
 	/// </summary>

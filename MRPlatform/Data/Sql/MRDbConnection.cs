@@ -63,6 +63,7 @@ namespace MRPlatform.Data.Sql
             //Connect to master SQL Database
             string connStr = "Server=" + this.ServerName + "; Database=" + this.DatabaseName + "; User Id=" + this.UserName + "; Password=" + this.Password + ";";
             this.DbConnection = new SqlConnection(connStr);
+            this.DbConnection.ConnectionTimeout = 
             this.OpenDatabase(DbConnection);
         }
 
@@ -125,6 +126,13 @@ namespace MRPlatform.Data.Sql
 				WinEventLog winel	 = new WinEventLog();
 				winel.WriteEvent("ArgumentException: " + e.Message);
 			}
+        }
+
+
+        private void Sync()
+        {
+            MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(this.DbConnection, this.SyncDbConnection);
+            ps.Sync(MRDbSync.CProvisionSync.MRDbSyncDirection.UploadAndDownload);
         }
 
 

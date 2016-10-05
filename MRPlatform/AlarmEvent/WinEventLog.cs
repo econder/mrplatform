@@ -26,7 +26,7 @@ namespace MRPlatform.AlarmEvent
 			//EventLog.CreateEventSource(escd);
 		}
 		
-		private const string APPSOURCE = "MRPlatform2014";
+		private const string APPSOURCE = "MRPlatform";
 		private const string LOGDEST = "MRPlatform";
 		
 		public void WriteEvent(string message)

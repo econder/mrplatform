@@ -10,6 +10,10 @@
  * 2016-08-29   Updated MRDbConnection methods to match method name changes in MRDbConnection. Added
  *              comments to all methods and properties.
  * 
+ * 2016-10-06   Changed class constructor to accept only an MRDbConnection object parameter to 
+ *              simplify usage for the end user. Added sync method call as well to sync primary and 
+ *              secondary databases.
+ *              
  * *************************************************************************************************/
 using System;
 using System.Data;
@@ -25,21 +29,14 @@ namespace MRPlatform.AlarmEvent
 	/// </summary>
 	public class MRAlarmEventLog
 	{
-		private SqlConnection _dbConn;
-		
-		public MRAlarmEventLog(string serverName, string dbInstanceName, string userName, string password)
+		public MRAlarmEventLog(MRDbConnection mrDbConnection)
 		{
-			MRDbConnection mrdb = new MRDbConnection();
-			mrdb.ConnectionString = "Server=" + serverName + "; Database=" + dbInstanceName + "; Uid=" + userName + "; Pwd=" + password;
-			this._dbConn = mrdb.OpenDatabase(serverName, dbInstanceName, userName, password);
+			
 		}
 		
 		~MRAlarmEventLog()
 		{
-			if(this._dbConn.State == ConnectionState.Open)
-			{
-				this._dbConn.Close();
-			}
+			
 		}
 		
 		
@@ -102,7 +99,7 @@ namespace MRPlatform.AlarmEvent
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= '" + startDate.ToShortDateString() + "' AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this._dbConn);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -114,10 +111,13 @@ namespace MRPlatform.AlarmEvent
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= DATEADD(day, " + numDays.ToString() + ", EventStamp) AND EventStamp <= '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this._dbConn);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
 		}
+
+
+        private MRDbConnection DbConnection { get; set; }
 	}
 }

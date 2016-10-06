@@ -6,10 +6,16 @@
  * Changes:
  * 
  * 2014-03-04	Created Send & Retrieve methods.
+ * 
  * 2014-03-05	Created MarkAs... methods.
+ * 
  * 2014-03-06	Created GetMessages methods.
+ * 
  * 2014-04-03	Added error handling to some of the functions.
  * 
+ * 2016-10-06   Changed class constructor to accept only an MRDbConnection object parameter to 
+ *              simplify usage for the end user. Added sync method call as well to sync primary and 
+ *              secondary databases.
  * *************************************************************************************************/
 using System;
 using System.Data;
@@ -28,28 +34,23 @@ namespace MRPlatform.Message
 	/// </summary>
 	public class MRMessage
 	{
-		private SqlConnection _dbConn;
-		
-		public MRMessage(string dbServerName, string dbInstanceName, string userName, string password)
+		public MRMessage(MRDbConnection mrDbConnection)
 		{
-			//Connect to MRDbConnection
-			MRDbConnection mrdb = new MRDbConnection();
-			mrdb.ConnectionString = "Server=" + dbServerName + "; Database=" + dbInstanceName + "; Uid=" + userName + "; Pwd=" + password;
-			this._dbConn = mrdb.Open(dbServerName, dbInstanceName, userName, password);
-		}
-		
-		~MRMessage()
+            this.DbConnection = mrDbConnection;
+        }
+
+        /// <summary>
+        /// Class destructor
+        /// </summary>
+        ~MRMessage()
 		{
-			if(this._dbConn.State == ConnectionState.Open)
-			{
-				this._dbConn.Close();
-			}
-		}
-		
-		// TODO: Change nType to nPriority (-1=All; 0=Low; 1=Medium; 2=High; 3=Critical).
-		// TODO: Change type column in mrsystems database Messages table to priority.
-		
-		public void Send(string sUsername, string sNodeName, string sRecipient, string sMessage, int nType)
+            //Any destructor code goes here
+        }
+
+        // TODO: Change nType to nPriority (-1=All; 0=Low; 1=Medium; 2=High; 3=Critical).
+        // TODO: Change type column in mrsystems database Messages table to priority.
+
+        public void Send(string sUsername, string sNodeName, string sRecipient, string sMessage, int nType)
 		{
 			this.DoSend(sUsername, sNodeName, sRecipient, sMessage, nType);
 		}
@@ -67,12 +68,16 @@ namespace MRPlatform.Message
 		private void DoSend(string sUsername, string sNodeName, string sRecipient, string sMessage, int nType)
 		{
 			string sQuery = "INSERT INTO Messages(userName, nodeName, recipient, message, type) VALUES('" + sUsername + "', '" + sNodeName + "', '" + sRecipient + "', '" + sMessage + "', " + nType + ")";
-			SqlCommand dbCmd = new SqlCommand(sQuery, this._dbConn);
+			SqlCommand dbCmd = new SqlCommand(sQuery, this.DbConnection.DbConnection);
 			
 			try
 			{
 				dbCmd.ExecuteNonQuery();
-			}
+
+                //Sync databases
+                // TODO: Change so that based on where code is called from, the direction is automatically determined.
+                this.DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
+            }
 			catch(SqlException e)
 			{
 				WinEventLog winel = new WinEventLog();
@@ -94,7 +99,7 @@ namespace MRPlatform.Message
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgId, userName, message, type FROM Messages WHERE recipient='" + sUsername + "' AND type=" + nType + " AND unread=" + bUnread + " AND archived=" + bArchived;
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this._dbConn);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -116,12 +121,16 @@ namespace MRPlatform.Message
 		private void DoMark(string sUsername, int nMsgId, bool bUnread)
 		{
 			string sQuery = "UPDATE Messages SET unread=" + bUnread+ " WHERE recipient='" + sUsername + "' AND msgId=" + nMsgId;
-			SqlCommand dbCmd = new SqlCommand(sQuery, this._dbConn);
+			SqlCommand dbCmd = new SqlCommand(sQuery, this.DbConnection.DbConnection);
 			
 			try
 			{
 				dbCmd.ExecuteNonQuery();
-			}
+
+                //Sync databases
+                // TODO: Change so that based on where code is called from, the direction is automatically determined.
+                this.DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
+            }
 			catch(SqlException e)
 			{
 				WinEventLog winel = new WinEventLog();
@@ -133,24 +142,28 @@ namespace MRPlatform.Message
 		public void Archive(string sUsername, int nMsgId)
 		{
 			this.DoArchive(sUsername, nMsgId, true);
-		}
+        }
 		
 		
 		public void UnArchive(string sUsername, int nMsgId)
 		{
 			this.DoArchive(sUsername, nMsgId, false);
-		}
+        }
 		
 		
 		private void DoArchive(string sUsername, int nMsgId, bool bArchived)
 		{
 			string sQuery = "UPDATE Messages SET archived=" + bArchived + " WHERE recipient='" + sUsername + "' AND msgId=" + nMsgId;
-			SqlCommand dbCmd = new SqlCommand(sQuery, this._dbConn);
+			SqlCommand dbCmd = new SqlCommand(sQuery, this.DbConnection.DbConnection);
 			
 			try
 			{
 				dbCmd.ExecuteNonQuery();
-			}
+
+                //Sync databases
+                // TODO: Change so that based on where code is called from, the direction is automatically determined.
+                this.DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
+            }
 			catch(SqlException e)
 			{
 				WinEventLog winel = new WinEventLog();
@@ -189,12 +202,15 @@ namespace MRPlatform.Message
 		
 		private DataSet DoGetMessages(string sQuery)
 		{
-			this._dbConn = new SqlConnection();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this._dbConn);
+			this.DbConnection.DbConnection = new SqlConnection();
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
 			DataSet ds = new DataSet();
 			dbAdapt.Fill(ds);
 			
 			return ds;
 		}
-	}
+
+
+        private MRDbConnection DbConnection { get; set; }
+    }
 }

@@ -26,6 +26,14 @@ namespace MRPlatform.Data.Sql
 {
     public class MRDbConnection
 	{
+        public enum SyncDirection : int
+        {
+            Download = 0,
+            DownloadAndUpload,
+            Upload,
+            UploadAndDownload
+        }
+
         /// <summary>
         /// MRDbConnection class constructor.
         /// </summary>
@@ -63,7 +71,6 @@ namespace MRPlatform.Data.Sql
             //Connect to master SQL Database
             string connStr = "Server=" + this.ServerName + "; Database=" + this.DatabaseName + "; User Id=" + this.UserName + "; Password=" + this.Password + ";";
             this.DbConnection = new SqlConnection(connStr);
-            this.DbConnection.ConnectionTimeout = 
             this.OpenDatabase(DbConnection);
         }
 
@@ -129,10 +136,31 @@ namespace MRPlatform.Data.Sql
         }
 
 
-        private void Sync()
+        public void Sync(SyncDirection syncDirection)
         {
             MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(this.DbConnection, this.SyncDbConnection);
-            ps.Sync(MRDbSync.CProvisionSync.MRDbSyncDirection.UploadAndDownload);
+
+            switch(syncDirection)
+            {
+                case SyncDirection.Download:
+                    ps.Sync(MRDbSync.CProvisionSync.MRDbSyncDirection.Download);
+                    return;
+
+                case SyncDirection.DownloadAndUpload:
+                    ps.Sync(MRDbSync.CProvisionSync.MRDbSyncDirection.DownloadAndUpload);
+                    return;
+
+                case SyncDirection.Upload:
+                    ps.Sync(MRDbSync.CProvisionSync.MRDbSyncDirection.Upload);
+                    return;
+
+                case SyncDirection.UploadAndDownload:
+                    ps.Sync(MRDbSync.CProvisionSync.MRDbSyncDirection.UploadAndDownload);
+                    return;
+
+                default:
+                    return;
+            }
         }
 
 

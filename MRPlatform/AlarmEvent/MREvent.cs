@@ -19,6 +19,7 @@
  * 2016-10-05   Removed overloaded constructors and changed the only constructor to only accept
  *              a MRDbConnection object as its parameter. This object contains one or both database
  *              connections to also allow syncing while keeping the code straighforward.
+ *              
  * *************************************************************************************************/
 using System;
 using System.Data;
@@ -35,9 +36,9 @@ namespace MRPlatform.AlarmEvent
 	public class MREvent
 	{
 
-        public MREvent(MRDbConnection mrdb)
+        public MREvent(MRDbConnection mrDbConnection)
         {
-            //Any constructor code goes here
+            DbConnection = mrDbConnection;
         }
 
 		
@@ -55,7 +56,6 @@ namespace MRPlatform.AlarmEvent
 		/// </summary>
 		/// <remarks>Method to log events to the mrsystems SQL Server database using an 
 		/// existing, open SqlConnection object to connect to the database.</remarks>
-		/// <param name="dbConn">SqlConnection object of the database connection.</param>
 		/// <param name="userName">String object of the HMI username of the user currently logged in.</param>
 		/// <param name="nodeName">String object of the HMI client node name the event is generated from.</param>
 		/// <param name="eventMessage">String object of the event description.</param>
@@ -65,7 +65,7 @@ namespace MRPlatform.AlarmEvent
 		/// <returns>Integer value representing the number of records affected by the query.</returns>
 		/// <example>Example:<code>
 		/// MREvent mrel = new MREvent();
-		/// int numRecords = mrel.LogEvent(dbConn, userName, nodeName, eventMessage, eventType, eventSource);
+		/// mrel.LogEvent(userName, nodeName, eventMessage, eventType, eventSource);
 		/// </code></example>
 		public void LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource)
 		{
@@ -75,15 +75,18 @@ namespace MRPlatform.AlarmEvent
 			sQuery = "INSERT INTO EventLog(userName, nodeName, evtMessage, evtType, evtSource VALUES('" + userName + "', '" + nodeName + "', '" + eventMessage + "', " + eventType + ", '" + eventSource + "')";
 			
 			dbCmd.CommandText = sQuery;
-			dbCmd.Connection = this.DbConnection.DbConnection;
+            dbCmd.Connection = this.DbConnection.DbConnection;
             dbCmd.ExecuteNonQuery();
+
+            //Sync databases
+            // TODO: Change so that based on where code is called from, the direction is automatically determined.
+            this.DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
 		}
         
 		
 		/// <summary>GetEventHistory Method</summary>
 		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
 		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="dbConn">SqlConnection object of the database connection.</param>
 		/// <param name="nRecordCount">Last 'n' number of records to return.</param>
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(int nRecordCount)
@@ -91,7 +94,7 @@ namespace MRPlatform.AlarmEvent
 			string sQuery = "SELECT TOP " + nRecordCount.ToString() + " * FROM EventLog ORDER BY evtDateTime DESC";
 			
 			DataSet ds = new DataSet();
-			ds = GetDataSetFromQuery(sQuery);
+			ds = DoGetDataSetFromQuery(sQuery);
 			
 			this.EventHistory = ds;
 			
@@ -102,7 +105,6 @@ namespace MRPlatform.AlarmEvent
 		/// <summary>GetEventHistory Method</summary>
 		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
 		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="dbConn">SqlConnection object of the database connection.</param>
 		/// <param name="startDateTime">DateTime object of the date of the recordset.</param>
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(DateTime startDate)
@@ -110,7 +112,7 @@ namespace MRPlatform.AlarmEvent
 			string sQuery = "SELECT * FROM EventLog WHERE evtDateTime >= '" + startDate + " 00:00:00.000' AND evtDateTime <= '" + startDate + "23:59:59.999' ORDER BY evtDateTime";
 			
 			DataSet ds = new DataSet();
-			ds = GetDataSetFromQuery(sQuery);
+			ds = DoGetDataSetFromQuery(sQuery);
 			
 			return ds;
 		}
@@ -119,7 +121,6 @@ namespace MRPlatform.AlarmEvent
 		/// <summary>GetEventHistory Method</summary>
 		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
 		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="dbConn">SqlConnection object of the database connection.</param>
 		/// <param name="startDateTime">DateTime object of the start date of the recordset.</param>
 		/// <param name="endDateTime">DateTime object of the end date of the recordset.</param>
 		/// <returns>System.Data.DataSet</returns>
@@ -128,16 +129,16 @@ namespace MRPlatform.AlarmEvent
 			string sQuery = "SELECT * FROM EventLog WHERE evtDateTime >= '" + startDateTime + "' AND evtDateTime <= '" + endDateTime + "' ORDER BY evtDateTime";
 			
 			DataSet ds = new DataSet();
-			ds = GetDataSetFromQuery(sQuery);
+			ds = DoGetDataSetFromQuery(sQuery);
 			
 			return ds;
 		}
 		
 		
-		private DataSet GetDataSetFromQuery(string sQuery)
+		private DataSet DoGetDataSetFromQuery(string sQuery)
 		{
 			DataSet ds = new DataSet();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this._dbConn);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
 			
 			this.EventHistory = ds;

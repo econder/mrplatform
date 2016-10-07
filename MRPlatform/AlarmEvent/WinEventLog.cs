@@ -13,7 +13,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace MRPlatform2014.AlarmEvent
+namespace MRPlatform.AlarmEvent
 {
 	/// <summary>
 	/// Description of WinEventLog.
@@ -26,7 +26,7 @@ namespace MRPlatform2014.AlarmEvent
 			//EventLog.CreateEventSource(escd);
 		}
 		
-		private const string APPSOURCE = "MRPlatform2014";
+		private const string APPSOURCE = "MRPlatform";
 		private const string LOGDEST = "MRPlatform";
 		
 		public void WriteEvent(string message)

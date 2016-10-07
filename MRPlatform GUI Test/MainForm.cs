@@ -13,8 +13,9 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
-using MRPlatform2014.AlarmEvent;
-using MRPlatform2014.Message;
+using MRPlatform.Data.Sql;
+using MRPlatform.AlarmEvent;
+using MRPlatform.Message;
 
 
 namespace MRPlatform_GUI_Test
@@ -24,6 +25,9 @@ namespace MRPlatform_GUI_Test
 	/// </summary>
 	public partial class MainForm : Form
 	{
+        private MRDbConnection DbConnection { get; set; }
+
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -31,33 +35,36 @@ namespace MRPlatform_GUI_Test
 		
 		void BtnSendClick(object sender, EventArgs e)
 		{
-			MRAreaMessage mram = new MRAreaMessage("WIN-1I5C3456H92", "mrsystems", "mrsystems", "Reggie123");
+            MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
+            DbConnection = dbConn;
+
+			MRAreaMessage mram = new MRAreaMessage(DbConnection);
 			mram.Send("mrsystems", "WIN-1I5C3456H92", cboRecipient.Text, txtMessage.Text, cboPriority.SelectedIndex);
 		}
 		
 		void Button1Click(object sender, EventArgs e)
 		{
-			MRAreaMessage mram = new MRAreaMessage("WIN-1I5C3456H92", "mrsystems", "mrsystems", "Reggie123");
+			MRAreaMessage mram = new MRAreaMessage(DbConnection);
 			int i = mram.UnreadCount("mrsystems", "Influent PS");
 		}
 		
 		void Button2Click(object sender, EventArgs e)
 		{
-			MRAreaMessage mram = new MRAreaMessage("WIN-1I5C3456H92", "mrsystems", "mrsystems", "Reggie123");
+			MRAreaMessage mram = new MRAreaMessage(DbConnection);
 			DataSet ds = mram.GetUnreadMessages("mrsystems", "Influent PS");
 			dataGrid1.DataSource = ds;
 		}
 		
 		void Button3Click(object sender, EventArgs e)
 		{
-			MRMessage mrMsg = new MRMessage("WIN-1I5C3456H92", "mrsystems", "mrsystems", "Reggie123");
+			MRMessage mrMsg = new MRMessage(DbConnection);
 			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked);
 			dataGrid1.DataSource = ds;
 		}
 		
 		void Button4Click(object sender, EventArgs e)
 		{
-			MRMessage mrMsg = new MRMessage("WIN-1I5C3456H92", "mrsystems", "mrsystems", "Reggie123");
+			MRMessage mrMsg = new MRMessage(DbConnection);
 			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked, chkArchived.Checked);
 			dataGrid1.DataSource = ds;
 		}

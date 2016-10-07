@@ -30,7 +30,7 @@ namespace MRPlatform.AlarmEvent
 		/// <remarks>Creates a new instance of MRTagEvent.</remarks>
 		public MRTagEvent(MRDbConnection mrDbConnection)
 		{
-            this.DbConnection = mrDbConnection;
+            DbConnection = mrDbConnection;
 		}
 
 
@@ -68,7 +68,7 @@ namespace MRPlatform.AlarmEvent
 			sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew VALUES('" + userName + "', '" + nodeName + "', '" + tagName + "', " + tagValueOrig + ", " + tagValueNew + ")";
 			
 			dbCmd.CommandText = sQuery;
-            dbCmd.Connection = this.DbConnection.DbConnection;
+            dbCmd.Connection = DbConnection.DbConnection;
 
 			try
 			{
@@ -76,7 +76,7 @@ namespace MRPlatform.AlarmEvent
 
                 //Sync databases
                 // TODO: Change so that based on where code is called from, the direction is automatically determined.
-                this.DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
+                DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
             }
 			catch(SqlException e)
 			{
@@ -98,8 +98,8 @@ namespace MRPlatform.AlarmEvent
 			
 			DataSet ds = new DataSet();
 			ds = GetDataSetFromQuery(sQuery);
-			
-			this.EventHistory = ds;
+
+            EventHistory = ds;
 			
 			return ds;
 		}
@@ -143,10 +143,10 @@ namespace MRPlatform.AlarmEvent
 		private DataSet GetDataSetFromQuery(string sQuery)
 		{
 			DataSet ds = new DataSet();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
-			
-			this.EventHistory = ds;
+
+            EventHistory = ds;
 			
 			return ds;
 		}

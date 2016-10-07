@@ -99,7 +99,7 @@ namespace MRPlatform.AlarmEvent
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= '" + startDate.ToShortDateString() + "' AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -111,7 +111,7 @@ namespace MRPlatform.AlarmEvent
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= DATEADD(day, " + numDays.ToString() + ", EventStamp) AND EventStamp <= '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;

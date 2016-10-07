@@ -75,12 +75,12 @@ namespace MRPlatform.AlarmEvent
 			sQuery = "INSERT INTO EventLog(userName, nodeName, evtMessage, evtType, evtSource VALUES('" + userName + "', '" + nodeName + "', '" + eventMessage + "', " + eventType + ", '" + eventSource + "')";
 			
 			dbCmd.CommandText = sQuery;
-            dbCmd.Connection = this.DbConnection.DbConnection;
+            dbCmd.Connection = DbConnection.DbConnection;
             dbCmd.ExecuteNonQuery();
 
             //Sync databases
             // TODO: Change so that based on where code is called from, the direction is automatically determined.
-            this.DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
+            DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
 		}
         
 		
@@ -95,8 +95,8 @@ namespace MRPlatform.AlarmEvent
 			
 			DataSet ds = new DataSet();
 			ds = DoGetDataSetFromQuery(sQuery);
-			
-			this.EventHistory = ds;
+
+            EventHistory = ds;
 			
 			return ds;
 		}
@@ -138,10 +138,10 @@ namespace MRPlatform.AlarmEvent
 		private DataSet DoGetDataSetFromQuery(string sQuery)
 		{
 			DataSet ds = new DataSet();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, this.DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
-			
-			this.EventHistory = ds;
+
+            EventHistory = ds;
 			
 			return ds;
 		}

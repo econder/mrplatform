@@ -26,6 +26,12 @@ namespace MRPlatform.Data.Sql
 {
     public class MRDbConnection
 	{
+        public enum RedundantNode : int
+        {
+            Master,
+            Backup
+        }
+
         public enum SyncDirection : int
         {
             Download = 0,
@@ -43,62 +49,71 @@ namespace MRPlatform.Data.Sql
         /// <example>Example:<code>
         /// MRDbConnection mrdb = new MRDbConnection();
         /// </code></example>
-        public MRDbConnection(SqlConnection dbConnection)
+        public MRDbConnection(SqlConnection dbConnection, RedundantNode redundantNodeAssignment = RedundantNode.Master)
         {
-            this.DbConnection = dbConnection;
-            this.OpenDatabase(DbConnection);
+            ThisNode = redundantNodeAssignment;
+
+            DbConnection = dbConnection;
+            OpenDatabase(DbConnection);
         }
 
 
-        public MRDbConnection(SqlConnection dbConnection, SqlConnection dbSyncConnection)
+        public MRDbConnection(SqlConnection dbConnection, SqlConnection dbSyncConnection, RedundantNode redundantNodeAssignment = RedundantNode.Master)
         {
-            this.DbConnection = dbConnection;
-            this.OpenDatabase(DbConnection);
+            ThisNode = redundantNodeAssignment;
 
-            this.SyncDbConnection = dbSyncConnection;
-            this.OpenDatabase(SyncDbConnection);
+            DbConnection = dbConnection;
+            OpenDatabase(DbConnection);
+
+            SyncDbConnection = dbSyncConnection;
+            OpenDatabase(SyncDbConnection);
         }
 
 
-        public MRDbConnection(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword)
+        public MRDbConnection(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword, RedundantNode redundantNodeAssignment = RedundantNode.Master)
         {
+            ThisNode = redundantNodeAssignment;
+
             //Set property values for master SQL database
-            this.ServerName = dbServerName;
-            this.DatabaseName = dbInstanceName;
-            this.UserName = dbUserName;
-            this.Password = dbPassword;
+            ServerName = dbServerName;
+            DatabaseName = dbInstanceName;
+            UserName = dbUserName;
+            Password = dbPassword;
 
             //Connect to master SQL Database
-            string connStr = "Server=" + this.ServerName + "; Database=" + this.DatabaseName + "; User Id=" + this.UserName + "; Password=" + this.Password + ";";
-            this.DbConnection = new SqlConnection(connStr);
-            this.OpenDatabase(DbConnection);
+            string connStr = "Server=" + ServerName + "; Database=" + DatabaseName + "; User Id=" + UserName + "; Password=" + Password + ";";
+            DbConnection = new SqlConnection(connStr);
+            OpenDatabase(DbConnection);
         }
 
 
         public MRDbConnection(string dbServerName, string dbInstanceName, string dbUserName, string dbPassword,
-                              string dbSyncServerName, string dbSyncInstanceName, string dbSyncUserName, string dbSyncPassword)
+                              string dbSyncServerName, string dbSyncInstanceName, string dbSyncUserName, string dbSyncPassword,
+                              RedundantNode redundantNodeAssignment = RedundantNode.Master)
         {
+            ThisNode = redundantNodeAssignment;
+
             //Set property values for master SQL database
-            this.ServerName = dbServerName;
-            this.DatabaseName = dbInstanceName;
-            this.UserName = dbUserName;
-            this.Password = dbPassword;
+            ServerName = dbServerName;
+            DatabaseName = dbInstanceName;
+            UserName = dbUserName;
+            Password = dbPassword;
 
             //Connect to master SQL Database
-            string connStr = "Server=" + this.ServerName + "; Database=" + this.DatabaseName + "; User Id=" + this.UserName + "; Password=" + this.Password + ";";
-            this.DbConnection = new SqlConnection(connStr);
-            this.OpenDatabase(DbConnection);
+            string connStr = "Server=" + ServerName + "; Database=" + DatabaseName + "; User Id=" + UserName + "; Password=" + Password + ";";
+            DbConnection = new SqlConnection(connStr);
+            OpenDatabase(DbConnection);
 
             //Set property values for sync SQL database
-            this.SyncServerName = dbSyncServerName;
-            this.SyncDatabaseName = dbSyncInstanceName;
-            this.SyncUserName = dbSyncUserName;
-            this.SyncPassword = dbSyncPassword;
+            SyncServerName = dbSyncServerName;
+            SyncDatabaseName = dbSyncInstanceName;
+            SyncUserName = dbSyncUserName;
+            SyncPassword = dbSyncPassword;
 
             //Connect to sync SQL Database
-            string syncConnStr = "Server=" + this.SyncServerName + "; Database=" + this.SyncDatabaseName + "; User Id=" + this.SyncUserName + "; Password=" + this.SyncPassword + ";";
-            this.SyncDbConnection = new SqlConnection(syncConnStr);
-            this.OpenDatabase(SyncDbConnection);
+            string syncConnStr = "Server=" + SyncServerName + "; Database=" + SyncDatabaseName + "; User Id=" + SyncUserName + "; Password=" + SyncPassword + ";";
+            SyncDbConnection = new SqlConnection(syncConnStr);
+            OpenDatabase(SyncDbConnection);
         }
 
 
@@ -115,7 +130,7 @@ namespace MRPlatform.Data.Sql
 				
 				if(dbConnection.State == ConnectionState.Open)
 				{
-					this.DbConnected = true;
+                    DbConnected = true;
 				}
 			}
 			catch(InvalidOperationException e)
@@ -138,7 +153,7 @@ namespace MRPlatform.Data.Sql
 
         public void Sync(SyncDirection syncDirection)
         {
-            MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(this.DbConnection, this.SyncDbConnection);
+            MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(DbConnection, SyncDbConnection);
 
             switch(syncDirection)
             {
@@ -181,5 +196,7 @@ namespace MRPlatform.Data.Sql
         public string SyncUserName { get; set; }
         private string SyncPassword { get; set; }
         public bool SyncDbConnected { get; set; }
+
+        private RedundantNode ThisNode { get; set; }
     }
 }

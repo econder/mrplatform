@@ -675,7 +675,6 @@ namespace MRPlatform.AlarmEvent
 
         #endregion
 
-        // TODO: Start back here!
 
         #region " GetUserHistory "
 
@@ -685,16 +684,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="userName">The user name to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName");
         /// </code></example>
         public DataSet GetUserHistory(string userName)
-        {
-            return this.DoGetUserHistory(userName);
-        }
+		{
+			return DoGetUserHistory(userName);
+		}
 
 
         /// <summary>
@@ -704,16 +706,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="startDate">The date to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", DateTime(2014, 3, 1));
         /// </code></example>
         public DataSet GetUserHistory(string userName, DateTime startDate)
-        {
-            return this.DoGetUserHistory(userName, startDate, startDate);
-        }
+		{
+			return DoGetUserHistory(userName, startDate, startDate);
+		}
 
 
         /// <summary>
@@ -723,31 +728,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="startDate">The date to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", "3/1/2014");
         /// </code></example>
         public DataSet GetUserHistory(string userName, string startDate)
-        {
-            try
-            {
-                return this.DoGetUserHistory(userName, DateTime.Parse(startDate), DateTime.Parse(startDate));
-            }
-            catch (ArgumentNullException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent(e);
-                return null;
-            }
-            catch (FormatException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent(e);
-                return null;
-            }
-        }
+		{
+			return DoGetUserHistory(userName, DateTime.Parse(startDate), DateTime.Parse(startDate));
+		}
 
 
         /// <summary>
@@ -758,16 +751,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="endDate">The end date to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", DateTime(2014, 3, 1), DateTime(2014, 3, 31));
         /// </code></example>
         public DataSet GetUserHistory(string userName, DateTime startDate, DateTime endDate)
-        {
-            return this.DoGetUserHistory(userName, startDate, endDate);
-        }
+		{
+			return DoGetUserHistory(userName, startDate, endDate);
+		}
 
 
         /// <summary>
@@ -778,31 +774,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="endDate">The end date to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", "3/1/2014", "3/31/2014");
         /// </code></example>
         public DataSet GetUserHistory(string userName, string startDate, string endDate)
-        {
-            try
-            {
-                return this.DoGetUserHistory(userName, DateTime.Parse(startDate), DateTime.Parse(endDate));
-            }
-            catch (ArgumentNullException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent(e);
-                return null;
-            }
-            catch (FormatException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent(e);
-                return null;
-            }
-        }
+		{
+			return DoGetUserHistory(userName, DateTime.Parse(startDate), DateTime.Parse(endDate));
+		}
 
 
         /// <summary>
@@ -812,16 +796,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="topCount">The number of most recent occurrences to return.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", 10);
         /// </code></example>
         public DataSet GetUserHistory(string userName, int topCount)
-        {
-            return this.DoGetUserHistory(userName, topCount);
-        }
+		{
+			return DoGetUserHistory(userName, topCount);
+		}
 
 
         /// <summary>
@@ -832,16 +819,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="startDate">The date to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", 10, DateTime(2014, 3, 1));
         /// </code></example>
         public DataSet GetUserHistory(string userName, int topCount, DateTime startDate)
-        {
-            return this.DoGetUserHistory(userName, topCount, startDate, startDate);
-        }
+		{
+			return DoGetUserHistory(userName, topCount, startDate, startDate);
+		}
 
 
         /// <summary>
@@ -852,31 +842,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="startDate">The date to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", 10, "3/1/2014");
         /// </code></example>
         public DataSet GetUserHistory(string userName, int topCount, string startDate)
-        {
-            try
-            {
-                return this.DoGetUserHistory(userName, topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
-            }
-            catch (ArgumentNullException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent(e);
-                return null;
-            }
-            catch (FormatException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent(e);
-                return null;
-            }
-        }
+		{
+			return DoGetUserHistory(userName, topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
+		}
 
 
         /// <summary>
@@ -888,16 +866,19 @@ namespace MRPlatform.AlarmEvent
         /// <param name="endDate">the end date to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", 10, DateTime(2014, 3, 1), DateTime(2014, 3, 31));
         /// </code></example>
         public DataSet GetUserHistory(string userName, int topCount, DateTime startDate, DateTime endDate)
-        {
-            return this.DoGetUserHistory(userName, topCount, startDate, endDate);
-        }
+		{
+			return DoGetUserHistory(userName, topCount, startDate, endDate);
+		}
 
 
         /// <summary>
@@ -909,34 +890,24 @@ namespace MRPlatform.AlarmEvent
         /// <param name="endDate">the end date to query.</param>
         /// <returns>System.Data.DataSet</returns>
         /// <example><code>
-        /// //Initialize MRAlarmEventLog
-        /// MRAlarmEventLog mrae = new MRAlarmEventLog("serverName", "databaseName", "databaseUserName", "databasePassword");
+        /// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// 
         /// //Get alarm and event log
         /// DataGrid1.DataSource = mrae.GetTagHistory("userName", 10, "3/1/2014", "3/31/2014");
         /// </code></example>
         public DataSet GetUserHistory(string userName, int topCount, string startDate, string endDate)
-        {
-            try
-            {
-                return this.DoGetUserHistory(userName, topCount, DateTime.Parse(startDate), DateTime.Parse(endDate));
-            }
-            catch (ArgumentNullException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent(e);
-                return null;
-            }
-            catch (FormatException e)
-            {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent(e);
-                return null;
-            }
-        }
+		{
+			return DoGetUserHistory(userName, topCount, DateTime.Parse(startDate), DateTime.Parse(endDate));
+		}
 
         #endregion
 
+
+        #region " DoGetTopOccurrences "
 
         private DataSet DoGetTopOccurrences(string tableName, int topCount, DateTime startDate, DateTime endDate)
 		{
@@ -960,5 +931,199 @@ namespace MRPlatform.AlarmEvent
 			
 			return ds;
 		}
-	}
+
+        #endregion
+
+
+        #region " DoGetTagHistory "
+
+        /// <summary>
+        /// DoGetHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetTagHistory(string tagName)
+        {
+            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Value, Operator" +
+                                                   " FROM v_AlarmEventHistory2" +
+                                                   " WHERE TagName = '" + tagName + "'" +
+                                                   " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+
+        /// <summary>
+        /// DoGetTagHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetTagHistory(string tagName, int topCount)
+        {
+            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
+                                                   " FROM v_AlarmEventHistory2" +
+                                                   " WHERE TagName = '" + tagName + "'" +
+                                                   " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+
+        /// <summary>
+        /// DoGetTagHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetTagHistory(string tagName, DateTime startDate, DateTime endDate)
+        {
+            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Value, Operator" +
+                                               " FROM v_AlarmEventHistory2" +
+                                               " WHERE TagName = '" + tagName + "'" +
+                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+
+        /// <summary>
+        /// DoGetTagHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetTagHistory(string tagName, int topCount, DateTime startDate, DateTime endDate)
+        {
+           SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
+                                               " FROM v_AlarmEventHistory2" +
+                                               " WHERE TagName = '" + tagName + "'" +
+                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+            
+            return ds;
+        }
+
+        #endregion
+
+
+        #region " DoGetUserHistory "
+
+        /// <summary>
+        /// DoGetUserHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetUserHistory(string userName)
+        {
+            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                               " FROM v_AlarmEventHistory2" +
+                                               " WHERE Operator = '" + userName + "'" +
+                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+
+        /// <summary>
+        /// DoGetUserHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetUserHistory(string userName, int topCount)
+        {
+            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                               " FROM v_AlarmEventHistory2" +
+                                               " WHERE Operator = '" + userName + "'" +
+                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+
+        /// <summary>
+        /// DoGetUserHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetUserHistory(string userName, DateTime startDate, DateTime endDate)
+        {
+            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                               " FROM v_AlarmEventHistory2" +
+                                               " WHERE Operator = '" + userName + "'" +
+                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+
+        /// <summary>
+        /// DoGetUserHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetUserHistory(string userName, int topCount, DateTime startDate, DateTime endDate)
+        {
+            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                               " FROM v_AlarmEventHistory2" +
+                                               " WHERE Operator = '" + userName + "'" +
+                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+        #endregion
+
+
+        #region " DoGetHistory "
+
+        /// <summary>
+        /// DoGetHistory
+        /// </summary>
+        /// <returns>System.Data.DataSet</returns>
+        private DataSet DoGetHistory(DateTime startDate, DateTime endDate)
+        {
+            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Area, Description, Type, Value, CheckValue, AlarmState, AlarmDuration, Operator, TagName" +
+                                               " FROM v_AlarmEventHistory2" +
+                                               " WHERE EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+        #endregion
+    }
 }

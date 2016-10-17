@@ -12,6 +12,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices;
 
 using MRPlatform.AlarmEvent;
 using MRPlatform.Data.Sql;
@@ -19,10 +20,14 @@ using MRPlatform.Data.Sql;
 
 namespace MRPlatform.AlarmEvent
 {
-	/// <summary>
-	/// Description of MRTagEvent
-	/// </summary>
-	public class MRTagEvent
+    /// <summary>
+    /// MRPlatform.AlarmEvent.MRTagEvent class.
+    /// </summary>
+    [ComVisible(true)]
+    [Guid("C960E5CE-546C-4A3B-81AD-662C1C871C54"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IMRTagEvent))]
+    public class MRTagEvent : IMRTagEvent
 	{
 		/// <summary>
 		/// Class constructor
@@ -42,48 +47,47 @@ namespace MRPlatform.AlarmEvent
             //Any destructor code goes here
         }
 
+        //Properties
+        public MRDbConnection DbConnection { get; set; }
+        public DataSet EventHistory { get; set; }
+
 
         /// <summary>
-        /// LogEvent Method
-        /// </summary>
-        /// <remarks>Method to log events to the mrsystems SQL Server database using an 
-        /// existing, open SqlConnection object to connect to the database.</remarks>
-        /// <param name="dbConn">SqlConnection object of the database connection.</param>
-        /// <param name="userName">String object of the HMI username of the user currently logged in.</param>
-        /// <param name="nodeName">String object of the HMI client node name the event is generated from.</param>
-        /// <param name="eventMessage">String object of the event description.</param>
-        /// <param name="eventType">Integer object defining the event type.</param>
-        /// <param name="eventSource">String object of the event source. (e.g. Flow Setpoint, Alarm Summary, etc. 
-        /// Just use a descriptive source name that tells the user where the event is coming from.</param>
-        /// <returns>Integer value representing the number of records affected by the query.</returns>
-        /// <example>Example:<code>
-        /// MREvent mrel = new MREvent();
-        /// int numRecords = mrel.LogEvent(dbConn, userName, nodeName, eventMessage, eventType, eventSource);
-        /// </code></example>
+		/// Logs a tag event.
+		/// </summary>
+		/// <param name="userName">String object of the HMI username of the user currently logged in.</param>
+		/// <param name="nodeName">String object of the HMI client node name the event is generated from.</param>
+		/// <param name="tagName">Tag name the event relates to.</param>
+		/// <param name="tagValueOrig">Original value of the tag.</param>
+		/// <param name="tagValueNew">New value of the tag.</param>
+		/// <example><code>
+		/// //Create instance of MRDbConnection first
+        /// MRDbConnection mrdb = new MRDbConnection("ServerName", "DatabaseName", "Username", "Password")
+        /// 
+        /// //Create instance of MRAlarmEventLog
+        /// MRTagEvent mrte = new MRTagEvent(mrdb);
+		/// 
+		/// //Log event
+		/// mrte.LogEvent(InTouch:$Operator, InTouch:SCADA_NODE_NAME, "INF_PS_P1_SPD_SP", 53.5, 79.5); 
+		/// </code></example>
         public void LogEvent(string userName, string nodeName, string tagName, float tagValueOrig, float tagValueNew)
 		{
-			SqlCommand dbCmd = new SqlCommand();
-			string sQuery = "";
-			
-			sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew VALUES('" + userName + "', '" + nodeName + "', '" + tagName + "', " + tagValueOrig + ", " + tagValueNew + ")";
+            string sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew) " +
+                            "VALUES('" + userName + "', '" + nodeName + "', '" + tagName + "', " + tagValueOrig + ", " + tagValueNew + ")";
+
+            SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+
+            dbCmd.ExecuteNonQuery();
 			
 			dbCmd.CommandText = sQuery;
             dbCmd.Connection = DbConnection.DbConnection;
 
-			try
-			{
-				dbCmd.ExecuteNonQuery();
+            dbCmd.ExecuteNonQuery();
 
-                //Sync databases
-                // TODO: Change so that based on where code is called from, the direction is automatically determined.
-                DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
-            }
-			catch(SqlException e)
-			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-			}
-		}
+            //Sync databases
+            // TODO: Change so that based on where code is called from, the direction is automatically determined.
+            DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
+        }
 		
 		
 		/// <summary>GetHistory Method</summary>
@@ -150,8 +154,5 @@ namespace MRPlatform.AlarmEvent
 			
 			return ds;
 		}
-		
-		public MRDbConnection DbConnection { get; set; }
-		public DataSet EventHistory { get; set; }
 	}
 }

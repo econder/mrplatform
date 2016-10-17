@@ -49,7 +49,7 @@ namespace MRPlatform.AlarmEvent
     [Guid("96E0CD61-EC8D-428F-BAF7-0A0910A6432F"),
         ClassInterface(ClassInterfaceType.None),
         ComSourceInterfaces(typeof(IMRAlarmEventLog))]
-    public class MRAlarmEventLog
+    public class MRAlarmEventLog : IMRAlarmEventLog
 	{
         //Properties
         private MRDbConnection DbConnection { get; set; }

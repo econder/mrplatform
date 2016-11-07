@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,20 @@ namespace MRPlatform.InTouch
 {
     class Window : IWindow
     {
+        // Class Properties
         public int WindowCount { get; }
 
 
-         Windows ParseWindowsIndexFile(string indexFileName)
+        public DataSet Windows(string indexFileName)
+        {
+
+
+            DataSet ds = new DataSet();
+            return ds;
+        }
+
+
+        private void ParseWindowsIndexFile(string indexFileName)
         {
             NameValueCollection arWindows = new NameValueCollection();
             string fileLine, windowIndex, windowName;
@@ -30,8 +41,14 @@ namespace MRPlatform.InTouch
                     arWindows.Add(windowIndex, windowName);
                 }
             }
+            catch(OutOfMemoryException ex)
+            {
+                ///TODO: Handle error
+            }
+            catch(IOException ex)
+            {
+                ///TODO: Handle error
+            }
         }
-
-
     }
 }

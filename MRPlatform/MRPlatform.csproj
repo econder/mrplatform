@@ -66,11 +66,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlarmEvent\IMRAlarmEventLog.cs" />
+    <Compile Include="AlarmEvent\IMRTagEvent.cs" />
     <Compile Include="AlarmEvent\MRAlarmEventLog.cs" />
     <Compile Include="Data\Sql\MRDbConnection.cs" />
     <Compile Include="AlarmEvent\MREvent.cs" />
     <Compile Include="AlarmEvent\MRTagEvent.cs" />
     <Compile Include="AlarmEvent\WinEventLog.cs" />
+    <Compile Include="InTouch\IWindow.cs" />
+    <Compile Include="InTouch\Window.cs" />
     <Compile Include="Message\MRAreaMessage.cs" />
     <Compile Include="Message\MRMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

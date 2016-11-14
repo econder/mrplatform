@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Management;
 using System.Management.Instrumentation;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 
 namespace MRPlatform.WMI
-{   
-    class Processor
+{
+    [ComVisible(true)]
+    [Guid("D7413FD7-F779-487D-865A-F8C32EACFE4B"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IProcessor))]
+    public class Processor : IProcessor
     {
         public string Computer { get; set; }
         public int LoadPercentage { get; set; }

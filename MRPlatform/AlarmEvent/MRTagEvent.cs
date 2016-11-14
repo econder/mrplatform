@@ -24,7 +24,7 @@ namespace MRPlatform.AlarmEvent
     /// MRPlatform.AlarmEvent.MRTagEvent class.
     /// </summary>
     [ComVisible(true)]
-    [Guid("C960E5CE-546C-4A3B-81AD-662C1C871C54"),
+    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMRTagEvent))]
     public class MRTagEvent : IMRTagEvent

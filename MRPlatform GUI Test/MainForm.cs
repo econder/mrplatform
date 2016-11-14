@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using MRPlatform.Data.Sql;
 using MRPlatform.AlarmEvent;
 using MRPlatform.Message;
+using MRPlatform.WMI;
 
 
 namespace MRPlatform_GUI_Test
@@ -68,5 +69,11 @@ namespace MRPlatform_GUI_Test
 			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked, chkArchived.Checked);
 			dataGrid1.DataSource = ds;
 		}
-	}
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Processor p = new Processor();
+            label4.Text = Convert.ToString(p.LoadPercentage);
+        }
+    }
 }

@@ -72,8 +72,18 @@ namespace MRPlatform_GUI_Test
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Processor p = new Processor();
-            label4.Text = Convert.ToString(p.LoadPercentage);
+            MRPlatform.WMI.OperatingSystem os = new MRPlatform.WMI.OperatingSystem();
+            label4.Text = Convert.ToString(os.FreePhysicalMemory);
+            label5.Text = Convert.ToString(os.TotalVisibleMemorySize);
+
+            LogicalDisks lds = new LogicalDisks();
+
+            label6.Text = Convert.ToString(lds.Disk("C").Size);
+
+            foreach(LogicalDisk ld in lds)
+            {
+                txtMessage.Text += String.Format("{0} --- {1} --- {2}\n", ld.Name, ld.Caption, ld.Description);
+            }
         }
     }
 }

@@ -80,7 +80,13 @@
     <Compile Include="Message\MRAreaMessage.cs" />
     <Compile Include="Message\MRMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WMI\ILogicalDisk.cs" />
+    <Compile Include="WMI\ILogicalDisks.cs" />
+    <Compile Include="WMI\IOperatingSystem.cs" />
     <Compile Include="WMI\IProcessor.cs" />
+    <Compile Include="WMI\LogicalDisk.cs" />
+    <Compile Include="WMI\LogicalDisks.cs" />
+    <Compile Include="WMI\OperatingSystem.cs" />
     <Compile Include="WMI\Processor.cs" />
   </ItemGroup>
   <ItemGroup />

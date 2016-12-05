@@ -66,12 +66,16 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
 		public MRAlarmEventLog(MRDbConnection mrDbConnection)
 		{
-			
+            DbConnection = mrDbConnection;
 		}
 		
 		~MRAlarmEventLog()
 		{
-			
+            if(this.DbConnection.DbConnection.State == ConnectionState.Open)
+            {
+                this.DbConnection.DbConnection.Close();
+                this.DbConnection.DbConnection.Dispose();
+            }
 		}
 
 
@@ -95,7 +99,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopAlarmOccurrences(int topCount, DateTime startDate)
 		{
-			return DoGetTopOccurrences("AlarmHistory2", topCount, startDate, startDate);
+			return DoGetTopOccurrences("v_AlarmHistory2", topCount, startDate, startDate);
 		}
 
 
@@ -140,7 +144,7 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTopAlarmOccurrences(int topCount, DateTime startDate, DateTime endDate)
 		{
-			return DoGetTopOccurrences("AlarmHistory2", topCount, startDate, endDate);
+			return DoGetTopOccurrences("v_AlarmHistory2", topCount, startDate, endDate);
 		}
 
 
@@ -186,7 +190,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopAlarmOccurrences(int topCount, DateTime endDate, int numDays)
 		{
-			return DoGetTopOccurrences("AlarmHistory2", topCount, endDate, numDays);
+			return DoGetTopOccurrences("v_AlarmHistory2", topCount, endDate, numDays);
 		}
 
 
@@ -235,7 +239,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime startDate)
 		{
-			return DoGetTopOccurrences("EventHistory2", topCount, startDate, startDate);
+			return DoGetTopOccurrences("v_EventHistory2", topCount, startDate, startDate);
 		}
 
 
@@ -280,7 +284,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime startDate, DateTime endDate)
 		{
-			return DoGetTopOccurrences("EventHistory2", topCount, startDate, endDate);
+			return DoGetTopOccurrences("v_EventHistory2", topCount, startDate, endDate);
 		}
 
 
@@ -326,7 +330,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime endDate, int numDays)
 		{
-			return DoGetTopOccurrences("EventHistory2", topCount, endDate, numDays);
+			return DoGetTopOccurrences("v_EventHistory2", topCount, endDate, numDays);
 		}
 
 

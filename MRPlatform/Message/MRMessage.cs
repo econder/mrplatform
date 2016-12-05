@@ -34,9 +34,13 @@ namespace MRPlatform.Message
 	/// </summary>
 	public class MRMessage
 	{
-		public MRMessage(MRDbConnection mrDbConnection)
+        //Properties
+        private MRDbConnection DbConnection { get; set; }
+
+
+        public MRMessage(MRDbConnection mrDbConnection)
 		{
-            DbConnection = mrDbConnection;
+            this.DbConnection = mrDbConnection;
         }
 
         /// <summary>
@@ -44,7 +48,10 @@ namespace MRPlatform.Message
         /// </summary>
         ~MRMessage()
 		{
-            //Any destructor code goes here
+            if (this.DbConnection.DbConnection.State == ConnectionState.Open)
+            {
+                this.DbConnection.DbConnection.Close();
+            }
         }
 
         // TODO: Change nType to nPriority (-1=All; 0=Low; 1=Medium; 2=High; 3=Critical).
@@ -209,8 +216,5 @@ namespace MRPlatform.Message
 			
 			return ds;
 		}
-
-
-        private MRDbConnection DbConnection { get; set; }
     }
 }

@@ -11,3 +11,15 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\Debug\Microso
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.pdb
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.csprojResolveAssemblyReference.cache
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\Debug\MRPlatform.tlb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRPlatform.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRPlatform.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRPlatform.tlb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRDbSync.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\Microsoft.Synchronization.Data.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\Microsoft.Synchronization.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\Microsoft.Synchronization.Data.SqlServer.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRDbSync.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\Microsoft.Synchronization.Data.xml
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\Microsoft.Synchronization.xml
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\Microsoft.Synchronization.Data.SqlServer.xml

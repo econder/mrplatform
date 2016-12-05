@@ -47,7 +47,10 @@ namespace MRPlatform.AlarmEvent
         /// </summary>
 		~MREvent()
 		{
-            //Any destructor code goes here
+            if (this.DbConnection.DbConnection.State == ConnectionState.Open)
+            {
+                this.DbConnection.DbConnection.Close();
+            }
         }
 		
 		

@@ -29,11 +29,16 @@ namespace MRPlatform.AlarmEvent
     ComSourceInterfaces(typeof(IMRTagEvent))]
     public class MRTagEvent : IMRTagEvent
 	{
-		/// <summary>
-		/// Class constructor
-		/// </summary>
-		/// <remarks>Creates a new instance of MRTagEvent.</remarks>
-		public MRTagEvent(MRDbConnection mrDbConnection)
+        //Properties
+        public MRDbConnection DbConnection { get; set; }
+        public DataSet EventHistory { get; set; }
+
+
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <remarks>Creates a new instance of MRTagEvent.</remarks>
+        public MRTagEvent(MRDbConnection mrDbConnection)
 		{
             DbConnection = mrDbConnection;
 		}
@@ -44,12 +49,11 @@ namespace MRPlatform.AlarmEvent
         /// </summary>
         ~MRTagEvent()
 		{
-            //Any destructor code goes here
+            if (this.DbConnection.DbConnection.State == ConnectionState.Open)
+            {
+                this.DbConnection.DbConnection.Close();
+            }
         }
-
-        //Properties
-        public MRDbConnection DbConnection { get; set; }
-        public DataSet EventHistory { get; set; }
 
 
         /// <summary>

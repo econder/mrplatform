@@ -40,7 +40,10 @@ namespace MRPlatform.Message
         /// </summary>
         ~MRAreaMessage()
 		{
-            //Any destructor code goes here
+            if (this.DbConnection.DbConnection.State == ConnectionState.Open)
+            {
+                this.DbConnection.DbConnection.Close();
+            }
         }
 
 
@@ -58,7 +61,7 @@ namespace MRPlatform.Message
         //
 
         
-        public void Send(string userName, string nodeName, string recipient, string message, int priority = 0)
+        public void Send(string userName, string nodeName, string recipient, string message, int priority = 1)
 		{
 			string sQuery = "INSERT INTO Messages(userName, nodeName, recipient, message, priority, msgType) VALUES('" + userName + "', '" + nodeName + "', '" + recipient + "', '" + message + "', " + priority + ", " + 1 + ")";
 			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);

@@ -11,18 +11,14 @@ namespace MRPlatform.WMI
 {
     [ComVisible(true)]
     [Guid("455EE884-F3F1-46C1-B4E2-35BA2E31CE83"),
-    ClassInterface(ClassInterfaceType.None),
+    ClassInterface(ClassInterfaceType.AutoDispatch),
     ComSourceInterfaces(typeof(ILogicalDisks))]
-    public class LogicalDisks : ILogicalDisks, IEnumerable
+    public class LogicalDisks : IEnumerable
     {
-        public string Computer { get; private set; }
         public List<LogicalDisk> Disks = new List<LogicalDisk>();
-
 
         public LogicalDisks()
         {
-            Computer = ".";
-
             SelectQuery selectQuery = new SelectQuery("SELECT * FROM Win32_LogicalDisk");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(selectQuery);
             ManagementObjectCollection objCol = searcher.Get();
@@ -50,18 +46,21 @@ namespace MRPlatform.WMI
             objCol.Dispose();
         }
 
+        [ComVisible(true)]
         public LogicalDisk this[int index]
         {
             get { return Disks[index]; }
         }
 
+        [ComVisible(true)]
         public LogicalDisk Disk(string driveLetter)
         {
             return Disks.Find(ld => ld.Name == string.Format("{0}:", driveLetter));
         }
 
+        [ComVisible(true)]
         //IEnumerable require these methods
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
             return ((IEnumerable)Disks).GetEnumerator();
         }

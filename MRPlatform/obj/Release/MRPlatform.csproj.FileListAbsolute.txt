@@ -1,0 +1,11 @@
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRPlatform.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRPlatform.tlb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRDbSync.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.SqlServer.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRDbSync.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.xml
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.xml
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.SqlServer.xml
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\MRPlatform.dll

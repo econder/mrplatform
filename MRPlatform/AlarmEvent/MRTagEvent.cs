@@ -87,10 +87,6 @@ namespace MRPlatform.AlarmEvent
             dbCmd.Connection = DbConnection.DbConnection;
 
             dbCmd.ExecuteNonQuery();
-
-            //Sync databases
-            // TODO: Change so that based on where code is called from, the direction is automatically determined.
-            DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
         }
 		
 		

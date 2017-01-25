@@ -55,7 +55,16 @@ namespace MRPlatform.WMI
         [ComVisible(true)]
         public LogicalDisk Disk(string driveLetter)
         {
-            return Disks.Find(ld => ld.Name == string.Format("{0}:", driveLetter));
+            try
+            {
+                return Disks.Find(ld => ld.Name == string.Format("{0}:", driveLetter));
+            }
+            catch(ArgumentNullException)
+            {
+                LogicalDisk ld = new LogicalDisk();
+                ld.Description = String.Format("Drive letter {0} not found.", driveLetter);
+                return ld;
+            }
         }
 
         [ComVisible(true)]

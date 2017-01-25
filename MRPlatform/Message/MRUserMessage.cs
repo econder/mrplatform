@@ -27,18 +27,16 @@ using MRPlatform.Data.Sql;
 
 namespace MRPlatform.Message
 {
-    // TODO: Rename MRMessage to MRUserMessage?
-
 	/// <summary>
 	/// Description of MRMessage.
 	/// </summary>
-	public class MRMessage
+	public class MRUserMessage
 	{
         //Properties
         private MRDbConnection DbConnection { get; set; }
 
 
-        public MRMessage(MRDbConnection mrDbConnection)
+        public MRUserMessage(MRDbConnection mrDbConnection)
 		{
             this.DbConnection = mrDbConnection;
         }
@@ -46,7 +44,7 @@ namespace MRPlatform.Message
         /// <summary>
         /// Class destructor
         /// </summary>
-        ~MRMessage()
+        ~MRUserMessage()
 		{
             if (this.DbConnection.DbConnection.State == ConnectionState.Open)
             {
@@ -80,10 +78,6 @@ namespace MRPlatform.Message
 			try
 			{
 				dbCmd.ExecuteNonQuery();
-
-                //Sync databases
-                // TODO: Change so that based on where code is called from, the direction is automatically determined.
-                DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
             }
 			catch(SqlException e)
 			{
@@ -133,10 +127,6 @@ namespace MRPlatform.Message
 			try
 			{
 				dbCmd.ExecuteNonQuery();
-
-                //Sync databases
-                // TODO: Change so that based on where code is called from, the direction is automatically determined.
-                DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
             }
 			catch(SqlException e)
 			{
@@ -166,10 +156,6 @@ namespace MRPlatform.Message
 			try
 			{
 				dbCmd.ExecuteNonQuery();
-
-                //Sync databases
-                // TODO: Change so that based on where code is called from, the direction is automatically determined.
-                DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
             }
 			catch(SqlException e)
 			{

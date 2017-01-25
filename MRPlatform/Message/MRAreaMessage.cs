@@ -49,7 +49,8 @@ namespace MRPlatform.Message
 
         public enum Priority : int
         {
-            Low = 1,
+            All = 0,
+            Low,
             Medium,
             High,
             Critical
@@ -61,7 +62,7 @@ namespace MRPlatform.Message
         //
 
         
-        public void Send(string userName, string nodeName, string recipient, string message, int priority = 1)
+        public void Send(string userName, string nodeName, string recipient, string message, int priority = 0)
 		{
 			string sQuery = "INSERT INTO Messages(userName, nodeName, recipient, message, priority, msgType) VALUES('" + userName + "', '" + nodeName + "', '" + recipient + "', '" + message + "', " + priority + ", " + 1 + ")";
 			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
@@ -69,10 +70,6 @@ namespace MRPlatform.Message
 			try
 			{
 				dbCmd.ExecuteNonQuery();
-
-                //Sync databases
-                // TODO: Change so that based on where code is called from, the direction is automatically determined.
-                DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
             }
 			catch(SqlException e)
 			{

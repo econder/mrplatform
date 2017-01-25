@@ -67,7 +67,7 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-            MRMessage mrMsg = new MRMessage(DbConnection);
+            MRUserMessage mrMsg = new MRUserMessage(DbConnection);
 			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked);
 			dataGrid1.DataSource = ds;
 		}
@@ -77,7 +77,7 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-            MRMessage mrMsg = new MRMessage(DbConnection);
+            MRUserMessage mrMsg = new MRUserMessage(DbConnection);
 			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked, chkArchived.Checked);
 			dataGrid1.DataSource = ds;
 		}

@@ -29,7 +29,10 @@ namespace MRPlatform.Message
 	/// </summary>
 	public class MRAreaMessage
 	{
-		public MRAreaMessage(MRDbConnection mrDbConnection)
+        // Global message type = 1 for Area Messages
+        private const int MESSAGETYPE = 1;
+
+        public MRAreaMessage(MRDbConnection mrDbConnection)
 		{
             DbConnection = mrDbConnection;
 		}
@@ -46,25 +49,10 @@ namespace MRPlatform.Message
             }
         }
 
-
-        public enum Priority : int
-        {
-            All = 0,
-            Low,
-            Medium,
-            High,
-            Critical
-        }
-
-
-        //
-        // TODO: Change nType to nPriority (-1=All; 0=Low; 1=Medium; 2=High; 3=Critical).
-        //
-
         
-        public void Send(string userName, string nodeName, string recipient, string message, int priority = 0)
+        public void Send(string sender, string recipient, string message, int priority = 2)
 		{
-			string sQuery = "INSERT INTO Messages(userName, nodeName, recipient, message, priority, msgType) VALUES('" + userName + "', '" + nodeName + "', '" + recipient + "', '" + message + "', " + priority + ", " + 1 + ")";
+			string sQuery = "INSERT INTO Messages(sender, recipient, message, msgTypeId, priorityId) VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + MESSAGETYPE + ", " + priority + ")";
 			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
 			
 			try
@@ -79,11 +67,11 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public DataSet GetMessages(string sArea)
+		public DataSet GetMessages(string area)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" + 
-							" WHERE recipient='" + sArea + "'" + 
+							" WHERE recipient='" + area + "'" + 
 							" AND msgType=1";
 			
 			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
@@ -93,12 +81,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public DataSet GetMessages(string sArea, int nPriority)
+		public DataSet GetMessages(string area, int priority)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgType=1";
 			
 			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
@@ -108,13 +96,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private DataSet GetMessages(string sArea, int nPriority, DateTime dtDate)
+		private DataSet GetMessages(string area, int priority, DateTime dtDate)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'";
 				
@@ -125,13 +112,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private DataSet GetMessages(string sArea, int nPriority, DateTime dtStartDate, DateTime dtEndDate)
+		private DataSet GetMessages(string area, int priority, DateTime dtStartDate, DateTime dtEndDate)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'";
 				
@@ -142,12 +128,11 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public DataSet GetUnreadMessages(string userName, string sArea)
+		public DataSet GetUnreadMessages(string userName, string area)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessagesUnread" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
 							" AND userName='" + userName + "'";
 			
 			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
@@ -157,13 +142,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public DataSet GetUnreadMessages(string userName, string sArea, int nPriority)
+		public DataSet GetUnreadMessages(string userName, string area, int priority)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessagesUnread" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND userName='" + userName + "'";
 			
 			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
@@ -173,13 +157,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private DataSet GetUnreadMessages(string userName, string sArea, int nPriority, DateTime dtDate)
+		private DataSet GetUnreadMessages(string userName, string area, int priority, DateTime dtDate)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessagesUnread" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'" + 
 							" AND userName='" + userName + "'";
@@ -191,13 +174,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private DataSet GetUnreadMessages(string userName, string sArea, int nPriority, DateTime dtStartDate, DateTime dtEndDate)
+		private DataSet GetUnreadMessages(string userName, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessagesUnread" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'" + 
 							" AND userName='" + userName + "'";
@@ -209,12 +191,11 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public int Count(string sArea)
+		public int Count(string area)
 		{
 			DataSet ds = new DataSet();
-			string sQuery = "SELECT COUNT(*) FROM Messages" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND msgType=1";
+            string sQuery = "SELECT COUNT(*) FROM Messages" +
+                            " WHERE recipient='" + area + "'";
 			
 			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
 			
@@ -232,13 +213,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public int Count(string sArea, int nPriority)
+		public int Count(string area, int priority)
 		{
 			DataSet ds = new DataSet();
-			string sQuery = "SELECT COUNT(*) FROM Messages" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1";
+            string sQuery = "SELECT COUNT(*) FROM Messages" +
+                            " WHERE recipient='" + area + "'" +
+                            " AND priority=" + priority;
 			
 			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
 			
@@ -256,13 +236,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private int Count(string sArea, int nPriority, DateTime dtDate)
+		private int Count(string area, int priority, DateTime dtDate)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT COUNT(*) FROM Messages" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'";
 				
@@ -282,13 +261,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private int Count(string sArea, int nPriority, DateTime dtStartDate, DateTime dtEndDate)
+		private int Count(string area, int priority, DateTime dtStartDate, DateTime dtEndDate)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT COUNT(*) FROM Messages" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'";
 				
@@ -308,12 +286,11 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public int UnreadCount(string userName, string sArea)
+		public int UnreadCount(string userName, string area)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
 							" AND userName='" + userName + "'";
 			
 			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
@@ -332,13 +309,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public int UnreadCount(string userName, string sArea, int nPriority)
+		public int UnreadCount(string userName, string area, int priority)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND userName='" + userName + "'";
 			
 			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
@@ -357,13 +333,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private int UnreadCount(string userName, string sArea, int nPriority, DateTime dtDate)
+		private int UnreadCount(string userName, string area, int priority, DateTime dtDate)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'" + 
 							" AND userName='" + userName + "'";
@@ -384,13 +359,12 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private int UnreadCount(string userName, string sArea, int nPriority, DateTime dtStartDate, DateTime dtEndDate)
+		private int UnreadCount(string userName, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)
 		{
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" + 
-							" WHERE recipient='" + sArea + "'" + 
-							" AND priority=" + nPriority + 
-							" AND msgType=1" + 
+							" WHERE recipient='" + area + "'" + 
+							" AND priority=" + priority + 
 							" AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'" + 
 							" AND userName='" + userName + "'";

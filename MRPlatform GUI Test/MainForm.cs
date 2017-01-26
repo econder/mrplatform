@@ -33,16 +33,16 @@ namespace MRPlatform_GUI_Test
 		{
 			InitializeComponent();
 		}
-		
-		void BtnSendClick(object sender, EventArgs e)
-		{
+
+        void BtnSendClick(object sender, EventArgs e)
+        {
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-			MRAreaMessage mram = new MRAreaMessage(DbConnection);
-			mram.Send("mrsystems", "WIN-1I5C3456H92", cboRecipient.Text, txtMessage.Text, cboPriority.SelectedIndex, cboMsgType.SelectedIndex);
-		}
-		
+            MRAreaMessage mram = new MRAreaMessage(DbConnection);
+            mram.Send("mrsystems", cboRecipient.Text, txtMessage.Text, 2);
+        }
+
 		void Button1Click(object sender, EventArgs e)
 		{
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);

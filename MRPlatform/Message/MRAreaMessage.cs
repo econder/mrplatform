@@ -32,6 +32,10 @@ namespace MRPlatform.Message
         // Global message type = 1 for Area Messages
         private const int MESSAGETYPE = 1;
 
+        // Properties
+        private MRDbConnection DbConnection { get; set; }
+
+
         public MRAreaMessage(MRDbConnection mrDbConnection)
 		{
             DbConnection = mrDbConnection;
@@ -43,9 +47,9 @@ namespace MRPlatform.Message
         /// </summary>
         ~MRAreaMessage()
 		{
-            if (this.DbConnection.DbConnection.State == ConnectionState.Open)
+            if (DbConnection.DbConnection.State == ConnectionState.Open)
             {
-                this.DbConnection.DbConnection.Close();
+                DbConnection.DbConnection.Close();
             }
         }
 
@@ -70,9 +74,8 @@ namespace MRPlatform.Message
 		public DataSet GetMessages(string area)
 		{
 			DataSet ds = new DataSet();
-			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" + 
-							" WHERE recipient='" + area + "'" + 
-							" AND msgType=1";
+            string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" +
+                            " WHERE recipient='" + area + "'";
 			
 			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
@@ -84,12 +87,11 @@ namespace MRPlatform.Message
 		public DataSet GetMessages(string area, int priority)
 		{
 			DataSet ds = new DataSet();
-			string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" + 
-							" WHERE recipient='" + area + "'" + 
-							" AND priority=" + priority + 
-							" AND msgType=1";
-			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+            string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" +
+                            " WHERE recipient='" + area + "'" +
+                            " AND priority=" + priority;
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -383,8 +385,5 @@ namespace MRPlatform.Message
 				return -1;
 			}
 		}
-
-
-        private MRDbConnection DbConnection { get; set; }
 	}
 }

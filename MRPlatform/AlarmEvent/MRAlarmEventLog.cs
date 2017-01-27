@@ -71,10 +71,10 @@ namespace MRPlatform.AlarmEvent
 		
 		~MRAlarmEventLog()
 		{
-            if(this.DbConnection.DbConnection.State == ConnectionState.Open)
+            if(DbConnection.DbConnection.State == ConnectionState.Open)
             {
-                this.DbConnection.DbConnection.Close();
-                this.DbConnection.DbConnection.Dispose();
+                DbConnection.DbConnection.Close();
+                DbConnection.DbConnection.Dispose();
             }
 		}
 

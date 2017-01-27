@@ -49,9 +49,9 @@ namespace MRPlatform.AlarmEvent
         /// </summary>
         ~MRTagEvent()
 		{
-            if (this.DbConnection.DbConnection.State == ConnectionState.Open)
+            if (DbConnection.DbConnection.State == ConnectionState.Open)
             {
-                this.DbConnection.DbConnection.Close();
+                DbConnection.DbConnection.Close();
             }
         }
 

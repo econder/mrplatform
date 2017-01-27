@@ -11,11 +11,12 @@ namespace MRPlatform.WMI
 {
     [ComVisible(true)]
     [Guid("455EE884-F3F1-46C1-B4E2-35BA2E31CE83"),
-    ClassInterface(ClassInterfaceType.AutoDispatch),
+    ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(ILogicalDisks))]
     public class LogicalDisks : IEnumerable
     {
         public List<LogicalDisk> Disks = new List<LogicalDisk>();
+
 
         public LogicalDisks()
         {

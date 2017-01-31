@@ -88,27 +88,6 @@ namespace MRPlatform.Message
 			}
 		}
 
-        /*
-		public DataSet Retrieve(string sender, int priority, bool unread, bool archived)
-		{
-			DataSet ds = new DataSet();
-			ds = DoRetrieve(sender, priority, unread, archived);
-			
-			return ds;
-		}
-		
-		
-		private DataSet DoRetrieve(string sender, int priority, bool unread, bool archived)
-		{
-			DataSet ds = new DataSet();
-			string sQuery = "SELECT msgId, sender, message, type FROM Messages WHERE recipient='" + sender + "' AND priorityId=" + priority + " AND unread=" + unread + " AND archived=" + archived;
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
-			dbAdapt.Fill(ds);
-			
-			return ds;
-		}
-		*/
-
         
         public DataSet GetMessages(string sender)
         {
@@ -171,8 +150,12 @@ namespace MRPlatform.Message
 
         public void MarkAsUnread(string hmiUserName, int msgId)
 		{
+            if (DbConnection.DbConnection.State != ConnectionState.Open)
+                DbConnection.DbConnection = new SqlConnection();
+
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandText = "DELETE FROM MessagesRead WHERE msgId = @msgId AND userName = @userName";
+            sqlCmd.Connection = DbConnection.DbConnection;
 
             sqlCmd.Parameters.AddWithValue("@msgId", msgId);
             sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
@@ -191,8 +174,12 @@ namespace MRPlatform.Message
 		
 		public void MarkAsRead(string hmiUserName, int msgId)
         {
+            if (DbConnection.DbConnection.State != ConnectionState.Open)
+                DbConnection.DbConnection = new SqlConnection();
+
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandText = "INSERT INTO MessagesRead(msgId, userName) VALUES(@msgId,@userName)";
+            sqlCmd.Connection = DbConnection.DbConnection;
 
             sqlCmd.Parameters.AddWithValue("@msgId", msgId);
             sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
@@ -211,8 +198,12 @@ namespace MRPlatform.Message
 		
 		public void Archive(string hmiUserName, int msgId)
         {
+            if (DbConnection.DbConnection.State != ConnectionState.Open)
+                DbConnection.DbConnection = new SqlConnection();
+
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandText = "INSERT INTO MessagesArchived(msgId, userName) VALUES(@msgId,@userName)";
+            sqlCmd.Connection = DbConnection.DbConnection;
 
             sqlCmd.Parameters.AddWithValue("@msgId", msgId);
             sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
@@ -231,8 +222,12 @@ namespace MRPlatform.Message
 		
 		public void UnArchive(string hmiUserName, int msgId)
         {
+            if (DbConnection.DbConnection.State != ConnectionState.Open)
+                DbConnection.DbConnection = new SqlConnection();
+
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandText = "DELETE FROM MessagesArchived WHERE msgId = @msgId AND userName = @userName";
+            sqlCmd.Connection = DbConnection.DbConnection;
 
             sqlCmd.Parameters.AddWithValue("@msgId", msgId);
             sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);

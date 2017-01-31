@@ -57,24 +57,24 @@ namespace MRPlatform.Message
         }
 
 
-        public void Send(string userName, string recipient, string message, int priority = 2)
+        public void Send(string sender, string recipient, string message, int priority = 2)
 		{
-            DoSend(userName, recipient, message, priority);
+            DoSend(sender, recipient, message, priority);
 		}
 		
 		
-		public void Send(string userName, Array recipients, string message, int priority = 2)
+		public void Send(string sender, Array recipients, string message, int priority = 2)
 		{
 			for(int i = 0; i <= recipients.Length; i++)
 			{
-                DoSend(userName, recipients.GetValue(i).ToString(), message, priority);
+                DoSend(sender, recipients.GetValue(i).ToString(), message, priority);
 			}
 		} 
 		
 		
-		private void DoSend(string userName, string recipient, string message, int priority)
+		private void DoSend(string sender, string recipient, string message, int priority = 2)
 		{
-			string sQuery = "INSERT INTO Messages(userName, nodeName, recipient, message, type) VALUES('" + userName + "', '" + recipient + "', '" + message + "', " + priority + ")";
+			string sQuery = "INSERT INTO Messages(sender, nodeName, recipient, message, type) VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + priority + ")";
 			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
 			
 			try
@@ -87,43 +87,143 @@ namespace MRPlatform.Message
 				winel.WriteEvent("SqlException: " + e.Message);
 			}
 		}
-		
-		
-		public DataSet Retrieve(string userName, int priority, bool unread, bool archived)
+
+        /*
+		public DataSet Retrieve(string sender, int priority, bool unread, bool archived)
 		{
 			DataSet ds = new DataSet();
-			ds = DoRetrieve(userName, priority, unread, archived);
+			ds = DoRetrieve(sender, priority, unread, archived);
 			
 			return ds;
 		}
 		
 		
-		private DataSet DoRetrieve(string userName, int priority, bool unread, bool archived)
+		private DataSet DoRetrieve(string sender, int priority, bool unread, bool archived)
 		{
 			DataSet ds = new DataSet();
-			string sQuery = "SELECT msgId, userName, message, type FROM Messages WHERE recipient='" + userName + "' AND priorityId=" + priority + " AND unread=" + unread + " AND archived=" + archived;
+			string sQuery = "SELECT msgId, sender, message, type FROM Messages WHERE recipient='" + sender + "' AND priorityId=" + priority + " AND unread=" + unread + " AND archived=" + archived;
 			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
 		}
-		
-		
-		public void MarkAsUnread(string userName, int nMsgId)
+		*/
+
+        
+        public DataSet GetMessages(string sender)
+        {
+            string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" + 
+                            " WHERE recipient='" + sender + "'" + 
+                            " ORDER BY msgDateTime DESC";
+
+            return DoGetMessages(sQuery);
+        }
+
+
+        public DataSet GetMessages(string sender, int priority)
+        {
+            string sQuery = "SELECT msgDateTime, recipient, message, priority FROM Messages" + 
+                            " WHERE recipient='" + sender + "'" + 
+                            " AND priorityId=" + priority + 
+                            " ORDER BY msgDateTime DESC";
+
+            return DoGetMessages(sQuery);
+        }
+
+
+        public DataSet GetMessages(string sender, int priority, bool unread)
+        {
+            string sQuery = "SELECT msgDateTime, recipient, message, priority FROM Messages" + 
+                            " WHERE recipient='" + sender + "'" + 
+                            " AND priorityId=" + priority + 
+                            " AND unread=" + unread + 
+                            " ORDER BY msgDateTime DESC";
+
+            return DoGetMessages(sQuery);
+        }
+
+
+        public DataSet GetMessages(string sender, int priority, bool unread, bool archived)
+        {
+            string sQuery = "SELECT msgDateTime, recipient, message, priority FROM Messages" + 
+                            " WHERE recipient='" + sender + "'" + 
+                            " AND priorityId=" + priority + 
+                            " AND unread=" + unread + 
+                            " AND archived=" + archived + 
+                            " ORDER BY msgDateTime DESC";
+
+            return DoGetMessages(sQuery);
+        }
+
+
+        private DataSet DoGetMessages(string sQuery)
+        {
+            if (DbConnection.DbConnection.State != ConnectionState.Open)
+                DbConnection.DbConnection = new SqlConnection();
+
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+            DataSet ds = new DataSet();
+            dbAdapt.Fill(ds);
+
+            return ds;
+        }
+
+
+        public void MarkAsUnread(string hmiUserName, int msgId)
 		{
-            DoMark(userName, nMsgId, true);
-		}
+            SqlCommand sqlCmd = new SqlCommand();
+            sqlCmd.CommandText = "DELETE FROM MessagesRead WHERE msgId = @msgId AND userName = @userName";
+
+            sqlCmd.Parameters.AddWithValue("@msgId", msgId);
+            sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
+
+            try
+            {
+                sqlCmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                WinEventLog winel = new WinEventLog();
+                winel.WriteEvent("SqlException: " + e.Message);
+            }
+        }
 		
 		
-		public void MarkAsRead(string userName, int nMsgId)
+		public void MarkAsRead(string hmiUserName, int msgId)
+        {
+            SqlCommand sqlCmd = new SqlCommand();
+            sqlCmd.CommandText = "INSERT INTO MessagesRead(msgId, userName) VALUES(@msgId,@userName)";
+
+            sqlCmd.Parameters.AddWithValue("@msgId", msgId);
+            sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
+
+            try
+            {
+                sqlCmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                WinEventLog winel = new WinEventLog();
+                winel.WriteEvent("SqlException: " + e.Message);
+            }
+        }
+		
+		
+		public void Archive(string sender, int nMsgId)
 		{
-            DoMark(userName, nMsgId, false);
-		}
+            DoArchive(sender, nMsgId, true);
+        }
 		
 		
-		private void DoMark(string userName, int nMsgId, bool unread)
+		public void UnArchive(string sender, int nMsgId)
 		{
-			string sQuery = "UPDATE Messages SET unread=" + unread+ " WHERE recipient='" + userName + "' AND msgId=" + nMsgId;
+            DoArchive(sender, nMsgId, false);
+        }
+		
+		
+		private void DoArchive(string sender, int nMsgId, bool archived)
+		{
+			string sQuery = "UPDATE Messages SET archived=" + archived + " WHERE recipient='" + sender + "' AND msgId=" + nMsgId;
 			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
 			
 			try
@@ -138,71 +238,6 @@ namespace MRPlatform.Message
 		}
 		
 		
-		public void Archive(string userName, int nMsgId)
-		{
-            DoArchive(userName, nMsgId, true);
-        }
 		
-		
-		public void UnArchive(string userName, int nMsgId)
-		{
-            DoArchive(userName, nMsgId, false);
-        }
-		
-		
-		private void DoArchive(string userName, int nMsgId, bool archived)
-		{
-			string sQuery = "UPDATE Messages SET archived=" + archived + " WHERE recipient='" + userName + "' AND msgId=" + nMsgId;
-			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
-			
-			try
-			{
-				dbCmd.ExecuteNonQuery();
-            }
-			catch(SqlException e)
-			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-			}
-		}
-		
-		
-		public DataSet GetMessages(string userName)
-		{
-			string sQuery = "SELECT * FROM Messages WHERE recipient='" + userName + "' ORDER BY msgDateTime DESC";
-			return DoGetMessages(sQuery);
-		}
-		
-		
-		public DataSet GetMessages(string userName, int priority)
-		{
-			string sQuery = "SELECT * FROM Messages WHERE recipient='" + userName + "' AND priorityId=" + priority + " ORDER BY msgDateTime DESC";
-			return DoGetMessages(sQuery);
-		}
-		
-		
-		public DataSet GetMessages(string userName, int priority, bool unread)
-		{
-			string sQuery = "SELECT * FROM Messages WHERE recipient='" + userName + "' AND priorityId=" + priority + " AND unread=" + unread + " ORDER BY msgDateTime DESC";
-			return DoGetMessages(sQuery);
-		}
-		
-		
-		public DataSet GetMessages(string userName, int priority, bool unread, bool archived)
-		{
-			string sQuery = "SELECT * FROM Messages WHERE recipient='" + userName + "' AND priorityId=" + priority + " AND unread=" + unread + " AND archived=" + archived + " ORDER BY msgDateTime DESC";
-			return DoGetMessages(sQuery);
-		}
-		
-		
-		private DataSet DoGetMessages(string sQuery)
-		{
-            DbConnection.DbConnection = new SqlConnection();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
-			DataSet ds = new DataSet();
-			dbAdapt.Fill(ds);
-			
-			return ds;
-		}
     }
 }

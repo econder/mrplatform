@@ -91,17 +91,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlarmEvent\IMRAlarmEventLog.cs" />
-    <Compile Include="AlarmEvent\IMRTagEvent.cs" />
-    <Compile Include="AlarmEvent\MRAlarmEventLog.cs" />
-    <Compile Include="Data\Sql\MRDbConnection.cs" />
-    <Compile Include="AlarmEvent\MREvent.cs" />
-    <Compile Include="AlarmEvent\MRTagEvent.cs" />
+    <Compile Include="Wonderware\AlarmEvent\IAlarmEventLog.cs" />
+    <Compile Include="AlarmEvent\ITagEvent.cs" />
+    <Compile Include="Wonderware\AlarmEvent\AlarmEventLog.cs" />
+    <Compile Include="DB\Sql\MRDbConnection.cs" />
+    <Compile Include="AlarmEvent\UserEvent.cs" />
+    <Compile Include="AlarmEvent\TagEvent.cs" />
     <Compile Include="AlarmEvent\WinEventLog.cs" />
     <Compile Include="InTouch\IWindow.cs" />
     <Compile Include="InTouch\Window.cs" />
-    <Compile Include="Message\MRAreaMessage.cs" />
-    <Compile Include="Message\MRUserMessage.cs" />
+    <Compile Include="Message\AreaMessage.cs" />
+    <Compile Include="Message\UserMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WMI\ILogicalDisk.cs" />
     <Compile Include="WMI\ILogicalDisks.cs" />

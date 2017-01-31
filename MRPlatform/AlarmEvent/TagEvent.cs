@@ -15,7 +15,7 @@ using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 
 using MRPlatform.AlarmEvent;
-using MRPlatform.Data.Sql;
+using MRPlatform.DB.Sql;
 	
 
 namespace MRPlatform.AlarmEvent
@@ -26,8 +26,8 @@ namespace MRPlatform.AlarmEvent
     [ComVisible(true)]
     [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IMRTagEvent))]
-    public class MRTagEvent : IMRTagEvent
+    ComSourceInterfaces(typeof(ITagEvent))]
+    public class TagEvent : ITagEvent
 	{
         //Properties
         public MRDbConnection DbConnection { get; set; }
@@ -38,7 +38,7 @@ namespace MRPlatform.AlarmEvent
         /// Class constructor
         /// </summary>
         /// <remarks>Creates a new instance of MRTagEvent.</remarks>
-        public MRTagEvent(MRDbConnection mrDbConnection)
+        public TagEvent(MRDbConnection mrDbConnection)
 		{
             DbConnection = mrDbConnection;
 		}
@@ -47,11 +47,11 @@ namespace MRPlatform.AlarmEvent
         /// <summary>
         /// Class destructor
         /// </summary>
-        ~MRTagEvent()
+        ~TagEvent()
 		{
-            if (DbConnection.DbConnection.State == ConnectionState.Open)
+            if (DbConnection.DatabaseConnection.State == ConnectionState.Open)
             {
-                DbConnection.DbConnection.Close();
+                DbConnection.DatabaseConnection.Close();
             }
         }
 
@@ -79,12 +79,12 @@ namespace MRPlatform.AlarmEvent
             string sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew) " +
                             "VALUES('" + userName + "', '" + nodeName + "', '" + tagName + "', " + tagValueOrig + ", " + tagValueNew + ")";
 
-            SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+            SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 
             dbCmd.ExecuteNonQuery();
 			
 			dbCmd.CommandText = sQuery;
-            dbCmd.Connection = DbConnection.DbConnection;
+            dbCmd.Connection = DbConnection.DatabaseConnection;
 
             dbCmd.ExecuteNonQuery();
         }
@@ -147,7 +147,7 @@ namespace MRPlatform.AlarmEvent
 		private DataSet GetDataSetFromQuery(string sQuery)
 		{
 			DataSet ds = new DataSet();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 
             EventHistory = ds;

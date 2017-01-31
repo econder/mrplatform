@@ -3,13 +3,13 @@ using System.Data;
 using System.Runtime.InteropServices;
 
 
-namespace MRPlatform.AlarmEvent
+namespace MRPlatform.Wonderware.AlarmEvent
 {
     /// <summary>
     /// MRAlarmEventLog interface.
     /// </summary>
     [Guid("C3CCC31F-E291-4422-BAD0-5A640672E85C")]
-    public interface IMRAlarmEventLog
+    public interface IAlarmEventLog
     {
         DataSet GetTopAlarmOccurrences(int topCount, DateTime startDate);
         DataSet GetTopAlarmOccurrences(int topCount, string startDate);

@@ -41,13 +41,9 @@ namespace MRPlatform.InTouch
                     arWindows.Add(windowIndex, windowName);
                 }
             }
-            catch(OutOfMemoryException ex)
+            catch(Exception)
             {
-                ///TODO: Handle error
-            }
-            catch(IOException ex)
-            {
-                ///TODO: Handle error
+
             }
         }
     }

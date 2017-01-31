@@ -22,7 +22,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 using MRPlatform.AlarmEvent;
-using MRPlatform.Data.Sql;
+using MRPlatform.DB.Sql;
 
 
 namespace MRPlatform.Message
@@ -30,7 +30,7 @@ namespace MRPlatform.Message
 	/// <summary>
 	/// Description of MRMessage.
 	/// </summary>
-	public class MRUserMessage
+	public class UserMessage
 	{
         // Global message type = 2 for User Messages
         private const int MESSAGETYPE = 2;
@@ -39,7 +39,7 @@ namespace MRPlatform.Message
         private MRDbConnection DbConnection { get; set; }
 
 
-        public MRUserMessage(MRDbConnection mrDbConnection)
+        public UserMessage(MRDbConnection mrDbConnection)
 		{
             DbConnection = mrDbConnection;
         }
@@ -48,11 +48,11 @@ namespace MRPlatform.Message
         /// <summary>
         /// Class destructor
         /// </summary>
-        ~MRUserMessage()
+        ~UserMessage()
 		{
-            if (DbConnection.DbConnection.State == ConnectionState.Open)
+            if (DbConnection.DatabaseConnection.State == ConnectionState.Open)
             {
-                DbConnection.DbConnection.Close();
+                DbConnection.DatabaseConnection.Close();
             }
         }
 
@@ -75,7 +75,7 @@ namespace MRPlatform.Message
 		private void DoSend(string sender, string recipient, string message, int priority = 2)
 		{
 			string sQuery = "INSERT INTO Messages(sender, nodeName, recipient, message, type) VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + priority + ")";
-			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -137,10 +137,10 @@ namespace MRPlatform.Message
 
         private DataSet DoGetMessages(string sQuery)
         {
-            if (DbConnection.DbConnection.State != ConnectionState.Open)
-                DbConnection.DbConnection = new SqlConnection();
+            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
+                DbConnection.DatabaseConnection = new SqlConnection();
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
             DataSet ds = new DataSet();
             dbAdapt.Fill(ds);
 
@@ -150,12 +150,12 @@ namespace MRPlatform.Message
 
         public void MarkAsUnread(string hmiUserName, int msgId)
 		{
-            if (DbConnection.DbConnection.State != ConnectionState.Open)
-                DbConnection.DbConnection = new SqlConnection();
+            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
+                DbConnection.DatabaseConnection = new SqlConnection();
 
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandText = "DELETE FROM MessagesRead WHERE msgId = @msgId AND userName = @userName";
-            sqlCmd.Connection = DbConnection.DbConnection;
+            sqlCmd.Connection = DbConnection.DatabaseConnection;
 
             sqlCmd.Parameters.AddWithValue("@msgId", msgId);
             sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
@@ -174,12 +174,12 @@ namespace MRPlatform.Message
 		
 		public void MarkAsRead(string hmiUserName, int msgId)
         {
-            if (DbConnection.DbConnection.State != ConnectionState.Open)
-                DbConnection.DbConnection = new SqlConnection();
+            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
+                DbConnection.DatabaseConnection = new SqlConnection();
 
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandText = "INSERT INTO MessagesRead(msgId, userName) VALUES(@msgId,@userName)";
-            sqlCmd.Connection = DbConnection.DbConnection;
+            sqlCmd.Connection = DbConnection.DatabaseConnection;
 
             sqlCmd.Parameters.AddWithValue("@msgId", msgId);
             sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
@@ -198,12 +198,12 @@ namespace MRPlatform.Message
 		
 		public void Archive(string hmiUserName, int msgId)
         {
-            if (DbConnection.DbConnection.State != ConnectionState.Open)
-                DbConnection.DbConnection = new SqlConnection();
+            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
+                DbConnection.DatabaseConnection = new SqlConnection();
 
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandText = "INSERT INTO MessagesArchived(msgId, userName) VALUES(@msgId,@userName)";
-            sqlCmd.Connection = DbConnection.DbConnection;
+            sqlCmd.Connection = DbConnection.DatabaseConnection;
 
             sqlCmd.Parameters.AddWithValue("@msgId", msgId);
             sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
@@ -222,12 +222,12 @@ namespace MRPlatform.Message
 		
 		public void UnArchive(string hmiUserName, int msgId)
         {
-            if (DbConnection.DbConnection.State != ConnectionState.Open)
-                DbConnection.DbConnection = new SqlConnection();
+            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
+                DbConnection.DatabaseConnection = new SqlConnection();
 
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandText = "DELETE FROM MessagesArchived WHERE msgId = @msgId AND userName = @userName";
-            sqlCmd.Connection = DbConnection.DbConnection;
+            sqlCmd.Connection = DbConnection.DatabaseConnection;
 
             sqlCmd.Parameters.AddWithValue("@msgId", msgId);
             sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);

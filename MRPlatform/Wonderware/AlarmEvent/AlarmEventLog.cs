@@ -37,10 +37,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 
-using MRPlatform.Data.Sql;
+using MRPlatform.DB.Sql;
 
 
-namespace MRPlatform.AlarmEvent
+namespace MRPlatform.Wonderware.AlarmEvent
 {
     /// <summary>
     /// MRPlatform.AlarmEvent.MRAlarmEventLog class.
@@ -48,8 +48,8 @@ namespace MRPlatform.AlarmEvent
     [ComVisible(true)]
     [Guid("96E0CD61-EC8D-428F-BAF7-0A0910A6432F"),
         ClassInterface(ClassInterfaceType.None),
-        ComSourceInterfaces(typeof(IMRAlarmEventLog))]
-    public class MRAlarmEventLog : IMRAlarmEventLog
+        ComSourceInterfaces(typeof(IAlarmEventLog))]
+    public class AlarmEventLog : IAlarmEventLog
 	{
         //Properties
         private MRDbConnection DbConnection { get; set; }
@@ -64,17 +64,17 @@ namespace MRPlatform.AlarmEvent
         /// //Create instance of MRAlarmEventLog
         /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// </code></example>
-		public MRAlarmEventLog(MRDbConnection mrDbConnection)
+		public AlarmEventLog(MRDbConnection mrDbConnection)
 		{
             DbConnection = mrDbConnection;
 		}
 		
-		~MRAlarmEventLog()
+		~AlarmEventLog()
 		{
-            if(DbConnection.DbConnection.State == ConnectionState.Open)
+            if(DbConnection.DatabaseConnection.State == ConnectionState.Open)
             {
-                DbConnection.DbConnection.Close();
-                DbConnection.DbConnection.Dispose();
+                DbConnection.DatabaseConnection.Close();
+                DbConnection.DatabaseConnection.Dispose();
             }
 		}
 
@@ -918,7 +918,7 @@ namespace MRPlatform.AlarmEvent
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= '" + startDate.ToShortDateString() + "' AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -930,7 +930,7 @@ namespace MRPlatform.AlarmEvent
 			DataSet ds = new DataSet();
 			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= DATEADD(day, " + numDays.ToString() + ", EventStamp) AND EventStamp <= '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -950,7 +950,7 @@ namespace MRPlatform.AlarmEvent
             SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Value, Operator" +
                                                    " FROM v_AlarmEventHistory2" +
                                                    " WHERE TagName = '" + tagName + "'" +
-                                                   " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                                   " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
 
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();
@@ -969,7 +969,7 @@ namespace MRPlatform.AlarmEvent
             SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
                                                    " FROM v_AlarmEventHistory2" +
                                                    " WHERE TagName = '" + tagName + "'" +
-                                                   " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                                   " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
 
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();
@@ -990,7 +990,7 @@ namespace MRPlatform.AlarmEvent
                                                " WHERE TagName = '" + tagName + "'" +
                                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
                                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
 
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();
@@ -1011,7 +1011,7 @@ namespace MRPlatform.AlarmEvent
                                                " WHERE TagName = '" + tagName + "'" +
                                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
                                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
             
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();
@@ -1034,7 +1034,7 @@ namespace MRPlatform.AlarmEvent
             SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
                                                " FROM v_AlarmEventHistory2" +
                                                " WHERE Operator = '" + userName + "'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
 
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();
@@ -1053,7 +1053,7 @@ namespace MRPlatform.AlarmEvent
             SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
                                                " FROM v_AlarmEventHistory2" +
                                                " WHERE Operator = '" + userName + "'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
 
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();
@@ -1074,7 +1074,7 @@ namespace MRPlatform.AlarmEvent
                                                " WHERE Operator = '" + userName + "'" +
                                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
                                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
 
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();
@@ -1095,7 +1095,7 @@ namespace MRPlatform.AlarmEvent
                                                " WHERE Operator = '" + userName + "'" +
                                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
                                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
 
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();
@@ -1119,7 +1119,7 @@ namespace MRPlatform.AlarmEvent
                                                " FROM v_AlarmEventHistory2" +
                                                " WHERE EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
                                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
 
             SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
             DataSet ds = new DataSet();

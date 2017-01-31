@@ -19,7 +19,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 using MRPlatform.AlarmEvent;
-using MRPlatform.Data.Sql;
+using MRPlatform.DB.Sql;
 
 
 namespace MRPlatform.Message
@@ -27,7 +27,7 @@ namespace MRPlatform.Message
 	/// <summary>
 	/// Description of MRAreaMessage.
 	/// </summary>
-	public class MRAreaMessage
+	public class AreaMessage
 	{
         // Global message type = 1 for Area Messages
         private const int MESSAGETYPE = 1;
@@ -36,7 +36,7 @@ namespace MRPlatform.Message
         private MRDbConnection DbConnection { get; set; }
 
 
-        public MRAreaMessage(MRDbConnection mrDbConnection)
+        public AreaMessage(MRDbConnection mrDbConnection)
 		{
             DbConnection = mrDbConnection;
 		}
@@ -45,11 +45,11 @@ namespace MRPlatform.Message
         /// <summary>
         /// Class destructor
         /// </summary>
-        ~MRAreaMessage()
+        ~AreaMessage()
 		{
-            if (DbConnection.DbConnection.State == ConnectionState.Open)
+            if (DbConnection.DatabaseConnection.State == ConnectionState.Open)
             {
-                DbConnection.DbConnection.Close();
+                DbConnection.DatabaseConnection.Close();
             }
         }
 
@@ -57,7 +57,7 @@ namespace MRPlatform.Message
         public void Send(string sender, string recipient, string message, int priority = 2)
 		{
 			string sQuery = "INSERT INTO Messages(sender, recipient, message, msgTypeId, priorityId) VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + MESSAGETYPE + ", " + priority + ")";
-			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -77,7 +77,7 @@ namespace MRPlatform.Message
             string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessages" +
                             " WHERE recipient='" + area + "'";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -91,7 +91,7 @@ namespace MRPlatform.Message
                             " WHERE recipient='" + area + "'" +
                             " AND priority=" + priority;
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+            SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -107,7 +107,7 @@ namespace MRPlatform.Message
 							" AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'";
 				
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -123,7 +123,7 @@ namespace MRPlatform.Message
 							" AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'";
 				
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -137,7 +137,7 @@ namespace MRPlatform.Message
 							" WHERE recipient='" + area + "'" + 
 							" AND userName='" + userName + "'";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -152,7 +152,7 @@ namespace MRPlatform.Message
 							" AND priority=" + priority + 
 							" AND userName='" + userName + "'";
 			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -169,7 +169,7 @@ namespace MRPlatform.Message
 							" AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'" + 
 							" AND userName='" + userName + "'";
 				
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -186,7 +186,7 @@ namespace MRPlatform.Message
 							" AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'" + 
 							" AND userName='" + userName + "'";
 				
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 			
 			return ds;
@@ -199,7 +199,7 @@ namespace MRPlatform.Message
             string sQuery = "SELECT COUNT(*) FROM Messages" +
                             " WHERE recipient='" + area + "'";
 			
-			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -222,7 +222,7 @@ namespace MRPlatform.Message
                             " WHERE recipient='" + area + "'" +
                             " AND priority=" + priority;
 			
-			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -247,7 +247,7 @@ namespace MRPlatform.Message
 							" AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'";
 				
-			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -272,7 +272,7 @@ namespace MRPlatform.Message
 							" AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" + 
 							" AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'";
 				
-			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -295,7 +295,7 @@ namespace MRPlatform.Message
 							" WHERE recipient='" + area + "'" + 
 							" AND userName='" + userName + "'";
 			
-			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -319,7 +319,7 @@ namespace MRPlatform.Message
 							" AND priority=" + priority + 
 							" AND userName='" + userName + "'";
 			
-			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -345,7 +345,7 @@ namespace MRPlatform.Message
 							" AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'" + 
 							" AND userName='" + userName + "'";
 				
-			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{
@@ -371,7 +371,7 @@ namespace MRPlatform.Message
 							" AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'" + 
 							" AND userName='" + userName + "'";
 				
-			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DbConnection);
+			SqlCommand cmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
 			
 			try
 			{

@@ -1,11 +1,11 @@
 ﻿/***************************************************************************************************
- * Class: 			MRDbConnection.cs
+ * Class: 			MRConnection.cs
  * Created By:		Eric Conder
  * Created On:		2014-01-06
  * 
  * Changes:
  * 
- * 2014-03-06	Recreated the MRDbConnection under new namespace MRPlatform2014.Data.Sql.
+ * 2014-03-06	Recreated the MRConnection under new namespace MRPlatform2014.Data.Sql.
  * 
  * 2014-03-27	Writing MRSqlConnection.Open() functions to be used internally by the other classes
  * 				to access the SQL database.
@@ -22,7 +22,7 @@ using System.Data.SqlClient;
 using MRPlatform.AlarmEvent;
 
 
-namespace MRPlatform.Data.Sql
+namespace MRPlatform.DB.Sql
 {
     public class MRDbConnection
 	{
@@ -41,20 +41,20 @@ namespace MRPlatform.Data.Sql
         }
 
         /// <summary>
-        /// MRDbConnection class constructor.
+        /// MRConnection class constructor.
         /// </summary>
-        /// <remarks>Creates a new instance of MRDbConnection.</remarks>
+        /// <remarks>Creates a new instance of MRConnection.</remarks>
         /// <param name="dbConnection">SqlConnection object</param>
-        /// <returns>MRDbConnection object.</returns>
+        /// <returns>MRConnection object.</returns>
         /// <example>Example:<code>
-        /// MRDbConnection mrdb = new MRDbConnection();
+        /// MRConnection mrdb = new MRConnection();
         /// </code></example>
         public MRDbConnection(SqlConnection dbConnection, RedundantNode redundantNodeAssignment = RedundantNode.Master)
         {
             ThisNode = redundantNodeAssignment;
 
-            DbConnection = dbConnection;
-            OpenDatabase(DbConnection);
+            DatabaseConnection = dbConnection;
+            OpenDatabase(DatabaseConnection);
         }
 
 
@@ -62,11 +62,11 @@ namespace MRPlatform.Data.Sql
         {
             ThisNode = redundantNodeAssignment;
 
-            DbConnection = dbConnection;
-            OpenDatabase(DbConnection);
+            DatabaseConnection = dbConnection;
+            OpenDatabase(DatabaseConnection);
 
-            SyncDbConnection = dbSyncConnection;
-            OpenDatabase(SyncDbConnection);
+            SyncConnection = dbSyncConnection;
+            OpenDatabase(SyncConnection);
         }
 
 
@@ -82,8 +82,8 @@ namespace MRPlatform.Data.Sql
 
             //Connect to master SQL Database
             string connStr = "Server=" + ServerName + "; Database=" + DatabaseName + "; User Id=" + UserName + "; Password=" + Password + ";";
-            DbConnection = new SqlConnection(connStr);
-            OpenDatabase(DbConnection);
+            DatabaseConnection = new SqlConnection(connStr);
+            OpenDatabase(DatabaseConnection);
         }
 
 
@@ -101,8 +101,8 @@ namespace MRPlatform.Data.Sql
 
             //Connect to master SQL Database
             string connStr = "Server=" + ServerName + "; Database=" + DatabaseName + "; User Id=" + UserName + "; Password=" + Password + ";";
-            DbConnection = new SqlConnection(connStr);
-            OpenDatabase(DbConnection);
+            DatabaseConnection = new SqlConnection(connStr);
+            OpenDatabase(DatabaseConnection);
 
             //Set property values for sync SQL database
             SyncServerName = dbSyncServerName;
@@ -112,8 +112,8 @@ namespace MRPlatform.Data.Sql
 
             //Connect to sync SQL Database
             string syncConnStr = "Server=" + SyncServerName + "; Database=" + SyncDatabaseName + "; User Id=" + SyncUserName + "; Password=" + SyncPassword + ";";
-            SyncDbConnection = new SqlConnection(syncConnStr);
-            OpenDatabase(SyncDbConnection);
+            SyncConnection = new SqlConnection(syncConnStr);
+            OpenDatabase(SyncConnection);
         }
 
 
@@ -153,7 +153,7 @@ namespace MRPlatform.Data.Sql
 
         public void Sync(SyncDirection syncDirection)
         {
-            MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(DbConnection, SyncDbConnection);
+            MRDbSync.CProvisionSync ps = new MRDbSync.CProvisionSync(DatabaseConnection, SyncConnection);
 
             switch(syncDirection)
             {
@@ -181,7 +181,7 @@ namespace MRPlatform.Data.Sql
 
 		//Master SQL database properties
 		public string ConnectionString { get; set; }
-        public SqlConnection DbConnection { get; set; }
+        public SqlConnection DatabaseConnection { get; set; }
 		public string ServerName { get; set; }
 		public string DatabaseName { get; set; }
 		public string UserName { get; set; }
@@ -190,7 +190,7 @@ namespace MRPlatform.Data.Sql
 
         //Sync SQL database properties
         public string SyncConnectionString { get; set; }
-        public SqlConnection SyncDbConnection { get; set; }
+        public SqlConnection SyncConnection { get; set; }
         public string SyncServerName { get; set; }
         public string SyncDatabaseName { get; set; }
         public string SyncUserName { get; set; }

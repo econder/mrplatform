@@ -25,7 +25,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-using MRPlatform.Data.Sql;
+using MRPlatform.DB.Sql;
 
 
 namespace MRPlatform.AlarmEvent
@@ -33,10 +33,10 @@ namespace MRPlatform.AlarmEvent
 	/// <summary>
 	/// Description of MREvent.
 	/// </summary>
-	public class MREvent
+	public class UserEvent
 	{
 
-        public MREvent(MRDbConnection mrDbConnection)
+        public UserEvent(MRDbConnection mrDbConnection)
         {
             DbConnection = mrDbConnection;
         }
@@ -45,11 +45,11 @@ namespace MRPlatform.AlarmEvent
         /// <summary>
         /// Class destructor
         /// </summary>
-		~MREvent()
+		~UserEvent()
 		{
-            if (DbConnection.DbConnection.State == ConnectionState.Open)
+            if (DbConnection.DatabaseConnection.State == ConnectionState.Open)
             {
-                DbConnection.DbConnection.Close();
+                DbConnection.DatabaseConnection.Close();
             }
         }
 		
@@ -78,7 +78,7 @@ namespace MRPlatform.AlarmEvent
 			sQuery = "INSERT INTO EventLog(userName, nodeName, evtMessage, evtType, evtSource VALUES('" + userName + "', '" + nodeName + "', '" + eventMessage + "', " + eventType + ", '" + eventSource + "')";
 			
 			dbCmd.CommandText = sQuery;
-            dbCmd.Connection = DbConnection.DbConnection;
+            dbCmd.Connection = DbConnection.DatabaseConnection;
             dbCmd.ExecuteNonQuery();
 		}
         
@@ -137,7 +137,7 @@ namespace MRPlatform.AlarmEvent
 		private DataSet DoGetDataSetFromQuery(string sQuery)
 		{
 			DataSet ds = new DataSet();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
+			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
 			dbAdapt.Fill(ds);
 
             EventHistory = ds;

@@ -13,8 +13,8 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
-using MRPlatform.Data.Sql;
-using MRPlatform.AlarmEvent;
+using MRPlatform.DB.Sql;
+using MRPlatform.Wonderware.AlarmEvent;
 using MRPlatform.Message;
 using MRPlatform.WMI;
 
@@ -39,7 +39,7 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-            MRAreaMessage mram = new MRAreaMessage(DbConnection);
+            AreaMessage mram = new AreaMessage(DbConnection);
             mram.Send("mrsystems", cboRecipient.Text, txtMessage.Text, 2);
         }
 
@@ -48,7 +48,7 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-            MRAreaMessage mram = new MRAreaMessage(DbConnection);
+            AreaMessage mram = new AreaMessage(DbConnection);
 			int i = mram.UnreadCount("mrsystems", "Influent PS");
 		}
 		
@@ -57,7 +57,7 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-            MRAreaMessage mram = new MRAreaMessage(DbConnection);
+            AreaMessage mram = new AreaMessage(DbConnection);
 			DataSet ds = mram.GetUnreadMessages("mrsystems", "Influent PS");
 			dataGrid1.DataSource = ds;
 		}
@@ -67,7 +67,7 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-            MRUserMessage mrMsg = new MRUserMessage(DbConnection);
+            UserMessage mrMsg = new UserMessage(DbConnection);
 			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked);
 			dataGrid1.DataSource = ds;
 		}
@@ -77,7 +77,7 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-            MRUserMessage mrMsg = new MRUserMessage(DbConnection);
+            UserMessage mrMsg = new UserMessage(DbConnection);
 			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked, chkArchived.Checked);
 			dataGrid1.DataSource = ds;
 		}
@@ -105,11 +105,11 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection("ECVM-WW2014", "A2ALMDB", "wwAdmin", "wwAdmin", MRDbConnection.RedundantNode.Master);
             DbConnection = dbConn;
 
-            MRAlarmEventLog mrae = new MRAlarmEventLog(dbConn);
+            AlarmEventLog mrae = new AlarmEventLog(dbConn);
             mrae.GetTopAlarmOccurrences(20, Convert.ToDateTime("1/1/2014"), Convert.ToDateTime("11/30/2016"));
 
-            DbConnection.DbConnection.Close();
-            DbConnection.DbConnection.Dispose();
+            DbConnection.DatabaseConnection.Close();
+            DbConnection.DatabaseConnection.Dispose();
         }
     }
 }

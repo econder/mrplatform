@@ -209,35 +209,43 @@ namespace MRPlatform.Message
         }
 		
 		
-		public void Archive(string sender, int nMsgId)
-		{
-            DoArchive(sender, nMsgId, true);
-        }
-		
-		
-		public void UnArchive(string sender, int nMsgId)
-		{
-            DoArchive(sender, nMsgId, false);
-        }
-		
-		
-		private void DoArchive(string sender, int nMsgId, bool archived)
-		{
-			string sQuery = "UPDATE Messages SET archived=" + archived + " WHERE recipient='" + sender + "' AND msgId=" + nMsgId;
-			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
-			
-			try
-			{
-				dbCmd.ExecuteNonQuery();
+		public void Archive(string hmiUserName, int msgId)
+        {
+            SqlCommand sqlCmd = new SqlCommand();
+            sqlCmd.CommandText = "INSERT INTO MessagesArchived(msgId, userName) VALUES(@msgId,@userName)";
+
+            sqlCmd.Parameters.AddWithValue("@msgId", msgId);
+            sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
+
+            try
+            {
+                sqlCmd.ExecuteNonQuery();
             }
-			catch(SqlException e)
-			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-			}
-		}
+            catch (SqlException e)
+            {
+                WinEventLog winel = new WinEventLog();
+                winel.WriteEvent("SqlException: " + e.Message);
+            }
+        }
 		
 		
-		
+		public void UnArchive(string hmiUserName, int msgId)
+        {
+            SqlCommand sqlCmd = new SqlCommand();
+            sqlCmd.CommandText = "DELETE FROM MessagesArchived WHERE msgId = @msgId AND userName = @userName";
+
+            sqlCmd.Parameters.AddWithValue("@msgId", msgId);
+            sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
+
+            try
+            {
+                sqlCmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                WinEventLog winel = new WinEventLog();
+                winel.WriteEvent("SqlException: " + e.Message);
+            }
+        }
     }
 }

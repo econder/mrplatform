@@ -5,28 +5,28 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using MRPlatform.WMI;
 
-namespace MRPlatformTests
+namespace MRPlatformTests.WMI
 {
     /// <summary>
     /// Summary description for UnitTest1
     /// </summary>
     [TestClass]
-    public class LogicalDisksTest
+    public class ProcessorTest
     {
-        private LogicalDisks _logicalDisks;
+        private Processor _processor;
 
         [TestInitialize]
         public void Initialize()
         {
-            _logicalDisks = new LogicalDisks();
+            _processor = new Processor();
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void GetDiskWithInvalidDriveLetter()
+        public void TestLoadPercentage()
         {
-            string driveLetter = null;
-            var result = _logicalDisks.Disk(driveLetter);
+            int i = 0;
+            i = _processor.LoadPercentage;
+            Assert.IsTrue(i > 0);
         }
     }
 }

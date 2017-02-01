@@ -13,13 +13,10 @@ namespace MRPlatform.WMI
     ComSourceInterfaces(typeof(IProcessor))]
     public class Processor : IProcessor
     {
-        public string Computer { get; set; }
         public int LoadPercentage { get; set; }
 
         public Processor()
         {
-            Computer = ".";
-
             SelectQuery selectQuery = new SelectQuery("SELECT * FROM Win32_Processor");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(selectQuery);
             ManagementObjectCollection objCol = searcher.Get();

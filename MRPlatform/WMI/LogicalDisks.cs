@@ -56,6 +56,9 @@ namespace MRPlatform.WMI
         [ComVisible(true)]
         public LogicalDisk Disk(string driveLetter)
         {
+            if (driveLetter == null)
+                throw new ArgumentNullException(driveLetter, "Drive letter parameter cannot be null.");
+
             try
             {
                 return Disks.Find(ld => ld.Name == string.Format("{0}:", driveLetter));
@@ -64,7 +67,7 @@ namespace MRPlatform.WMI
             {
                 LogicalDisk ld = new LogicalDisk();
                 ld.Description = String.Format("Drive letter {0} not found.", driveLetter);
-                return ld;
+                return null;
             }
         }
 

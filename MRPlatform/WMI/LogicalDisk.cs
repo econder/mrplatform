@@ -15,7 +15,7 @@ namespace MRPlatform.WMI
     {
         public LogicalDisk()
         {
-
+                
         }
 
 

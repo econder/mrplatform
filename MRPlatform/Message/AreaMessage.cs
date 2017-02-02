@@ -29,6 +29,8 @@ namespace MRPlatform.Message
 	/// </summary>
 	public class AreaMessage
 	{
+        private ErrorLog _errorLog = new ErrorLog();
+
         // Global message type = 1 for Area Messages
         private const int MESSAGETYPE = 1;
 
@@ -63,11 +65,10 @@ namespace MRPlatform.Message
 			{
 				dbCmd.ExecuteNonQuery();
             }
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-			}
+                _errorLog.LogMessage(this.GetType().Name, "Send(string sender, string recipient, string message, int priority = 2)", ex.Message);
+            }
 		}
 		
 		
@@ -206,11 +207,10 @@ namespace MRPlatform.Message
 				int rowCount = (int)cmd.ExecuteScalar();
 				return rowCount;
 			}
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return -1;
+                _errorLog.LogMessage(this.GetType().Name, "Count(string area)", ex.Message);
+                return -1;
 			}
 		}
 		
@@ -229,11 +229,10 @@ namespace MRPlatform.Message
 				int rowCount = (int)cmd.ExecuteScalar();
 				return rowCount;
 			}
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return -1;
+                _errorLog.LogMessage(this.GetType().Name, "Count(string area, int priority)", ex.Message);
+                return -1;
 			}
 		}
 		
@@ -254,11 +253,10 @@ namespace MRPlatform.Message
 				int rowCount = (int)cmd.ExecuteScalar();
 				return rowCount;
 			}
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return -1;
+                _errorLog.LogMessage(this.GetType().Name, "Count(string area, int priority, DateTime dtDate)", ex.Message);
+                return -1;
 			}
 		}
 		
@@ -279,11 +277,10 @@ namespace MRPlatform.Message
 				int rowCount = (int)cmd.ExecuteScalar();
 				return rowCount;
 			}
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return -1;
+                _errorLog.LogMessage(this.GetType().Name, "Count(string area, int priority, DateTime dtStartDate, DateTime dtEndDate)", ex.Message);
+                return -1;
 			}
 		}
 		
@@ -302,11 +299,10 @@ namespace MRPlatform.Message
 				int rowCount = (int)cmd.ExecuteScalar();
 				return rowCount;
 			}
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return -1;
+                _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area)", ex.Message);
+                return -1;
 			}
 		}
 		
@@ -326,11 +322,10 @@ namespace MRPlatform.Message
 				int rowCount = (int)cmd.ExecuteScalar();
 				return rowCount;
 			}
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return -1;
+                _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area, int priority)", ex.Message);
+                return -1;
 			}
 		}
 		
@@ -352,11 +347,10 @@ namespace MRPlatform.Message
 				int rowCount = (int)cmd.ExecuteScalar();
 				return rowCount;
 			}
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return -1;
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string startDate)", ex.Message);
+                return -1;
 			}
 		}
 		
@@ -378,11 +372,10 @@ namespace MRPlatform.Message
 				int rowCount = (int)cmd.ExecuteScalar();
 				return rowCount;
 			}
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-				return -1;
+                _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)", ex.Message);
+                return -1;
 			}
 		}
 	}

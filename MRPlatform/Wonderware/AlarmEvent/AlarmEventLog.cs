@@ -51,9 +51,10 @@ namespace MRPlatform.Wonderware.AlarmEvent
         ComSourceInterfaces(typeof(IAlarmEventLog))]
     public class AlarmEventLog : IAlarmEventLog
 	{
+        private ErrorLog _errorLog = new ErrorLog();
+
         //Properties
         private MRDbConnection DbConnection { get; set; }
-
 
         /// <summary>Initializes a new instance of MRAlarmEventLog.</summary>
         /// <param name="mrDbConnection"></param>
@@ -71,11 +72,13 @@ namespace MRPlatform.Wonderware.AlarmEvent
 		
 		~AlarmEventLog()
 		{
+            /*
             if(DbConnection.DatabaseConnection.State == ConnectionState.Open)
             {
-                DbConnection.DatabaseConnection.Close();
+                //DbConnection.DatabaseConnection.Close();
                 DbConnection.DatabaseConnection.Dispose();
             }
+            */
 		}
 
 
@@ -121,6 +124,23 @@ namespace MRPlatform.Wonderware.AlarmEvent
 		/// </code></example>
 		public DataSet GetTopAlarmOccurrences(int topCount, string startDate)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+            
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+
+            try {
+                dtStart = DateTime.Parse(startDate);
+            }
+            catch(FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string startDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTopOccurrences("v_AlarmHistory2", topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -167,6 +187,29 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTopAlarmOccurrences(int topCount, string startDate, string endDate)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTopOccurrences("v_AlarmHistory2", topCount, DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 
@@ -213,6 +256,24 @@ namespace MRPlatform.Wonderware.AlarmEvent
 		/// </code></example>
 		public DataSet GetTopAlarmOccurrences(int topCount, string endDate, int numDays)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+            
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string endDate, int numDays)", ex.Message);
+                throw;
+            }
+
             return DoGetTopOccurrences("v_AlarmHistory2", topCount, DateTime.Parse(endDate), numDays);
         }
 

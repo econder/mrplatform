@@ -91,13 +91,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorLog.cs" />
     <Compile Include="Wonderware\AlarmEvent\IAlarmEventLog.cs" />
     <Compile Include="AlarmEvent\ITagEvent.cs" />
     <Compile Include="Wonderware\AlarmEvent\AlarmEventLog.cs" />
     <Compile Include="DB\Sql\MRDbConnection.cs" />
     <Compile Include="AlarmEvent\UserEvent.cs" />
     <Compile Include="AlarmEvent\TagEvent.cs" />
-    <Compile Include="AlarmEvent\WinEventLog.cs" />
     <Compile Include="InTouch\IWindow.cs" />
     <Compile Include="InTouch\Window.cs" />
     <Compile Include="Message\AreaMessage.cs" />

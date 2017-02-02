@@ -26,6 +26,8 @@ namespace MRPlatform.DB.Sql
 {
     public class MRDbConnection
 	{
+        private ErrorLog _errorLog = new ErrorLog();
+
         public enum RedundantNode : int
         {
             Master,
@@ -133,21 +135,21 @@ namespace MRPlatform.DB.Sql
                     DbConnected = true;
 				}
 			}
-			catch(InvalidOperationException e)
+			catch(InvalidOperationException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("InvalidOperationException: " + e.Message);
-			}
-			catch(SqlException e)
+                _errorLog.LogMessage(this.GetType().Name, "OpenDatabase(SqlConnection dbConnection)", ex.Message);
+                throw;
+            }
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-			}
-			catch(ArgumentException e)
+                _errorLog.LogMessage(this.GetType().Name, "OpenDatabase(SqlConnection dbConnection)", ex.Message);
+                throw;
+            }
+			catch(ArgumentException ex)
 			{
-				WinEventLog winel	 = new WinEventLog();
-				winel.WriteEvent("ArgumentException: " + e.Message);
-			}
+                _errorLog.LogMessage(this.GetType().Name, "OpenDatabase(SqlConnection dbConnection)", ex.Message);
+                throw;
+            }
         }
 
 

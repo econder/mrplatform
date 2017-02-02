@@ -32,6 +32,8 @@ namespace MRPlatform.Message
 	/// </summary>
 	public class UserMessage
 	{
+        private ErrorLog _errorLog = new ErrorLog();
+
         // Global message type = 2 for User Messages
         private const int MESSAGETYPE = 2;
 
@@ -81,11 +83,11 @@ namespace MRPlatform.Message
 			{
 				dbCmd.ExecuteNonQuery();
             }
-			catch(SqlException e)
+			catch(SqlException ex)
 			{
-				WinEventLog winel = new WinEventLog();
-				winel.WriteEvent("SqlException: " + e.Message);
-			}
+                _errorLog.LogMessage(this.GetType().Name, "DoSend(string sender, string recipient, string message, int priority = 2)", ex.Message);
+                throw;
+            }
 		}
 
         
@@ -164,10 +166,10 @@ namespace MRPlatform.Message
             {
                 sqlCmd.ExecuteNonQuery();
             }
-            catch (SqlException e)
+            catch (SqlException ex)
             {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent("SqlException: " + e.Message);
+                _errorLog.LogMessage(this.GetType().Name, "MarkAsUnread(string hmiUserName, int msgId)", ex.Message);
+                throw;
             }
         }
 		
@@ -188,10 +190,10 @@ namespace MRPlatform.Message
             {
                 sqlCmd.ExecuteNonQuery();
             }
-            catch (SqlException e)
+            catch (SqlException ex)
             {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent("SqlException: " + e.Message);
+                _errorLog.LogMessage(this.GetType().Name, "MarkAsRead(string hmiUserName, int msgId)", ex.Message);
+                throw;
             }
         }
 		
@@ -212,10 +214,10 @@ namespace MRPlatform.Message
             {
                 sqlCmd.ExecuteNonQuery();
             }
-            catch (SqlException e)
+            catch (SqlException ex)
             {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent("SqlException: " + e.Message);
+                _errorLog.LogMessage(this.GetType().Name, "Archive(string hmiUserName, int msgId)", ex.Message);
+                throw;
             }
         }
 		
@@ -236,10 +238,10 @@ namespace MRPlatform.Message
             {
                 sqlCmd.ExecuteNonQuery();
             }
-            catch (SqlException e)
+            catch (SqlException ex)
             {
-                WinEventLog winel = new WinEventLog();
-                winel.WriteEvent("SqlException: " + e.Message);
+                _errorLog.LogMessage(this.GetType().Name, "UnArchive(string hmiUserName, int msgId)", ex.Message);
+                throw;
             }
         }
     }

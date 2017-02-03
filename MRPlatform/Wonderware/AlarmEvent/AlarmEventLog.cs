@@ -262,6 +262,9 @@ namespace MRPlatform.Wonderware.AlarmEvent
             if (endDate == null || endDate == "")
                 throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
 
+            if (numDays == 0)
+                throw new ArgumentOutOfRangeException("numDays", "The number of days to search must be less than or greater than zero.");
+            
             DateTime dtEnd = new DateTime();
 
             try
@@ -300,7 +303,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime startDate)
 		{
-			return DoGetTopOccurrences("v_EventHistory2", topCount, startDate, startDate);
+			return DoGetTopOccurrences("v_EventHistory", topCount, startDate, startDate);
 		}
 
 
@@ -322,6 +325,34 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, string startDate)
         {
+            if (topCount < 1)
+            {
+                string msg = "The number of occurrences to return must be greater than zero.";
+                _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate)", msg);
+                throw new ArgumentOutOfRangeException("topCount", msg);
+            }
+
+            if (startDate == null || startDate == "")
+            {
+                string msg = "Start date cannot be blank or null.";
+                _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate)", msg);
+                throw new ArgumentNullException("startDate", msg);
+            }
+
+            DateTime dtStart = new DateTime();
+
+            if (startDate == null)
+                throw new ArgumentNullException("startDate", "Start date cannot be null.");
+
+            DateTime dtStart, dtEnd;
+
+            if (!DateTime.TryParse(startDate, out dtStart))
+            {
+                string msg = "Start date is not a valid DateTime value."
+                _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate)", msg);
+                throw new ArgumentOutOfRangeException("startDate", msg);
+            }
+
             return DoGetTopOccurrences("v_EventHistory", topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -345,7 +376,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime startDate, DateTime endDate)
 		{
-			return DoGetTopOccurrences("v_EventHistory2", topCount, startDate, endDate);
+			return DoGetTopOccurrences("v_EventHistory", topCount, startDate, endDate);
 		}
 
 
@@ -368,6 +399,29 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, string startDate, string endDate)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTopOccurrences("v_EventHistory", topCount, DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 
@@ -391,7 +445,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime endDate, int numDays)
 		{
-			return DoGetTopOccurrences("v_EventHistory2", topCount, endDate, numDays);
+			return DoGetTopOccurrences("v_EventHistory", topCount, endDate, numDays);
 		}
 
 
@@ -414,6 +468,27 @@ namespace MRPlatform.Wonderware.AlarmEvent
 		/// </code></example>
 		public DataSet GetTopEventOccurrences(int topCount, string endDate, int numDays)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            if (numDays == 0)
+                throw new ArgumentOutOfRangeException("numDays", "The number of days to search must be less than or greater than zero.");
+
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string endDate, int numDays)", ex.Message);
+                throw ex;
+            }
+
             return DoGetTopOccurrences("v_EventHistory", topCount, DateTime.Parse(endDate), numDays);
         }
 
@@ -460,6 +535,14 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetAlarmsEvents(string startDate)
         {
+            if (startDate == null)
+                throw new ArgumentNullException("startDate", "Start date cannot be null.");
+
+            DateTime dtStart;
+
+            if (!DateTime.TryParse(startDate, out dtStart))
+                throw new ArgumentOutOfRangeException("startDate", "Start date is not a valid DateTime value.");
+
             return DoGetHistory(DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -504,6 +587,20 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetAlarmsEvents(string startDate, string endDate)
         {
+            if (startDate == null)
+                throw new ArgumentNullException("startDate", "Start date cannot be null.");
+
+            if (endDate == null)
+                throw new ArgumentNullException("endDate", "End date cannot be null.");
+
+            DateTime dtStart, dtEnd;
+
+            if (!DateTime.TryParse(startDate, out dtStart))
+                throw new ArgumentOutOfRangeException("startDate", "Start date is not a valid DateTime value.");
+
+            if(!DateTime.TryParse(endDate, out dtEnd))
+                throw new ArgumentOutOfRangeException("endDate", "End date is not a valid DateTime value.");
+
             return DoGetHistory(DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 

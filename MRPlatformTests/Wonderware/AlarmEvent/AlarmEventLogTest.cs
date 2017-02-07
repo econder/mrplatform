@@ -25,6 +25,7 @@ namespace MRPlatformTests.Wonderware.AlarmEvent
         private AlarmEventLog _ae;
 
         private int _topCount = 500;
+        private int _topCountInvalid = 0;
         private DateTime _startDate = Convert.ToDateTime("2016-09-15 00:00:00.000");
         private DateTime _endDate = Convert.ToDateTime("2016-09-15 23:59:59.999");
         private string _startDateStr = "2016-09-15 00:00:00.000";
@@ -33,6 +34,8 @@ namespace MRPlatformTests.Wonderware.AlarmEvent
 
         private string _startDateStrInvalid = "2016-09-2016 00:00:00.000";
         private string _endDateStrInvalid = "2016-09-2016 23:59:59.999";
+
+        private string _tagName = "WTP_TOD_SYNC";
 
         private DataSet _ds = new DataSet();
 
@@ -277,7 +280,7 @@ namespace MRPlatformTests.Wonderware.AlarmEvent
 
         #endregion
 
-        #region " GetAlarmsEvents(string startDate) "
+        #region " GetAlarmsEvents(startDate) "
 
         [TestMethod]
         public void GetAlarmsEventsWithValidStartDate()
@@ -314,6 +317,159 @@ namespace MRPlatformTests.Wonderware.AlarmEvent
         public void GetAlarmsEventsWithNullStartDateString()
         {
             _ds = _ae.GetAlarmsEvents(null);
+        }
+
+        #endregion
+
+        #region " GetTagHistory(tagName) "
+
+        [TestMethod]
+        public void GetTagHistoryWithValidTagName()
+        {
+            _ds = _ae.GetTagHistory(_tagName);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetTagHistoryWithNullTagName()
+        {
+            _ds = _ae.GetTagHistory(null);
+        }
+
+        #endregion
+
+        #region " GetTagHistory(tagName, startDate) "
+
+        [TestMethod]
+        public void GetTagHistoryWithValidStartDate()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _startDate);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        [TestMethod]
+        public void GetTagHistoryWithValidStartDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _startDateStr);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void GetTagHistoryWithInvalidStartDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _startDateStrInvalid);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetTagHistoryWithNullTagNameValidStartDate()
+        {
+            _ds = _ae.GetTagHistory("", _startDate);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetTagHistoryWithValidTagNameNullStartDate()
+        {
+            _ds = _ae.GetTagHistory(_tagName, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetTagHistoryWithNullStartDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, null);
+        }
+
+        #endregion
+
+        #region " GetTagHistory(tagName, startDate, endDate) "
+
+        [TestMethod]
+        public void GetTagHistoryWithValidStartAndEndDate()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _startDate, _endDate);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        [TestMethod]
+        public void GetTagHistoryWithValidStartAndEndDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _startDateStr, _endDateStr);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void GetTagHistoryWithInvalidStartAndEndDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _startDateStrInvalid, _endDateStrInvalid);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetTagHistoryWithNullStartAndEndDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, "", "");
+        }
+
+        #endregion
+
+        #region " GetTagHistory(tagName, topCount, startDate) "
+
+        [TestMethod]
+        public void GetTagHistoryWithValidTagNameTopCountStartDate()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _topCount, _startDate);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetTagHistoryWithInvalidTagNameValidTopCountStartDate()
+        {
+            _ds = _ae.GetTagHistory("", _topCount, _startDate);
+            Assert.IsTrue(_ds.Tables.Count >= 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count == 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetTagHistoryWithValidTagNameInvalidTopCountValidStartDate()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _topCountInvalid, _startDate);
+            Assert.IsTrue(_ds.Tables.Count >= 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count == 0);
+        }
+
+        [TestMethod]
+        public void GetTagHistoryWithValidTagNameTopCountStartDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _topCount, _startDateStr);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void GetTagHistoryWithValidTagNameTopCountInvalidStartDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _topCount, _startDateStrInvalid);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetTagHistoryWithValidTagNameTopCountNullStartDateString()
+        {
+            _ds = _ae.GetTagHistory(_tagName, _topCount, "");
         }
 
         #endregion

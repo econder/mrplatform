@@ -339,18 +339,13 @@ namespace MRPlatform.Wonderware.AlarmEvent
                 throw new ArgumentNullException("startDate", msg);
             }
 
-            DateTime dtStart = new DateTime();
-
-            if (startDate == null)
-                throw new ArgumentNullException("startDate", "Start date cannot be null.");
-
-            DateTime dtStart, dtEnd;
+            DateTime dtStart;
 
             if (!DateTime.TryParse(startDate, out dtStart))
             {
-                string msg = "Start date is not a valid DateTime value."
+                string msg = "Start date is not a valid DateTime value.";
                 _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate)", msg);
-                throw new ArgumentOutOfRangeException("startDate", msg);
+                throw new FormatException(msg);
             }
 
             return DoGetTopOccurrences("v_EventHistory", topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
@@ -626,6 +621,9 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
             return DoGetTagHistory(tagName);
         }
 
@@ -648,6 +646,9 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, DateTime startDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
             return DoGetTagHistory(tagName, startDate, startDate);
         }
 
@@ -670,6 +671,24 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, string startDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTagHistory(string tagName, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTagHistory(tagName, DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -693,6 +712,9 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, DateTime startDate, DateTime endDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
             return DoGetTagHistory(tagName, startDate, endDate);
         }
 
@@ -716,6 +738,29 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, string startDate, string endDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTagHistory(string tagName, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTagHistory(tagName, DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 
@@ -738,6 +783,12 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
             return DoGetTagHistory(tagName, topCount);
         }
 
@@ -761,6 +812,12 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount, DateTime startDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
             return DoGetTagHistory(tagName, topCount, startDate, startDate);
         }
 
@@ -784,6 +841,27 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount, string startDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTagHistory(string tagName, int topCount, string startDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTagHistory(tagName, topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -808,6 +886,12 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount, DateTime startDate, DateTime endDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
             return DoGetTagHistory(tagName, topCount, startDate, endDate);
         }
 
@@ -832,6 +916,32 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount, string startDate, string endDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTagHistory(string tagName, int topCount, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTagHistory(tagName, topCount, DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 

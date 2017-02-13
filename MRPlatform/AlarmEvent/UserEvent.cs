@@ -35,51 +35,48 @@ namespace MRPlatform.AlarmEvent
 	/// </summary>
 	public class UserEvent
 	{
+        private MRDbConnection _dbConnection;
 
         public UserEvent(MRDbConnection mrDbConnection)
         {
-            DbConnection = mrDbConnection;
+            _dbConnection = mrDbConnection;
         }
 
-		
-        /// <summary>
-        /// Class destructor
-        /// </summary>
-		~UserEvent()
-		{
-            if (DbConnection.DatabaseConnection.State == ConnectionState.Open)
+        public IDbConnection Connection
+        {
+            get
             {
-                DbConnection.DatabaseConnection.Close();
+                return new SqlConnection(_dbConnection.ConnectionString);
             }
         }
-		
-		
-		/// <summary>
-		/// LogEvent Method
-		/// </summary>
-		/// <remarks>Method to log events to the mrsystems SQL Server database using an 
-		/// existing, open SqlConnection object to connect to the database.</remarks>
-		/// <param name="userName">String object of the HMI username of the user currently logged in.</param>
-		/// <param name="nodeName">String object of the HMI client node name the event is generated from.</param>
-		/// <param name="eventMessage">String object of the event description.</param>
-		/// <param name="eventType">Integer object defining the event type.</param>
-		/// <param name="eventSource">String object of the event source. (e.g. Flow Setpoint, Alarm Summary, etc. 
-		/// Just use a descriptive source name that tells the user where the event is coming from.</param>
-		/// <returns>Integer value representing the number of records affected by the query.</returns>
-		/// <example>Example:<code>
-		/// MREvent mrel = new MREvent();
-		/// mrel.LogEvent(userName, nodeName, eventMessage, eventType, eventSource);
-		/// </code></example>
-		public void LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource)
+
+
+        /// <summary>
+        /// LogEvent Method
+        /// </summary>
+        /// <remarks>Method to log events to the mrsystems SQL Server database using an 
+        /// existing, open SqlConnection object to connect to the database.</remarks>
+        /// <param name="userName">String object of the HMI username of the user currently logged in.</param>
+        /// <param name="nodeName">String object of the HMI client node name the event is generated from.</param>
+        /// <param name="eventMessage">String object of the event description.</param>
+        /// <param name="eventType">Integer object defining the event type.</param>
+        /// <param name="eventSource">String object of the event source. (e.g. Flow Setpoint, Alarm Summary, etc. 
+        /// Just use a descriptive source name that tells the user where the event is coming from.</param>
+        /// <returns>Integer value representing the number of records affected by the query.</returns>
+        /// <example>Example:<code>
+        /// MREvent mrel = new MREvent();
+        /// mrel.LogEvent(userName, nodeName, eventMessage, eventType, eventSource);
+        /// </code></example>
+        public void LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource)
 		{
-			SqlCommand dbCmd = new SqlCommand();
-			string sQuery = "";
-			
-			sQuery = "INSERT INTO EventLog(userName, nodeName, evtMessage, evtType, evtSource VALUES('" + userName + "', '" + nodeName + "', '" + eventMessage + "', " + eventType + ", '" + eventSource + "')";
-			
-			dbCmd.CommandText = sQuery;
-            dbCmd.Connection = DbConnection.DatabaseConnection;
-            dbCmd.ExecuteNonQuery();
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "INSERT INTO EventLog(userName, nodeName, evtMessage, evtType, evtSource)" +
+                                " VALUES('" + userName + "', '" + nodeName + "', '" + eventMessage + "', " + eventType + ", '" + eventSource + "')";
+
+                SqlCommand dbCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                dbCmd.ExecuteNonQuery();
+            }
 		}
         
 		
@@ -90,15 +87,15 @@ namespace MRPlatform.AlarmEvent
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(int nRecordCount)
 		{
-			string sQuery = "SELECT TOP " + nRecordCount.ToString() + " * FROM EventLog ORDER BY evtDateTime DESC";
-			
-			DataSet ds = new DataSet();
-			ds = DoGetDataSetFromQuery(sQuery);
+            string sQuery = "SELECT TOP " + nRecordCount.ToString() + " * " +
+                            " FROM EventLog" +
+                            " ORDER BY evtDateTime DESC";
 
-            EventHistory = ds;
-			
-			return ds;
-		}
+            DataSet ds = new DataSet();
+            ds = DoGetDataSetFromQuery(sQuery);
+
+            return ds;
+        }
 		
 		
 		/// <summary>GetEventHistory Method</summary>
@@ -108,11 +105,15 @@ namespace MRPlatform.AlarmEvent
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(DateTime startDate)
 		{
-			string sQuery = "SELECT * FROM EventLog WHERE evtDateTime >= '" + startDate + " 00:00:00.000' AND evtDateTime <= '" + startDate + "23:59:59.999' ORDER BY evtDateTime";
+			string sQuery = "SELECT * " +
+                            " FROM EventLog" +
+                            " WHERE evtDateTime >= '" + startDate + " 00:00:00.000'" +
+                            " AND evtDateTime <= '" + startDate + "23:59:59.999'" + 
+                            " ORDER BY evtDateTime";
 			
 			DataSet ds = new DataSet();
 			ds = DoGetDataSetFromQuery(sQuery);
-			
+
 			return ds;
 		}
 		
@@ -125,7 +126,11 @@ namespace MRPlatform.AlarmEvent
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(DateTime startDateTime, DateTime endDateTime)
 		{
-			string sQuery = "SELECT * FROM EventLog WHERE evtDateTime >= '" + startDateTime + "' AND evtDateTime <= '" + endDateTime + "' ORDER BY evtDateTime";
+			string sQuery = "SELECT * " + 
+                            " FROM EventLog" + 
+                            " WHERE evtDateTime >= '" + startDateTime + "'" +
+                            " AND evtDateTime <= '" + endDateTime + "'" +
+                            " ORDER BY evtDateTime";
 			
 			DataSet ds = new DataSet();
 			ds = DoGetDataSetFromQuery(sQuery);
@@ -136,18 +141,14 @@ namespace MRPlatform.AlarmEvent
 		
 		private DataSet DoGetDataSetFromQuery(string sQuery)
 		{
-			DataSet ds = new DataSet();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
-			dbAdapt.Fill(ds);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                DataSet ds = new DataSet();
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                dbAdapt.Fill(ds);
 
-            EventHistory = ds;
-			
-			return ds;
+                return ds;
+            }
 		}
-		
-		
-        //Class Properties
-        private MRDbConnection DbConnection { get; set; }
-		public DataSet EventHistory { get; set; }
 	}
 }

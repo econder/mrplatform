@@ -29,7 +29,7 @@
  * 			    	constructor.
  * 
  *       2014-07-01	Added GetAlarmsEvents methods to return alarms & events from a date or date range.
- * 
+ *  
  *   
  * *************************************************************************************************/
 using System;
@@ -54,7 +54,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
         private ErrorLog _errorLog = new ErrorLog();
 
         //Properties
-        private MRDbConnection DbConnection { get; set; }
+        private MRDbConnection _dbConnection;
 
         /// <summary>Initializes a new instance of MRAlarmEventLog.</summary>
         /// <param name="mrDbConnection"></param>
@@ -67,19 +67,16 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// </code></example>
 		public AlarmEventLog(MRDbConnection mrDbConnection)
 		{
-            DbConnection = mrDbConnection;
+            _dbConnection = mrDbConnection;
 		}
-		
-		~AlarmEventLog()
-		{
-            /*
-            if(DbConnection.DatabaseConnection.State == ConnectionState.Open)
+
+        public IDbConnection Connection
+        {
+            get
             {
-                //DbConnection.DatabaseConnection.Close();
-                DbConnection.DatabaseConnection.Dispose();
+                return new SqlConnection(_dbConnection.ConnectionString);
             }
-            */
-		}
+        }
 
 
         #region " GetTopAlarmOccurrences "
@@ -1183,25 +1180,41 @@ namespace MRPlatform.Wonderware.AlarmEvent
 
         private DataSet DoGetTopOccurrences(string tableName, int topCount, DateTime startDate, DateTime endDate)
 		{
-			DataSet ds = new DataSet();
-			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= '" + startDate.ToShortDateString() + "' AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
-			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
-			dbAdapt.Fill(ds);
-			
-			return ds;
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*)" + 
+                                " FROM " + tableName + 
+                                " WHERE EventStamp >= '" + startDate.ToShortDateString() + "'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " GROUP BY TagName" + 
+                                " ORDER BY Count(*) DESC";
+
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                dbAdapt.Fill(ds);
+
+                return ds;
+            }
 		}
 		
 		
 		private DataSet DoGetTopOccurrences(string tableName, int topCount, DateTime endDate, int numDays)
 		{
-			DataSet ds = new DataSet();
-			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= DATEADD(day, " + numDays.ToString() + ", EventStamp) AND EventStamp <= '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
-			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
-			dbAdapt.Fill(ds);
-			
-			return ds;
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*)" +
+                                " FROM " + tableName +
+                                " WHERE EventStamp >= DATEADD(day, " + numDays.ToString() + ", EventStamp)" +
+                                " AND EventStamp <= '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " GROUP BY TagName" + 
+                                " ORDER BY Count(*) DESC";
+
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                dbAdapt.Fill(ds);
+
+                return ds;
+            }
 		}
 
         #endregion
@@ -1215,16 +1228,19 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetTagHistory(string tagName)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Value, Operator" +
-                                                   " FROM v_AlarmEventHistory2" +
-                                                   " WHERE TagName = '" + tagName + "'" +
-                                                   " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, Value, Operator" +
+                            " FROM v_AlarmEventHistory2" +
+                            " WHERE TagName = '" + tagName + "'" +
+                            " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1234,16 +1250,19 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetTagHistory(string tagName, int topCount)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
-                                                   " FROM v_AlarmEventHistory2" +
-                                                   " WHERE TagName = '" + tagName + "'" +
-                                                   " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE TagName = '" + tagName + "'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1253,18 +1272,21 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetTagHistory(string tagName, DateTime startDate, DateTime endDate)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Value, Operator" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE TagName = '" + tagName + "'" +
-                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, Value, Operator" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE TagName = '" + tagName + "'" +
+                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1274,18 +1296,21 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetTagHistory(string tagName, int topCount, DateTime startDate, DateTime endDate)
         {
-           SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE TagName = '" + tagName + "'" +
-                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
-            
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
-            
-            return ds;
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE TagName = '" + tagName + "'" +
+                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
+
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
+
+                return ds;
+            }
         }
 
         #endregion
@@ -1299,16 +1324,19 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetUserHistory(string userName)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE Operator = '" + userName + "'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE Operator = '" + userName + "'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1318,16 +1346,19 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetUserHistory(string userName, int topCount)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE Operator = '" + userName + "'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE Operator = '" + userName + "'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1337,18 +1368,21 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetUserHistory(string userName, DateTime startDate, DateTime endDate)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE Operator = '" + userName + "'" +
-                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE Operator = '" + userName + "'" +
+                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1358,18 +1392,21 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetUserHistory(string userName, int topCount, DateTime startDate, DateTime endDate)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE Operator = '" + userName + "'" +
-                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE Operator = '" + userName + "'" +
+                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
         #endregion
@@ -1383,17 +1420,20 @@ namespace MRPlatform.Wonderware.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetHistory(DateTime startDate, DateTime endDate)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Area, Description, Type, Value, CheckValue, AlarmState, AlarmDuration, Operator, TagName" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DatabaseConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, Area, Description, Type, Value, CheckValue, AlarmState, AlarmDuration, Operator, TagName" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
         #endregion

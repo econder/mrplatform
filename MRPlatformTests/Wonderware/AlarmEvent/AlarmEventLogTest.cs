@@ -44,8 +44,6 @@ namespace MRPlatformTests.Wonderware.AlarmEvent
         public void Initialize()
         {
             _mrdb = new MRDbConnection(_dbServer, _dbName, _dbUser, _dbPass);
-            Assert.IsTrue(_mrdb.DbConnected);
-
             _ae = new AlarmEventLog(_mrdb);
         }
 

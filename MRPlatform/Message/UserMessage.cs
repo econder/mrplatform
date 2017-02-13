@@ -32,30 +32,17 @@ namespace MRPlatform.Message
 	/// </summary>
 	public class UserMessage
 	{
-        private ErrorLog _errorLog = new ErrorLog();
+        private ErrorLog _errorLog;
+        private MRDbConnection _dbConnection;
 
         // Global message type = 2 for User Messages
         private const int MESSAGETYPE = 2;
 
-        //Properties
-        private MRDbConnection DbConnection { get; set; }
-
 
         public UserMessage(MRDbConnection mrDbConnection)
 		{
-            DbConnection = mrDbConnection;
-        }
-
-
-        /// <summary>
-        /// Class destructor
-        /// </summary>
-        ~UserMessage()
-		{
-            if (DbConnection.DatabaseConnection.State == ConnectionState.Open)
-            {
-                DbConnection.DatabaseConnection.Close();
-            }
+            _errorLog = new ErrorLog();
+            _dbConnection = mrDbConnection;
         }
 
 
@@ -76,17 +63,22 @@ namespace MRPlatform.Message
 		
 		private void DoSend(string sender, string recipient, string message, int priority = 2)
 		{
-			string sQuery = "INSERT INTO Messages(sender, nodeName, recipient, message, type) VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + priority + ")";
-			SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DatabaseConnection);
-			
-			try
-			{
-				dbCmd.ExecuteNonQuery();
-            }
-			catch(SqlException ex)
-			{
-                _errorLog.LogMessage(this.GetType().Name, "DoSend(string sender, string recipient, string message, int priority = 2)", ex.Message);
-                throw;
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "INSERT INTO Messages(sender, nodeName, recipient, message, type)" + 
+                                " VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + priority + ")";
+
+                SqlCommand dbCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+
+                try
+                {
+                    dbCmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "DoSend(string sender, string recipient, string message, int priority = 2)", ex.Message);
+                    throw;
+                }
             }
 		}
 
@@ -139,109 +131,106 @@ namespace MRPlatform.Message
 
         private DataSet DoGetMessages(string sQuery)
         {
-            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
-                DbConnection.DatabaseConnection = new SqlConnection();
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DatabaseConnection);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
-
-            return ds;
+                return ds;
+            }
         }
 
 
         public void MarkAsUnread(string hmiUserName, int msgId)
 		{
-            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
-                DbConnection.DatabaseConnection = new SqlConnection();
-
-            SqlCommand sqlCmd = new SqlCommand();
-            sqlCmd.CommandText = "DELETE FROM MessagesRead WHERE msgId = @msgId AND userName = @userName";
-            sqlCmd.Connection = DbConnection.DatabaseConnection;
-
-            sqlCmd.Parameters.AddWithValue("@msgId", msgId);
-            sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
-
-            try
+            using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                sqlCmd.ExecuteNonQuery();
-            }
-            catch (SqlException ex)
-            {
-                _errorLog.LogMessage(this.GetType().Name, "MarkAsUnread(string hmiUserName, int msgId)", ex.Message);
-                throw;
+                string sQuery = "DELETE FROM MessagesRead WHERE msgId = @msgId AND userName = @userName";
+
+                SqlCommand sqlCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
+                sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
+
+                try
+                {
+                    sqlCmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "MarkAsUnread(string hmiUserName, int msgId)", ex.Message);
+                    throw;
+                }
             }
         }
 		
 		
 		public void MarkAsRead(string hmiUserName, int msgId)
         {
-            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
-                DbConnection.DatabaseConnection = new SqlConnection();
-
-            SqlCommand sqlCmd = new SqlCommand();
-            sqlCmd.CommandText = "INSERT INTO MessagesRead(msgId, userName) VALUES(@msgId,@userName)";
-            sqlCmd.Connection = DbConnection.DatabaseConnection;
-
-            sqlCmd.Parameters.AddWithValue("@msgId", msgId);
-            sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
-
-            try
+            using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                sqlCmd.ExecuteNonQuery();
-            }
-            catch (SqlException ex)
-            {
-                _errorLog.LogMessage(this.GetType().Name, "MarkAsRead(string hmiUserName, int msgId)", ex.Message);
-                throw;
+                string sQuery = "INSERT INTO MessagesRead(msgId, userName) VALUES(@msgId,@userName)";
+
+                SqlCommand sqlCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
+                sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
+
+                try
+                {
+                    sqlCmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "MarkAsRead(string hmiUserName, int msgId)", ex.Message);
+                    throw;
+                }
             }
         }
 		
 		
 		public void Archive(string hmiUserName, int msgId)
         {
-            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
-                DbConnection.DatabaseConnection = new SqlConnection();
-
-            SqlCommand sqlCmd = new SqlCommand();
-            sqlCmd.CommandText = "INSERT INTO MessagesArchived(msgId, userName) VALUES(@msgId,@userName)";
-            sqlCmd.Connection = DbConnection.DatabaseConnection;
-
-            sqlCmd.Parameters.AddWithValue("@msgId", msgId);
-            sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
-
-            try
+            using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                sqlCmd.ExecuteNonQuery();
-            }
-            catch (SqlException ex)
-            {
-                _errorLog.LogMessage(this.GetType().Name, "Archive(string hmiUserName, int msgId)", ex.Message);
-                throw;
+                string sQuery = "INSERT INTO MessagesArchived(msgId, userName) VALUES(@msgId,@userName)";
+
+                SqlCommand sqlCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
+                sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
+
+                try
+                {
+                    sqlCmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "Archive(string hmiUserName, int msgId)", ex.Message);
+                    throw;
+                }
             }
         }
 		
 		
 		public void UnArchive(string hmiUserName, int msgId)
         {
-            if (DbConnection.DatabaseConnection.State != ConnectionState.Open)
-                DbConnection.DatabaseConnection = new SqlConnection();
-
-            SqlCommand sqlCmd = new SqlCommand();
-            sqlCmd.CommandText = "DELETE FROM MessagesArchived WHERE msgId = @msgId AND userName = @userName";
-            sqlCmd.Connection = DbConnection.DatabaseConnection;
-
-            sqlCmd.Parameters.AddWithValue("@msgId", msgId);
-            sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
-
-            try
+            using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                sqlCmd.ExecuteNonQuery();
-            }
-            catch (SqlException ex)
-            {
-                _errorLog.LogMessage(this.GetType().Name, "UnArchive(string hmiUserName, int msgId)", ex.Message);
-                throw;
+
+                string sQuery = "DELETE FROM MessagesArchived WHERE msgId = @msgId AND userName = @userName";
+
+                SqlCommand sqlCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
+                sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
+
+                try
+                {
+                    sqlCmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "UnArchive(string hmiUserName, int msgId)", ex.Message);
+                    throw;
+                }
             }
         }
     }

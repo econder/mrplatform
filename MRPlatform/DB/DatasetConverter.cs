@@ -19,7 +19,7 @@ namespace MRPlatform.DB
     {
         public DataSetConverter()
         {
-            // Class constructor
+            // Class constructorL
         }
 
         public string GetADORecordset(DataSet dataSet, string databaseName)

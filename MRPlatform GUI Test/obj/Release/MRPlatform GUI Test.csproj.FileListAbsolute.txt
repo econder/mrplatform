@@ -10,3 +10,18 @@ C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Releas
 C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Release\MRPlatform_GUI_Test.MainForm.resources
 C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Release\MRPlatform GUI Test.csproj.GenerateResource.Cache
 C:\mrsystems\SharpDevelop Projects\MRPlatform2014\MRPlatform GUI Test\obj\Release\MRPlatform GUI Test.exe
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\MRPlatform GUI Test.exe.config
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\MRPlatform GUI Test.exe
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\MRPlatform.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\MRDbSync.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\Microsoft.Synchronization.Data.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\Microsoft.Synchronization.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\Microsoft.Synchronization.Data.SqlServer.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\MRDbSync.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\Microsoft.Synchronization.Data.xml
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\Microsoft.Synchronization.xml
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Release\Microsoft.Synchronization.Data.SqlServer.xml
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Release\MRPlatform GUI Test.csprojResolveAssemblyReference.cache
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Release\MRPlatform_GUI_Test.MainForm.resources
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Release\MRPlatform GUI Test.csproj.GenerateResource.Cache
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Release\MRPlatform GUI Test.exe

@@ -50,9 +50,32 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <Prefer32Bit>False</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <Prefer32Bit>False</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <FileAlignment>4096</FileAlignment>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>None</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MRDbSync">
@@ -63,21 +86,31 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Instrumentation" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlarmEvent\IMRAlarmEventLog.cs" />
-    <Compile Include="AlarmEvent\IMRTagEvent.cs" />
-    <Compile Include="AlarmEvent\MRAlarmEventLog.cs" />
-    <Compile Include="Data\Sql\MRDbConnection.cs" />
-    <Compile Include="AlarmEvent\MREvent.cs" />
-    <Compile Include="AlarmEvent\MRTagEvent.cs" />
-    <Compile Include="AlarmEvent\WinEventLog.cs" />
+    <Compile Include="ErrorLog.cs" />
+    <Compile Include="Wonderware\AlarmEvent\IAlarmEventLog.cs" />
+    <Compile Include="AlarmEvent\ITagEvent.cs" />
+    <Compile Include="Wonderware\AlarmEvent\AlarmEventLog.cs" />
+    <Compile Include="DB\Sql\MRDbConnection.cs" />
+    <Compile Include="AlarmEvent\UserEvent.cs" />
+    <Compile Include="AlarmEvent\TagEvent.cs" />
     <Compile Include="InTouch\IWindow.cs" />
     <Compile Include="InTouch\Window.cs" />
-    <Compile Include="Message\MRAreaMessage.cs" />
-    <Compile Include="Message\MRMessage.cs" />
+    <Compile Include="Message\AreaMessage.cs" />
+    <Compile Include="Message\UserMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WMI\ILogicalDisk.cs" />
+    <Compile Include="WMI\ILogicalDisks.cs" />
+    <Compile Include="WMI\IOperatingSystem.cs" />
+    <Compile Include="WMI\IProcessor.cs" />
+    <Compile Include="WMI\LogicalDisk.cs" />
+    <Compile Include="WMI\LogicalDisks.cs" />
+    <Compile Include="WMI\OperatingSystem.cs" />
+    <Compile Include="WMI\Processor.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -29,7 +29,7 @@
  * 			    	constructor.
  * 
  *       2014-07-01	Added GetAlarmsEvents methods to return alarms & events from a date or date range.
- * 
+ *  
  *   
  * *************************************************************************************************/
 using System;
@@ -37,10 +37,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 
-using MRPlatform.Data.Sql;
+using MRPlatform.DB.Sql;
 
 
-namespace MRPlatform.AlarmEvent
+namespace MRPlatform.Wonderware.AlarmEvent
 {
     /// <summary>
     /// MRPlatform.AlarmEvent.MRAlarmEventLog class.
@@ -48,12 +48,13 @@ namespace MRPlatform.AlarmEvent
     [ComVisible(true)]
     [Guid("96E0CD61-EC8D-428F-BAF7-0A0910A6432F"),
         ClassInterface(ClassInterfaceType.None),
-        ComSourceInterfaces(typeof(IMRAlarmEventLog))]
-    public class MRAlarmEventLog : IMRAlarmEventLog
+        ComSourceInterfaces(typeof(IAlarmEventLog))]
+    public class AlarmEventLog : IAlarmEventLog
 	{
-        //Properties
-        private MRDbConnection DbConnection { get; set; }
+        private ErrorLog _errorLog = new ErrorLog();
 
+        //Properties
+        private MRDbConnection _dbConnection;
 
         /// <summary>Initializes a new instance of MRAlarmEventLog.</summary>
         /// <param name="mrDbConnection"></param>
@@ -64,15 +65,18 @@ namespace MRPlatform.AlarmEvent
         /// //Create instance of MRAlarmEventLog
         /// MRAlarmEventLog mrae = new MRAlarmEventLog(mrdb);
         /// </code></example>
-		public MRAlarmEventLog(MRDbConnection mrDbConnection)
+		public AlarmEventLog(MRDbConnection mrDbConnection)
 		{
-			
+            _dbConnection = mrDbConnection;
 		}
-		
-		~MRAlarmEventLog()
-		{
-			
-		}
+
+        public IDbConnection Connection
+        {
+            get
+            {
+                return new SqlConnection(_dbConnection.ConnectionString);
+            }
+        }
 
 
         #region " GetTopAlarmOccurrences "
@@ -95,7 +99,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopAlarmOccurrences(int topCount, DateTime startDate)
 		{
-			return DoGetTopOccurrences("AlarmHistory2", topCount, startDate, startDate);
+			return DoGetTopOccurrences("v_AlarmHistory2", topCount, startDate, startDate);
 		}
 
 
@@ -117,6 +121,23 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
 		public DataSet GetTopAlarmOccurrences(int topCount, string startDate)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+            
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+
+            try {
+                dtStart = DateTime.Parse(startDate);
+            }
+            catch(FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string startDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTopOccurrences("v_AlarmHistory2", topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -140,7 +161,7 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTopAlarmOccurrences(int topCount, DateTime startDate, DateTime endDate)
 		{
-			return DoGetTopOccurrences("AlarmHistory2", topCount, startDate, endDate);
+			return DoGetTopOccurrences("v_AlarmHistory2", topCount, startDate, endDate);
 		}
 
 
@@ -163,6 +184,29 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTopAlarmOccurrences(int topCount, string startDate, string endDate)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTopOccurrences("v_AlarmHistory2", topCount, DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 
@@ -186,7 +230,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopAlarmOccurrences(int topCount, DateTime endDate, int numDays)
 		{
-			return DoGetTopOccurrences("AlarmHistory2", topCount, endDate, numDays);
+			return DoGetTopOccurrences("v_AlarmHistory2", topCount, endDate, numDays);
 		}
 
 
@@ -209,6 +253,27 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
 		public DataSet GetTopAlarmOccurrences(int topCount, string endDate, int numDays)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+            
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            if (numDays == 0)
+                throw new ArgumentOutOfRangeException("numDays", "The number of days to search must be less than or greater than zero.");
+            
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string endDate, int numDays)", ex.Message);
+                throw;
+            }
+
             return DoGetTopOccurrences("v_AlarmHistory2", topCount, DateTime.Parse(endDate), numDays);
         }
 
@@ -235,7 +300,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime startDate)
 		{
-			return DoGetTopOccurrences("EventHistory2", topCount, startDate, startDate);
+			return DoGetTopOccurrences("v_EventHistory", topCount, startDate, startDate);
 		}
 
 
@@ -257,6 +322,29 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, string startDate)
         {
+            if (topCount < 1)
+            {
+                string msg = "The number of occurrences to return must be greater than zero.";
+                _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate)", msg);
+                throw new ArgumentOutOfRangeException("topCount", msg);
+            }
+
+            if (startDate == null || startDate == "")
+            {
+                string msg = "Start date cannot be blank or null.";
+                _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate)", msg);
+                throw new ArgumentNullException("startDate", msg);
+            }
+
+            DateTime dtStart;
+
+            if (!DateTime.TryParse(startDate, out dtStart))
+            {
+                string msg = "Start date is not a valid DateTime value.";
+                _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate)", msg);
+                throw new FormatException(msg);
+            }
+
             return DoGetTopOccurrences("v_EventHistory", topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -280,7 +368,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime startDate, DateTime endDate)
 		{
-			return DoGetTopOccurrences("EventHistory2", topCount, startDate, endDate);
+			return DoGetTopOccurrences("v_EventHistory", topCount, startDate, endDate);
 		}
 
 
@@ -303,6 +391,29 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, string startDate, string endDate)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopEventOccurrences(int topCount, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTopOccurrences("v_EventHistory", topCount, DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 
@@ -326,7 +437,7 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public DataSet GetTopEventOccurrences(int topCount, DateTime endDate, int numDays)
 		{
-			return DoGetTopOccurrences("EventHistory2", topCount, endDate, numDays);
+			return DoGetTopOccurrences("v_EventHistory", topCount, endDate, numDays);
 		}
 
 
@@ -349,6 +460,27 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
 		public DataSet GetTopEventOccurrences(int topCount, string endDate, int numDays)
         {
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            if (numDays == 0)
+                throw new ArgumentOutOfRangeException("numDays", "The number of days to search must be less than or greater than zero.");
+
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string endDate, int numDays)", ex.Message);
+                throw ex;
+            }
+
             return DoGetTopOccurrences("v_EventHistory", topCount, DateTime.Parse(endDate), numDays);
         }
 
@@ -395,6 +527,14 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetAlarmsEvents(string startDate)
         {
+            if (startDate == null)
+                throw new ArgumentNullException("startDate", "Start date cannot be null.");
+
+            DateTime dtStart;
+
+            if (!DateTime.TryParse(startDate, out dtStart))
+                throw new ArgumentOutOfRangeException("startDate", "Start date is not a valid DateTime value.");
+
             return DoGetHistory(DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -439,6 +579,20 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetAlarmsEvents(string startDate, string endDate)
         {
+            if (startDate == null)
+                throw new ArgumentNullException("startDate", "Start date cannot be null.");
+
+            if (endDate == null)
+                throw new ArgumentNullException("endDate", "End date cannot be null.");
+
+            DateTime dtStart, dtEnd;
+
+            if (!DateTime.TryParse(startDate, out dtStart))
+                throw new ArgumentOutOfRangeException("startDate", "Start date is not a valid DateTime value.");
+
+            if(!DateTime.TryParse(endDate, out dtEnd))
+                throw new ArgumentOutOfRangeException("endDate", "End date is not a valid DateTime value.");
+
             return DoGetHistory(DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 
@@ -464,6 +618,9 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
             return DoGetTagHistory(tagName);
         }
 
@@ -486,6 +643,9 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, DateTime startDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
             return DoGetTagHistory(tagName, startDate, startDate);
         }
 
@@ -508,6 +668,24 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, string startDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTagHistory(string tagName, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTagHistory(tagName, DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -531,6 +709,9 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, DateTime startDate, DateTime endDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
             return DoGetTagHistory(tagName, startDate, endDate);
         }
 
@@ -554,6 +735,29 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, string startDate, string endDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTagHistory(string tagName, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTagHistory(tagName, DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 
@@ -576,6 +780,12 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
             return DoGetTagHistory(tagName, topCount);
         }
 
@@ -599,6 +809,12 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount, DateTime startDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
             return DoGetTagHistory(tagName, topCount, startDate, startDate);
         }
 
@@ -622,6 +838,27 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount, string startDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTagHistory(string tagName, int topCount, string startDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTagHistory(tagName, topCount, DateTime.Parse(startDate), DateTime.Parse(startDate));
         }
 
@@ -646,6 +883,12 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount, DateTime startDate, DateTime endDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
             return DoGetTagHistory(tagName, topCount, startDate, endDate);
         }
 
@@ -670,6 +913,32 @@ namespace MRPlatform.AlarmEvent
         /// </code></example>
         public DataSet GetTagHistory(string tagName, int topCount, string startDate, string endDate)
         {
+            if (tagName == null || tagName == "")
+                throw new ArgumentNullException("tagName", "Tag name cannot be blank or null.");
+
+            if (topCount < 1)
+                throw new ArgumentOutOfRangeException("topCount", "The number of occurrences to return must be greater than zero.");
+
+            if (startDate == null || startDate == "")
+                throw new ArgumentNullException("startDate", "Start date cannot be blank or null.");
+
+            if (endDate == null || endDate == "")
+                throw new ArgumentNullException("endDate", "End date cannot be blank or null.");
+
+            DateTime dtStart = new DateTime();
+            DateTime dtEnd = new DateTime();
+
+            try
+            {
+                dtStart = DateTime.Parse(startDate);
+                dtEnd = DateTime.Parse(endDate);
+            }
+            catch (FormatException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetTagHistory(string tagName, int topCount, string startDate, string endDate)", ex.Message);
+                throw;
+            }
+
             return DoGetTagHistory(tagName, topCount, DateTime.Parse(startDate), DateTime.Parse(endDate));
         }
 
@@ -911,25 +1180,41 @@ namespace MRPlatform.AlarmEvent
 
         private DataSet DoGetTopOccurrences(string tableName, int topCount, DateTime startDate, DateTime endDate)
 		{
-			DataSet ds = new DataSet();
-			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= '" + startDate.ToShortDateString() + "' AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
-			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
-			dbAdapt.Fill(ds);
-			
-			return ds;
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*)" + 
+                                " FROM " + tableName + 
+                                " WHERE EventStamp >= '" + startDate.ToShortDateString() + "'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " GROUP BY TagName" + 
+                                " ORDER BY Count(*) DESC";
+
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                dbAdapt.Fill(ds);
+
+                return ds;
+            }
 		}
 		
 		
 		private DataSet DoGetTopOccurrences(string tableName, int topCount, DateTime endDate, int numDays)
 		{
-			DataSet ds = new DataSet();
-			string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*) FROM " + tableName + " WHERE EventStamp >= DATEADD(day, " + numDays.ToString() + ", EventStamp) AND EventStamp <= '" + endDate.ToShortDateString() + " 23:59:59.999' GROUP BY TagName ORDER BY Count(*) DESC";
-			
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
-			dbAdapt.Fill(ds);
-			
-			return ds;
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT TOP(" + topCount + ") TagName, Count(*)" +
+                                " FROM " + tableName +
+                                " WHERE EventStamp >= DATEADD(day, " + numDays.ToString() + ", EventStamp)" +
+                                " AND EventStamp <= '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " GROUP BY TagName" + 
+                                " ORDER BY Count(*) DESC";
+
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                dbAdapt.Fill(ds);
+
+                return ds;
+            }
 		}
 
         #endregion
@@ -943,16 +1228,19 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetTagHistory(string tagName)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Value, Operator" +
-                                                   " FROM v_AlarmEventHistory2" +
-                                                   " WHERE TagName = '" + tagName + "'" +
-                                                   " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, Value, Operator" +
+                            " FROM v_AlarmEventHistory2" +
+                            " WHERE TagName = '" + tagName + "'" +
+                            " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -962,16 +1250,19 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetTagHistory(string tagName, int topCount)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
-                                                   " FROM v_AlarmEventHistory2" +
-                                                   " WHERE TagName = '" + tagName + "'" +
-                                                   " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE TagName = '" + tagName + "'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -981,18 +1272,21 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetTagHistory(string tagName, DateTime startDate, DateTime endDate)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Value, Operator" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE TagName = '" + tagName + "'" +
-                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, Value, Operator" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE TagName = '" + tagName + "'" +
+                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1002,18 +1296,21 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetTagHistory(string tagName, int topCount, DateTime startDate, DateTime endDate)
         {
-           SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE TagName = '" + tagName + "'" +
-                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
-            
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
-            
-            return ds;
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT TOP " + topCount.ToString() + " EventStamp, Value, Operator" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE TagName = '" + tagName + "'" +
+                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
+
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
+
+                return ds;
+            }
         }
 
         #endregion
@@ -1027,16 +1324,19 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetUserHistory(string userName)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE Operator = '" + userName + "'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE Operator = '" + userName + "'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1046,16 +1346,19 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetUserHistory(string userName, int topCount)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE Operator = '" + userName + "'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE Operator = '" + userName + "'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1065,18 +1368,21 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetUserHistory(string userName, DateTime startDate, DateTime endDate)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE Operator = '" + userName + "'" +
-                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE Operator = '" + userName + "'" +
+                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
 
@@ -1086,18 +1392,21 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetUserHistory(string userName, int topCount, DateTime startDate, DateTime endDate)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE Operator = '" + userName + "'" +
-                                               " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT TOP " + topCount.ToString() + " EventStamp, AlarmState, TagName, Description, Area, Type, Value, CheckValue, Operator, AlarmDuration, OperatorNode" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE Operator = '" + userName + "'" +
+                                " AND EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
         #endregion
@@ -1111,17 +1420,20 @@ namespace MRPlatform.AlarmEvent
         /// <returns>System.Data.DataSet</returns>
         private DataSet DoGetHistory(DateTime startDate, DateTime endDate)
         {
-            SqlCommand sqlCmd = new SqlCommand("SELECT EventStamp, Area, Description, Type, Value, CheckValue, AlarmState, AlarmDuration, Operator, TagName" +
-                                               " FROM v_AlarmEventHistory2" +
-                                               " WHERE EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
-                                               " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
-                                               " ORDER BY EventStamp DESC", DbConnection.DbConnection);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "SELECT EventStamp, Area, Description, Type, Value, CheckValue, AlarmState, AlarmDuration, Operator, TagName" +
+                                " FROM v_AlarmEventHistory2" +
+                                " WHERE EventStamp >= '" + startDate.ToShortDateString() + " 00:00:00.000'" +
+                                " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
+                                " ORDER BY EventStamp DESC";
 
-            SqlDataAdapter dbAdapt = new SqlDataAdapter(sqlCmd);
-            DataSet ds = new DataSet();
-            dbAdapt.Fill(ds);
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                dbAdapt.Fill(ds);
 
-            return ds;
+                return ds;
+            }
         }
 
         #endregion

@@ -15,7 +15,7 @@ using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 
 using MRPlatform.AlarmEvent;
-using MRPlatform.Data.Sql;
+using MRPlatform.DB.Sql;
 	
 
 namespace MRPlatform.AlarmEvent
@@ -24,32 +24,30 @@ namespace MRPlatform.AlarmEvent
     /// MRPlatform.AlarmEvent.MRTagEvent class.
     /// </summary>
     [ComVisible(true)]
-    [Guid("C960E5CE-546C-4A3B-81AD-662C1C871C54"),
+    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IMRTagEvent))]
-    public class MRTagEvent : IMRTagEvent
+    ComSourceInterfaces(typeof(ITagEvent))]
+    public class TagEvent : ITagEvent
 	{
-		/// <summary>
-		/// Class constructor
-		/// </summary>
-		/// <remarks>Creates a new instance of MRTagEvent.</remarks>
-		public MRTagEvent(MRDbConnection mrDbConnection)
-		{
-            DbConnection = mrDbConnection;
-		}
+        public MRDbConnection _dbConnection;
 
 
         /// <summary>
-        /// Class destructor
+        /// Class constructor
         /// </summary>
-        ~MRTagEvent()
+        /// <remarks>Creates a new instance of MRTagEvent.</remarks>
+        public TagEvent(MRDbConnection mrDbConnection)
 		{
-            //Any destructor code goes here
-        }
+            _dbConnection = mrDbConnection;
+		}
 
-        //Properties
-        public MRDbConnection DbConnection { get; set; }
-        public DataSet EventHistory { get; set; }
+        public IDbConnection Connection
+        {
+            get
+            {
+                return new SqlConnection(_dbConnection.ConnectionString);
+            }
+        }
 
 
         /// <summary>
@@ -72,21 +70,14 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public void LogEvent(string userName, string nodeName, string tagName, float tagValueOrig, float tagValueNew)
 		{
-            string sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew) " +
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                string sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew) " +
                             "VALUES('" + userName + "', '" + nodeName + "', '" + tagName + "', " + tagValueOrig + ", " + tagValueNew + ")";
 
-            SqlCommand dbCmd = new SqlCommand(sQuery, DbConnection.DbConnection);
-
-            dbCmd.ExecuteNonQuery();
-			
-			dbCmd.CommandText = sQuery;
-            dbCmd.Connection = DbConnection.DbConnection;
-
-            dbCmd.ExecuteNonQuery();
-
-            //Sync databases
-            // TODO: Change so that based on where code is called from, the direction is automatically determined.
-            DbConnection.Sync(MRDbConnection.SyncDirection.UploadAndDownload);
+                SqlCommand dbCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                dbCmd.ExecuteNonQuery();
+            }
         }
 		
 		
@@ -98,12 +89,12 @@ namespace MRPlatform.AlarmEvent
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(string tagName, int nRecordCount)
 		{
-			string sQuery = "SELECT TOP " + nRecordCount.ToString() + " * FROM TagEventLog ORDER BY evtDateTime DESC";
+			string sQuery = "SELECT TOP " + nRecordCount.ToString() + " *" +
+                            " FROM TagEventLog" + 
+                            " ORDER BY evtDateTime DESC";
 			
 			DataSet ds = new DataSet();
 			ds = GetDataSetFromQuery(sQuery);
-
-            EventHistory = ds;
 			
 			return ds;
 		}
@@ -117,7 +108,11 @@ namespace MRPlatform.AlarmEvent
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(DateTime startDate)
 		{
-			string sQuery = "SELECT * FROM TagEventLog WHERE evtDateTime >= '" + startDate + " 00:00:00.000' AND evtDateTime <= '" + startDate + "23:59:59.999' ORDER BY evtDateTime";
+			string sQuery = "SELECT *" + 
+                            " FROM TagEventLog" + 
+                            " WHERE evtDateTime >= '" + startDate + " 00:00:00.000'" + 
+                            " AND evtDateTime <= '" + startDate + "23:59:59.999'" + 
+                            " ORDER BY evtDateTime";
 			
 			DataSet ds = new DataSet();
 			ds = GetDataSetFromQuery(sQuery);
@@ -135,7 +130,11 @@ namespace MRPlatform.AlarmEvent
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(DateTime startDateTime, DateTime endDateTime)
 		{
-			string sQuery = "SELECT * FROM TagEventLog WHERE evtDateTime >= '" + startDateTime + "' AND evtDateTime <= '" + endDateTime + "' ORDER BY evtDateTime";
+			string sQuery = "SELECT *" + 
+                            " FROM TagEventLog" + 
+                            " WHERE evtDateTime >= '" + startDateTime + "'" + 
+                            " AND evtDateTime <= '" + endDateTime + "'" + 
+                            " ORDER BY evtDateTime";
 			
 			DataSet ds = new DataSet();
 			ds = GetDataSetFromQuery(sQuery);
@@ -146,13 +145,14 @@ namespace MRPlatform.AlarmEvent
 		
 		private DataSet GetDataSetFromQuery(string sQuery)
 		{
-			DataSet ds = new DataSet();
-			SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, DbConnection.DbConnection);
-			dbAdapt.Fill(ds);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                DataSet ds = new DataSet();
+                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                dbAdapt.Fill(ds);
 
-            EventHistory = ds;
-			
-			return ds;
+                return ds;
+            }
 		}
 	}
 }

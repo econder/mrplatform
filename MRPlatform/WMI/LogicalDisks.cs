@@ -12,7 +12,7 @@ namespace MRPlatform.WMI
     [ComVisible(true)]
     [Guid("455EE884-F3F1-46C1-B4E2-35BA2E31CE83"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(ILogicalDisks))]
+    ComSourceInterfaces(typeof(ILogicalDisksEvents))]
     public class LogicalDisks : IEnumerable
     {
         public List<LogicalDisk> Disks = new List<LogicalDisk>();
@@ -47,13 +47,26 @@ namespace MRPlatform.WMI
             objCol.Dispose();
         }
 
-        [ComVisible(true)]
+
+        //IEnumerable require these methods
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator) GetEnumerator();
+        }
+
+
+        public LogicalDisks GetEnumerator()
+        {
+            return new LogicalDisks();
+        }
+
+
         public LogicalDisk this[int index]
         {
             get { return Disks[index]; }
         }
 
-        [ComVisible(true)]
+
         public LogicalDisk Disk(string driveLetter)
         {
             if (driveLetter == null)
@@ -69,13 +82,6 @@ namespace MRPlatform.WMI
                 ld.Description = String.Format("Drive letter {0} not found.", driveLetter);
                 return null;
             }
-        }
-
-        [ComVisible(true)]
-        //IEnumerable require these methods
-        public IEnumerator GetEnumerator()
-        {
-            return ((IEnumerable)Disks).GetEnumerator();
         }
     }
 }

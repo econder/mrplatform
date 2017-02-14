@@ -10,7 +10,7 @@ namespace MRPlatform.WMI
     [ComVisible(true)]
     [Guid("D7413FD7-F779-487D-865A-F8C32EACFE4B"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IProcessor))]
+    ComSourceInterfaces(typeof(IProcessorEvents))]
     public class Processor : IProcessor
     {
         public int LoadPercentage { get; set; }

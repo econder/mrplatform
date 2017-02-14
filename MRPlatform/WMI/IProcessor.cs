@@ -12,4 +12,11 @@ namespace MRPlatform.WMI
     {
 
     }
+
+
+    [Guid("D1FA9E95-7CE1-4317-8636-698E07DDC2AB")]
+    public interface IProcessorEvents
+    {
+
+    }
 }

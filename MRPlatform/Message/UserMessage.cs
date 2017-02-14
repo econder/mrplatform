@@ -19,18 +19,22 @@
  * *************************************************************************************************/
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.OleDb;
+using System.Runtime.InteropServices;
 
-using MRPlatform.AlarmEvent;
 using MRPlatform.DB.Sql;
 
 
 namespace MRPlatform.Message
 {
-	/// <summary>
-	/// Description of MRMessage.
-	/// </summary>
-	public class UserMessage
+    /// <summary>
+    /// Description of MRMessage.
+    /// </summary>
+    [ComVisible(true)]
+    [Guid("389711FE-7AAB-452B-A14E-78EED94A23DB"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IUserMessageEvents))]
+    public class UserMessage : IUserMessage
 	{
         private ErrorLog _errorLog;
         private MRDbConnection _dbConnection;
@@ -68,13 +72,13 @@ namespace MRPlatform.Message
                 string sQuery = "INSERT INTO Messages(sender, nodeName, recipient, message, type)" + 
                                 " VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + priority + ")";
 
-                SqlCommand dbCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand dbCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     dbCmd.ExecuteNonQuery();
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "DoSend(string sender, string recipient, string message, int priority = 2)", ex.Message);
                     throw;
@@ -133,7 +137,7 @@ namespace MRPlatform.Message
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -148,7 +152,7 @@ namespace MRPlatform.Message
             {
                 string sQuery = "DELETE FROM MessagesRead WHERE msgId = @msgId AND userName = @userName";
 
-                SqlCommand sqlCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@msgId", msgId);
                 sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
 
@@ -156,7 +160,7 @@ namespace MRPlatform.Message
                 {
                     sqlCmd.ExecuteNonQuery();
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "MarkAsUnread(string hmiUserName, int msgId)", ex.Message);
                     throw;
@@ -171,7 +175,7 @@ namespace MRPlatform.Message
             {
                 string sQuery = "INSERT INTO MessagesRead(msgId, userName) VALUES(@msgId,@userName)";
 
-                SqlCommand sqlCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@msgId", msgId);
                 sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
 
@@ -179,7 +183,7 @@ namespace MRPlatform.Message
                 {
                     sqlCmd.ExecuteNonQuery();
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "MarkAsRead(string hmiUserName, int msgId)", ex.Message);
                     throw;
@@ -194,7 +198,7 @@ namespace MRPlatform.Message
             {
                 string sQuery = "INSERT INTO MessagesArchived(msgId, userName) VALUES(@msgId,@userName)";
 
-                SqlCommand sqlCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@msgId", msgId);
                 sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
 
@@ -202,7 +206,7 @@ namespace MRPlatform.Message
                 {
                     sqlCmd.ExecuteNonQuery();
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Archive(string hmiUserName, int msgId)", ex.Message);
                     throw;
@@ -218,7 +222,7 @@ namespace MRPlatform.Message
 
                 string sQuery = "DELETE FROM MessagesArchived WHERE msgId = @msgId AND userName = @userName";
 
-                SqlCommand sqlCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@msgId", msgId);
                 sqlCmd.Parameters.AddWithValue("@userName", hmiUserName);
 
@@ -226,7 +230,7 @@ namespace MRPlatform.Message
                 {
                     sqlCmd.ExecuteNonQuery();
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "UnArchive(string hmiUserName, int msgId)", ex.Message);
                     throw;

@@ -66,6 +66,8 @@
     <DebugType>Full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -78,9 +80,6 @@
     <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MRDbSync">
-      <HintPath>..\..\MRDbSync\MRDbSync\bin\Release\MRDbSync.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -91,7 +90,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlarmEvent\IUserEvent.cs" />
     <Compile Include="ErrorLog.cs" />
+    <Compile Include="Message\IAreaMessage.cs" />
+    <Compile Include="Message\IUserMessage.cs" />
     <Compile Include="Wonderware\AlarmEvent\IAlarmEventLog.cs" />
     <Compile Include="AlarmEvent\ITagEvent.cs" />
     <Compile Include="Wonderware\AlarmEvent\AlarmEventLog.cs" />

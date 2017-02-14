@@ -15,73 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_05EC20B1DBD3E483F7035182347602D5"
-        "OwnerKey" = "8:_C8CEA153198D462294A4912CB6EB332B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2C037382B190428BA759623E7E261436"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_45F6C82D3D564B7D86010262CDBA3A02"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7A1D8FF46EE54859AF1CFE6F653C79B1"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_950BA913F3F04CD692130078EF5E541B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AED12A3B1DC7A4972841D16406CA7102"
-        "OwnerKey" = "8:_F240E06AC4FE3449D15418DB7765528A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AED12A3B1DC7A4972841D16406CA7102"
-        "OwnerKey" = "8:_2C037382B190428BA759623E7E261436"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AED12A3B1DC7A4972841D16406CA7102"
-        "OwnerKey" = "8:_45F6C82D3D564B7D86010262CDBA3A02"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AED12A3B1DC7A4972841D16406CA7102"
-        "OwnerKey" = "8:_7A1D8FF46EE54859AF1CFE6F653C79B1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AED12A3B1DC7A4972841D16406CA7102"
-        "OwnerKey" = "8:_FB5A8E9D0838777480D8DAAC21CC1F6B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AED12A3B1DC7A4972841D16406CA7102"
-        "OwnerKey" = "8:_05EC20B1DBD3E483F7035182347602D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AED12A3B1DC7A4972841D16406CA7102"
+        "MsmKey" = "8:_51FEB9D5E7099B6F42F48438E4A4C8DF"
         "OwnerKey" = "8:_C8CEA153198D462294A4912CB6EB332B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -93,122 +27,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CE03D0CCA0B84EC2BF38F1F544D1B785"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D6E6D262BD8E4921BB1A33E8DD5650AF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F240E06AC4FE3449D15418DB7765528A"
-        "OwnerKey" = "8:_C8CEA153198D462294A4912CB6EB332B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F240E06AC4FE3449D15418DB7765528A"
-        "OwnerKey" = "8:_2C037382B190428BA759623E7E261436"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F240E06AC4FE3449D15418DB7765528A"
-        "OwnerKey" = "8:_05EC20B1DBD3E483F7035182347602D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FB5A8E9D0838777480D8DAAC21CC1F6B"
-        "OwnerKey" = "8:_C8CEA153198D462294A4912CB6EB332B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FB5A8E9D0838777480D8DAAC21CC1F6B"
-        "OwnerKey" = "8:_2C037382B190428BA759623E7E261436"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FB5A8E9D0838777480D8DAAC21CC1F6B"
-        "OwnerKey" = "8:_45F6C82D3D564B7D86010262CDBA3A02"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FB5A8E9D0838777480D8DAAC21CC1F6B"
-        "OwnerKey" = "8:_F240E06AC4FE3449D15418DB7765528A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FB5A8E9D0838777480D8DAAC21CC1F6B"
-        "OwnerKey" = "8:_05EC20B1DBD3E483F7035182347602D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FCA8D689DB194C0084FF993BD8815602"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FB5A8E9D0838777480D8DAAC21CC1F6B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2C037382B190428BA759623E7E261436"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CE03D0CCA0B84EC2BF38F1F544D1B785"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_45F6C82D3D564B7D86010262CDBA3A02"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7A1D8FF46EE54859AF1CFE6F653C79B1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C8CEA153198D462294A4912CB6EB332B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_05EC20B1DBD3E483F7035182347602D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F240E06AC4FE3449D15418DB7765528A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AED12A3B1DC7A4972841D16406CA7102"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -229,6 +49,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -245,6 +81,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -274,21 +126,10 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_05EC20B1DBD3E483F7035182347602D5"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_51FEB9D5E7099B6F42F48438E4A4C8DF"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MRDbSync, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_05EC20B1DBD3E483F7035182347602D5"
-                    {
-                    "Name" = "8:MRDbSync.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:MRDbSync.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:MRPlatform.tlb"
+            "TargetName" = "8:MRPlatform.tlb"
             "Tag" = "8:"
             "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
             "Condition" = "8:"
@@ -300,286 +141,9 @@
             "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
-            "Register" = "3:1"
+            "Register" = "3:2"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2C037382B190428BA759623E7E261436"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MRDbSync, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_2C037382B190428BA759623E7E261436"
-                    {
-                    "Name" = "8:MRDbSync.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\MRPlatform\\bin\\x86\\Release\\MRDbSync.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_45F6C82D3D564B7D86010262CDBA3A02"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Synchronization.Data.SqlServer, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_45F6C82D3D564B7D86010262CDBA3A02"
-                    {
-                    "Name" = "8:Microsoft.Synchronization.Data.SqlServer.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\MRPlatform\\bin\\x86\\Release\\Microsoft.Synchronization.Data.SqlServer.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7A1D8FF46EE54859AF1CFE6F653C79B1"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Synchronization.Data, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_7A1D8FF46EE54859AF1CFE6F653C79B1"
-                    {
-                    "Name" = "8:Microsoft.Synchronization.Data.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\MRPlatform\\bin\\x86\\Release\\Microsoft.Synchronization.Data.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_950BA913F3F04CD692130078EF5E541B"
-            {
-            "SourcePath" = "8:..\\MRPlatform\\bin\\x86\\Release\\Microsoft.Synchronization.xml"
-            "TargetName" = "8:Microsoft.Synchronization.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AED12A3B1DC7A4972841D16406CA7102"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Synchronization, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_AED12A3B1DC7A4972841D16406CA7102"
-                    {
-                    "Name" = "8:Microsoft.Synchronization.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.Synchronization.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CE03D0CCA0B84EC2BF38F1F544D1B785"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Synchronization, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_CE03D0CCA0B84EC2BF38F1F544D1B785"
-                    {
-                    "Name" = "8:Microsoft.Synchronization.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\MRPlatform\\bin\\x86\\Release\\Microsoft.Synchronization.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D6E6D262BD8E4921BB1A33E8DD5650AF"
-            {
-            "SourcePath" = "8:..\\MRPlatform\\bin\\x86\\Release\\Microsoft.Synchronization.Data.SqlServer.xml"
-            "TargetName" = "8:Microsoft.Synchronization.Data.SqlServer.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F240E06AC4FE3449D15418DB7765528A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Synchronization.Data.SqlServer, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_F240E06AC4FE3449D15418DB7765528A"
-                    {
-                    "Name" = "8:Microsoft.Synchronization.Data.SqlServer.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.Synchronization.Data.SqlServer.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FB5A8E9D0838777480D8DAAC21CC1F6B"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Synchronization.Data, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_FB5A8E9D0838777480D8DAAC21CC1F6B"
-                    {
-                    "Name" = "8:Microsoft.Synchronization.Data.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.Synchronization.Data.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FCA8D689DB194C0084FF993BD8815602"
-            {
-            "SourcePath" = "8:..\\MRPlatform\\bin\\x86\\Release\\Microsoft.Synchronization.Data.xml"
-            "TargetName" = "8:Microsoft.Synchronization.Data.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }
@@ -639,7 +203,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:MRPlatform Setup"
         "ProductCode" = "8:{DABFC1FE-3167-41F7-A618-4EC37CE265AA}"
-        "PackageCode" = "8:{CF38DA15-4557-428A-831E-E75A9B287CB4}"
+        "PackageCode" = "8:{A1E7B95E-EDB4-4726-9847-8BBA987C40E5}"
         "UpgradeCode" = "8:{1CAE1268-05F3-4512-B502-1B2652AA4146}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1188,7 +752,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C8CEA153198D462294A4912CB6EB332B"
             {
-            "SourcePath" = "8:..\\MRPlatform\\obj\\Release\\MRPlatform.dll"
+            "SourcePath" = "8:..\\MRPlatform\\obj\\Debug\\MRPlatform.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_E7ADC20368D745748E40BD7E5294CFB7"
@@ -1205,7 +769,7 @@
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
+            "ProjectOutputGroupRegister" = "3:2"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{897C6892-EAE0-4BBD-8571-7987FE652D1E}"

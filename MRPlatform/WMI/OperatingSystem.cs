@@ -13,10 +13,9 @@ namespace MRPlatform.WMI
     [ComVisible(true)]
     [Guid("62E2A76E-0471-4FB3-8293-A2F50D4A83DA"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IOperatingSystem))]
+    ComSourceInterfaces(typeof(IOperatingSystemEvents))]
     public class OperatingSystem : IOperatingSystem
     {
-        public string Computer { get; set; }
         public string LastBootUpTime { get; set; }
         public double FreePhysicalMemory { get; set; }
         public double TotalVisibleMemorySize { get; set; }
@@ -24,8 +23,6 @@ namespace MRPlatform.WMI
 
         public OperatingSystem()
         {
-            Computer = ".";
-
             SelectQuery selectQuery = new SelectQuery("SELECT * FROM Win32_OperatingSystem");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(selectQuery);
             ManagementObjectCollection objCol = searcher.Get();

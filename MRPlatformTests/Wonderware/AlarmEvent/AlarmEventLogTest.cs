@@ -17,6 +17,7 @@ namespace MRPlatformTests.Wonderware.AlarmEvent
     public class AlarmEventLogTest
     {
         private MRDbConnection _mrdb;
+        private string _provider = "SQLNCLI11";
         private string _dbServer = "WIN-1I5C3456H92\\SQLEXPRESS";
         private string _dbName = "WWALMDB";
         private string _dbUser = "mrsystems";
@@ -43,7 +44,7 @@ namespace MRPlatformTests.Wonderware.AlarmEvent
         [TestInitialize]
         public void Initialize()
         {
-            _mrdb = new MRDbConnection(_dbServer, _dbName, _dbUser, _dbPass);
+            _mrdb = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass);
             _ae = new AlarmEventLog(_mrdb);
         }
 

@@ -201,9 +201,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:MRPlatform Setup"
+        "ProductName" = "8:MRPlatform"
         "ProductCode" = "8:{DABFC1FE-3167-41F7-A618-4EC37CE265AA}"
-        "PackageCode" = "8:{A1E7B95E-EDB4-4726-9847-8BBA987C40E5}"
+        "PackageCode" = "8:{09E6073F-CEA5-468C-9938-8B0E67B33C73}"
         "UpgradeCode" = "8:{1CAE1268-05F3-4512-B502-1B2652AA4146}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

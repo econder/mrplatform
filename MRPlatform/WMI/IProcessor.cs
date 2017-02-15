@@ -10,7 +10,7 @@ namespace MRPlatform.WMI
     [Guid("D85F1176-E3AD-474B-AA55-D53D6CA7B6C1")]
     public interface IProcessor
     {
-
+        int LoadPercentage { get; }
     }
 
 

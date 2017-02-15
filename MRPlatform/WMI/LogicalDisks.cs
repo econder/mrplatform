@@ -13,13 +13,13 @@ namespace MRPlatform.WMI
     [Guid("455EE884-F3F1-46C1-B4E2-35BA2E31CE83"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(ILogicalDisksEvents))]
-    public class LogicalDisks : IEnumerable
+    public class LogicalDisks : ILogicalDisks, IEnumerable<LogicalDisk>
     {
-        public List<LogicalDisk> Disks = new List<LogicalDisk>();
-
+        public List<LogicalDisk> Disks;
 
         public LogicalDisks()
         {
+            Disks = new List<LogicalDisk>();
             SelectQuery selectQuery = new SelectQuery("SELECT * FROM Win32_LogicalDisk");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(selectQuery);
             ManagementObjectCollection objCol = searcher.Get();
@@ -49,15 +49,22 @@ namespace MRPlatform.WMI
 
 
         //IEnumerable require these methods
-        IEnumerator IEnumerable.GetEnumerator()
+        [DispId(-4)]
+        IEnumerator<LogicalDisk> IEnumerable<LogicalDisk>.GetEnumerator()
         {
-            return (IEnumerator) GetEnumerator();
+            return Disks.GetEnumerator();
         }
 
-
-        public LogicalDisks GetEnumerator()
+        [DispId(-4)]
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return new LogicalDisks();
+            return Disks.GetEnumerator();
+        }
+
+        /*
+        public LogicalDisksEnumerator GetEnumerator()
+        {
+            return new LogicalDisks(_)
         }
 
 
@@ -65,7 +72,7 @@ namespace MRPlatform.WMI
         {
             get { return Disks[index]; }
         }
-
+        */
 
         public LogicalDisk Disk(string driveLetter)
         {
@@ -81,6 +88,54 @@ namespace MRPlatform.WMI
                 LogicalDisk ld = new LogicalDisk();
                 ld.Description = String.Format("Drive letter {0} not found.", driveLetter);
                 return null;
+            }
+        }
+    }
+
+
+
+    public class LogicalDisksEnumerator : IEnumerator
+    {
+        public LogicalDisks[] _logicalDisks;
+        int position = -1;
+
+        public LogicalDisksEnumerator(LogicalDisks[] logicalDisks)
+        {
+            _logicalDisks = logicalDisks;
+
+        }
+
+        public bool MoveNext()
+        {
+            position++;
+            return position < _logicalDisks.Length;
+        }
+
+        public void Reset()
+        {
+            position = -1;
+        }
+
+        object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
+        }
+
+        public LogicalDisks Current
+        {
+            get
+            {
+                try
+                {
+                    return _logicalDisks[position];
+                }
+                catch(IndexOutOfRangeException)
+                {
+                    throw new InvalidOperationException();
+                }
             }
         }
     }

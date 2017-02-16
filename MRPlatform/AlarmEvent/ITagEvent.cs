@@ -12,8 +12,15 @@ namespace MRPlatform.AlarmEvent
     public interface ITagEvent
     {
         void LogEvent(string userName, string nodeName, string tagName, float tagValueOrig, float tagValueNew);
-        DataSet GetHistory(string tagName, int recordCount);
+        DataSet GetHistory(string tagName, int nRecordCount);
         DataSet GetHistory(DateTime startDate);
-        DataSet GetHistory(DateTime startDate, DateTime endDate);
+        DataSet GetHistory(DateTime startDateTime, DateTime endDateTime);
+    }
+
+
+    [Guid("ED2D534D-58BC-487F-893B-9AE3AE83AAE7")]
+    public interface ITagEventEvents
+    {
+
     }
 }

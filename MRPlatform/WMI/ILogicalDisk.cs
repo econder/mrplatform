@@ -22,4 +22,11 @@ namespace MRPlatform.WMI
         string Status { get; set; }
         string SystemName { get; set; }
     }
+
+
+    [Guid("332A5B08-0A10-46AB-90E8-660BD4E24811")]
+    public interface ILogicalDiskEvents
+    {
+
+    }
 }

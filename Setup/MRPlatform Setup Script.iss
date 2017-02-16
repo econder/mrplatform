@@ -30,16 +30,16 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.SqlServer.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.SqlServer.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRDbSync.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.SqlServer.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.SqlServer.xml"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.Data.xml"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.xml"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRDbSync.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRPlatform.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "..\MRPlatform\bin\x86\Release\MRPlatform.tlb"; DestDir: "{sys}"; Flags: 32bit regtypelib ignoreversion; MinVersion: 0,6.1; Permissions: admins-modify
+Source: "..\MRPlatform\bin\x86\Release\MRPlatform.tlb"; DestDir: "{sys}"; Flags: 32bit regtypelib ignoreversion regserver; MinVersion: 0,6.1; Permissions: admins-modify
 
 [Run]
 Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister MRPlatform.dll"; WorkingDir: "{app}"; Flags: runminimized skipifdoesntexist; StatusMsg: "Unregistering Old Controls..."

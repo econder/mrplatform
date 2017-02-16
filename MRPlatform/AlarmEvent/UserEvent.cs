@@ -13,7 +13,7 @@
  * 
  * 2014-04-01	Changed namespace from MRPlatform2014.Event to MRPlatform2014.AlarmEvent
  * 
- * 2016-09-29   Added overloaded constructors to accept SqlConnection objects to be more flexible
+ * 2016-09-29   Added overloaded constructors to accept OleDbConnection objects to be more flexible
  *              and compatible with the newly added MRDbSync library for syncing 2 databases.
  *              
  * 2016-10-05   Removed overloaded constructors and changed the only constructor to only accept
@@ -23,17 +23,22 @@
  * *************************************************************************************************/
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.OleDb;
+using System.Runtime.InteropServices;
 
 using MRPlatform.DB.Sql;
 
 
 namespace MRPlatform.AlarmEvent
 {
-	/// <summary>
-	/// Description of MREvent.
-	/// </summary>
-	public class UserEvent
+    /// <summary>
+    /// Description of MREvent.
+    /// </summary>
+    [ComVisible(true)]
+    [Guid("F3C0CE97-4E39-47A6-9856-F3A4E112C932"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IUserEventEvents))]
+    public class UserEvent : IUserEvent
 	{
         private MRDbConnection _dbConnection;
 
@@ -42,20 +47,12 @@ namespace MRPlatform.AlarmEvent
             _dbConnection = mrDbConnection;
         }
 
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_dbConnection.ConnectionString);
-            }
-        }
-
 
         /// <summary>
         /// LogEvent Method
         /// </summary>
         /// <remarks>Method to log events to the mrsystems SQL Server database using an 
-        /// existing, open SqlConnection object to connect to the database.</remarks>
+        /// existing, open OleDbConnection object to connect to the database.</remarks>
         /// <param name="userName">String object of the HMI username of the user currently logged in.</param>
         /// <param name="nodeName">String object of the HMI client node name the event is generated from.</param>
         /// <param name="eventMessage">String object of the event description.</param>
@@ -74,7 +71,7 @@ namespace MRPlatform.AlarmEvent
                 string sQuery = "INSERT INTO EventLog(userName, nodeName, evtMessage, evtType, evtSource)" +
                                 " VALUES('" + userName + "', '" + nodeName + "', '" + eventMessage + "', " + eventType + ", '" + eventSource + "')";
 
-                SqlCommand dbCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand dbCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 dbCmd.ExecuteNonQuery();
             }
 		}
@@ -144,7 +141,7 @@ namespace MRPlatform.AlarmEvent
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
                 DataSet ds = new DataSet();
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;

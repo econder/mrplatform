@@ -16,18 +16,22 @@
 ****************************************************************************************************/
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.OleDb;
+using System.Runtime.InteropServices;
 
-using MRPlatform.AlarmEvent;
 using MRPlatform.DB.Sql;
 
 
 namespace MRPlatform.Message
 {
-	/// <summary>
-	/// Description of MRAreaMessage.
-	/// </summary>
-	public class AreaMessage
+    /// <summary>
+    /// Description of MRAreaMessage.
+    /// </summary>
+    [ComVisible(true)]
+    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IAreaMessageEvents))]
+    public class AreaMessage : IAreaMessage
 	{
         private ErrorLog _errorLog = new ErrorLog();
         private MRDbConnection _dbConnection;
@@ -41,14 +45,6 @@ namespace MRPlatform.Message
             _dbConnection = mrDbConnection;
 		}
 
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_dbConnection.ConnectionString);
-            }
-        }
-
 
         public void Send(string sender, string recipient, string message, int priority = 2)
 		{
@@ -56,13 +52,13 @@ namespace MRPlatform.Message
             {
                 string sQuery = "INSERT INTO Messages(sender, recipient, message, msgTypeId, priorityId)" +
                                 " VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + MESSAGETYPE + ", " + priority + ")";
-                SqlCommand dbCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand dbCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     dbCmd.ExecuteNonQuery();
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Send(string sender, string recipient, string message, int priority = 2)", ex.Message);
                 }
@@ -79,7 +75,7 @@ namespace MRPlatform.Message
                                 " FROM vMessages" +
                                 " WHERE recipient='" + area + "'";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -97,7 +93,7 @@ namespace MRPlatform.Message
                                 " WHERE recipient='" + area + "'" +
                                 " AND priority=" + priority;
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -117,7 +113,7 @@ namespace MRPlatform.Message
                                 " AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" +
                                 " AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -137,7 +133,7 @@ namespace MRPlatform.Message
                                 " AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" +
                                 " AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -155,7 +151,7 @@ namespace MRPlatform.Message
                                 " WHERE recipient='" + area + "'" +
                                 " AND userName='" + userName + "'";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -174,7 +170,7 @@ namespace MRPlatform.Message
                                 " AND priority=" + priority +
                                 " AND userName='" + userName + "'";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -194,7 +190,7 @@ namespace MRPlatform.Message
                                 " AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'" +
                                 " AND userName='" + userName + "'";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -214,7 +210,7 @@ namespace MRPlatform.Message
                                 " AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'" +
                                 " AND userName='" + userName + "'";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -230,14 +226,14 @@ namespace MRPlatform.Message
                 string sQuery = "SELECT COUNT(*) FROM Messages" +
                                 " WHERE recipient='" + area + "'";
 
-                SqlCommand cmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     int rowCount = (int)cmd.ExecuteScalar();
                     return rowCount;
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Count(string area)", ex.Message);
                     return -1;
@@ -255,14 +251,14 @@ namespace MRPlatform.Message
                                 " WHERE recipient='" + area + "'" +
                                 " AND priority=" + priority;
 
-                SqlCommand cmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     int rowCount = (int)cmd.ExecuteScalar();
                     return rowCount;
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Count(string area, int priority)", ex.Message);
                     return -1;
@@ -282,14 +278,14 @@ namespace MRPlatform.Message
                                 " AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" +
                                 " AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'";
 
-                SqlCommand cmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     int rowCount = (int)cmd.ExecuteScalar();
                     return rowCount;
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Count(string area, int priority, DateTime dtDate)", ex.Message);
                     return -1;
@@ -309,14 +305,14 @@ namespace MRPlatform.Message
                                 " AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" +
                                 " AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'";
 
-                SqlCommand cmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     int rowCount = (int)cmd.ExecuteScalar();
                     return rowCount;
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Count(string area, int priority, DateTime dtStartDate, DateTime dtEndDate)", ex.Message);
                     return -1;
@@ -334,14 +330,14 @@ namespace MRPlatform.Message
                                 " WHERE recipient='" + area + "'" +
                                 " AND userName='" + userName + "'";
 
-                SqlCommand cmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     int rowCount = (int)cmd.ExecuteScalar();
                     return rowCount;
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area)", ex.Message);
                     return -1;
@@ -360,14 +356,14 @@ namespace MRPlatform.Message
                                 " AND priority=" + priority +
                                 " AND userName='" + userName + "'";
 
-                SqlCommand cmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     int rowCount = (int)cmd.ExecuteScalar();
                     return rowCount;
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area, int priority)", ex.Message);
                     return -1;
@@ -388,14 +384,14 @@ namespace MRPlatform.Message
                                 " AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'" +
                                 " AND userName='" + userName + "'";
 
-                SqlCommand cmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     int rowCount = (int)cmd.ExecuteScalar();
                     return rowCount;
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "GetTopAlarmOccurrences(int topCount, string startDate)", ex.Message);
                     return -1;
@@ -416,14 +412,14 @@ namespace MRPlatform.Message
                                 " AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'" +
                                 " AND userName='" + userName + "'";
 
-                SqlCommand cmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
 
                 try
                 {
                     int rowCount = (int)cmd.ExecuteScalar();
                     return rowCount;
                 }
-                catch (SqlException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)", ex.Message);
                     return -1;

@@ -27,16 +27,21 @@ namespace MRPlatform_GUI_Test
 	public partial class MainForm : Form
 	{
         private MRDbConnection DbConnection { get; set; }
+        private const string DBPROVIDER = "SQLNCLI11";
+        private const string DBSERVER = "WIN-1I5C3456H92\\SQLEXPRESS";
+        private const string DBNAME = "mrsystems";
+        private const string DBUSER = "mrsystems";
+        private const string DBPASS = "Reggie#123";
 
 
-		public MainForm()
+        public MainForm()
 		{
 			InitializeComponent();
 		}
 
         void BtnSendClick(object sender, EventArgs e)
         {
-            MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
+            MRDbConnection dbConn = new MRDbConnection(DBPROVIDER, DBSERVER, DBNAME, DBUSER, DBPASS);
             DbConnection = dbConn;
 
             AreaMessage mram = new AreaMessage(DbConnection);
@@ -45,7 +50,7 @@ namespace MRPlatform_GUI_Test
 
 		void Button1Click(object sender, EventArgs e)
 		{
-            MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
+            MRDbConnection dbConn = new MRDbConnection(DBPROVIDER, DBSERVER, DBNAME, DBUSER, DBPASS);
             DbConnection = dbConn;
 
             AreaMessage mram = new AreaMessage(DbConnection);
@@ -54,7 +59,7 @@ namespace MRPlatform_GUI_Test
 		
 		void Button2Click(object sender, EventArgs e)
 		{
-            MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
+            MRDbConnection dbConn = new MRDbConnection(DBPROVIDER, DBSERVER, DBNAME, DBUSER, DBPASS);
             DbConnection = dbConn;
 
             AreaMessage mram = new AreaMessage(DbConnection);
@@ -64,7 +69,7 @@ namespace MRPlatform_GUI_Test
 		
 		void Button3Click(object sender, EventArgs e)
 		{
-            MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
+            MRDbConnection dbConn = new MRDbConnection(DBPROVIDER, DBSERVER, DBNAME, DBUSER, DBPASS);
             DbConnection = dbConn;
 
             UserMessage mrMsg = new UserMessage(DbConnection);
@@ -74,7 +79,7 @@ namespace MRPlatform_GUI_Test
 		
 		void Button4Click(object sender, EventArgs e)
 		{
-            MRDbConnection dbConn = new MRDbConnection("WIN-1I5C3456H92\\SQLEXPRESS", "mrsystems", "mrsystems", "Reggie#123", MRDbConnection.RedundantNode.Master);
+            MRDbConnection dbConn = new MRDbConnection(DBPROVIDER, DBSERVER, DBNAME, DBUSER, DBPASS);
             DbConnection = dbConn;
 
             UserMessage mrMsg = new UserMessage(DbConnection);
@@ -102,14 +107,11 @@ namespace MRPlatform_GUI_Test
 
         private void button6_Click(object sender, EventArgs e)
         {
-            MRDbConnection dbConn = new MRDbConnection("ECVM-WW2014", "A2ALMDB", "wwAdmin", "wwAdmin", MRDbConnection.RedundantNode.Master);
+            MRDbConnection dbConn = new MRDbConnection("SQLNCLI11", "ECVM-WW2014", "A2ALMDB", "wwAdmin", "wwAdmin");
             DbConnection = dbConn;
 
             AlarmEventLog mrae = new AlarmEventLog(dbConn);
             mrae.GetTopAlarmOccurrences(20, Convert.ToDateTime("1/1/2014"), Convert.ToDateTime("11/30/2016"));
-
-            DbConnection.DatabaseConnection.Close();
-            DbConnection.DatabaseConnection.Dispose();
         }
     }
 }

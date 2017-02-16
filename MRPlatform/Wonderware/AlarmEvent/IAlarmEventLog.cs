@@ -36,4 +36,11 @@ namespace MRPlatform.Wonderware.AlarmEvent
         DataSet GetUserHistory(string userName, DateTime startDate, DateTime endDate);
         DataSet GetUserHistory(string userName, string startDate, string endDate);
     }
+
+
+    [Guid("826D61B7-BF8C-4615-9306-92C453EBEE48")]
+    public interface IAlarmEventLogEvents
+    {
+
+    }
 }

@@ -29,15 +29,7 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debu
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.exe
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRPlatform GUI Test.pdb
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRPlatform.dll
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRDbSync.dll
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\Microsoft.Synchronization.Data.dll
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\Microsoft.Synchronization.dll
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\Microsoft.Synchronization.Data.SqlServer.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRPlatform.pdb
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\MRDbSync.pdb
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\Microsoft.Synchronization.Data.xml
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\Microsoft.Synchronization.xml
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\bin\Debug\Microsoft.Synchronization.Data.SqlServer.xml
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csprojResolveAssemblyReference.cache
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Debug\MRPlatform_GUI_Test.MainForm.resources
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform GUI Test\obj\Debug\MRPlatform GUI Test.csproj.GenerateResource.Cache

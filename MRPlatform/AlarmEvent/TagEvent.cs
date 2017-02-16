@@ -11,10 +11,9 @@
  * *************************************************************************************************/
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.OleDb;
 using System.Runtime.InteropServices;
 
-using MRPlatform.AlarmEvent;
 using MRPlatform.DB.Sql;
 	
 
@@ -24,9 +23,9 @@ namespace MRPlatform.AlarmEvent
     /// MRPlatform.AlarmEvent.MRTagEvent class.
     /// </summary>
     [ComVisible(true)]
-    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
+    [Guid("8F141A9D-EB47-4FF5-9FFE-9C507625EAAF"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(ITagEvent))]
+    ComSourceInterfaces(typeof(ITagEventEvents))]
     public class TagEvent : ITagEvent
 	{
         public MRDbConnection _dbConnection;
@@ -40,14 +39,6 @@ namespace MRPlatform.AlarmEvent
 		{
             _dbConnection = mrDbConnection;
 		}
-
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_dbConnection.ConnectionString);
-            }
-        }
 
 
         /// <summary>
@@ -75,7 +66,7 @@ namespace MRPlatform.AlarmEvent
                 string sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew) " +
                             "VALUES('" + userName + "', '" + nodeName + "', '" + tagName + "', " + tagValueOrig + ", " + tagValueNew + ")";
 
-                SqlCommand dbCmd = new SqlCommand(sQuery, (SqlConnection)dbConnection);
+                OleDbCommand dbCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 dbCmd.ExecuteNonQuery();
             }
         }
@@ -84,7 +75,7 @@ namespace MRPlatform.AlarmEvent
 		/// <summary>GetHistory Method</summary>
 		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
 		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="dbConn">SqlConnection object of the database connection.</param>
+		/// <param name="dbConn">OleDbConnection object of the database connection.</param>
 		/// <param name="nRecordCount">Last 'n' number of records to return.</param>
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(string tagName, int nRecordCount)
@@ -103,7 +94,7 @@ namespace MRPlatform.AlarmEvent
 		/// <summary>GetHistory Method</summary>
 		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
 		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="dbConn">SqlConnection object of the database connection.</param>
+		/// <param name="dbConn">OleDbConnection object of the database connection.</param>
 		/// <param name="startDateTime">DateTime object of the date of the recordset.</param>
 		/// <returns>System.Data.DataSet</returns>
 		public DataSet GetHistory(DateTime startDate)
@@ -124,7 +115,7 @@ namespace MRPlatform.AlarmEvent
 		/// <summary>GetHistory Method</summary>
 		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
 		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="dbConn">SqlConnection object of the database connection.</param>
+		/// <param name="dbConn">OleDbConnection object of the database connection.</param>
 		/// <param name="startDateTime">DateTime object of the start date of the recordset.</param>
 		/// <param name="endDateTime">DateTime object of the end date of the recordset.</param>
 		/// <returns>System.Data.DataSet</returns>
@@ -148,7 +139,7 @@ namespace MRPlatform.AlarmEvent
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
                 DataSet ds = new DataSet();
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;

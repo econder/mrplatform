@@ -22,7 +22,7 @@
  * 
  *       2014-04-09	Fixed date issues in private function queries.
  * 
- *       2014-05-21	Changed sql query strings to SqlCommand objects to prevent connection initialization
+ *       2014-05-21	Changed sql query strings to OleDbCommand objects to prevent connection initialization
  * 		    		errors from happening.
  * 
  *       2014-05-24	Issues using MRDbConnection class. Now initiating SQLDB connection in class
@@ -34,7 +34,7 @@
  * *************************************************************************************************/
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.OleDb;
 using System.Runtime.InteropServices;
 
 using MRPlatform.DB.Sql;
@@ -45,10 +45,10 @@ namespace MRPlatform.Wonderware.AlarmEvent
     /// <summary>
     /// MRPlatform.AlarmEvent.MRAlarmEventLog class.
     /// </summary>
-    [ComVisible(true)]
+    [ComVisible(false)]
     [Guid("96E0CD61-EC8D-428F-BAF7-0A0910A6432F"),
-        ClassInterface(ClassInterfaceType.None),
-        ComSourceInterfaces(typeof(IAlarmEventLog))]
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IAlarmEventLogEvents))]
     public class AlarmEventLog : IAlarmEventLog
 	{
         private ErrorLog _errorLog = new ErrorLog();
@@ -74,7 +74,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
         {
             get
             {
-                return new SqlConnection(_dbConnection.ConnectionString);
+                return new OleDbConnection(_dbConnection.ConnectionString);
             }
         }
 
@@ -1190,7 +1190,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " GROUP BY TagName" + 
                                 " ORDER BY Count(*) DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -1210,7 +1210,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " GROUP BY TagName" + 
                                 " ORDER BY Count(*) DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -1235,7 +1235,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                             " WHERE TagName = '" + tagName + "'" +
                             " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -1257,7 +1257,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " WHERE TagName = '" + tagName + "'" +
                                 " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -1281,7 +1281,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
                                 " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -1305,7 +1305,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
                                 " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -1331,7 +1331,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " WHERE Operator = '" + userName + "'" +
                                 " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -1353,7 +1353,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " WHERE Operator = '" + userName + "'" +
                                 " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -1377,7 +1377,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
                                 " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -1401,7 +1401,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
                                 " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 
@@ -1428,7 +1428,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
                                 " AND EventStamp < '" + endDate.ToShortDateString() + " 23:59:59.999'" +
                                 " ORDER BY EventStamp DESC";
 
-                SqlDataAdapter dbAdapt = new SqlDataAdapter(sQuery, dbConnection.ConnectionString);
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
                 DataSet ds = new DataSet();
                 dbAdapt.Fill(ds);
 

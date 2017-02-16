@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Message\UserMessageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WMI\ProcessorTest.cs" />
     <Compile Include="WMI\LogicalDiskTest.cs" />

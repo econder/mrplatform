@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Runtime.InteropServices;
 
@@ -8,15 +9,19 @@ namespace MRPlatform.Message
     public interface IUserMessage
     {
         void Send(string sender, string recipient, string message, int priority = 2);
-        void Send(string sender, Array recipients, string message, int priority = 2);
-        DataSet GetMessages(string sender);
-        DataSet GetMessages(string sender, int priority);
-        DataSet GetMessages(string sender, int priority, bool unread);
-        DataSet GetMessages(string sender, int priority, bool unread, bool archived);
-        void MarkAsUnread(string hmiUserName, int msgId);
-        void MarkAsRead(string hmiUserName, int msgId);
-        void Archive(string hmiUserName, int msgId);
-        void UnArchive(string hmiUserName, int msgId);
+        void Send(string sender, List<string> recipients, string message, int priority = 2);
+        DataSet GetMessages(string recipient);
+        DataSet GetMessages(string recipient, int priority);
+        DataSet GetUnreadMessages(string recipient);
+        DataSet GetUnreadMessages(string recipient, int priority);
+        DataSet GetArchivedMessages(string recipient);
+        DataSet GetArchivedMessages(string recipient, int priority);
+        void MarkAsUnread(string hmiUserName, long msgId);
+        void MarkAsRead(string hmiUserName, long msgId);
+        void Archive(string hmiUserName, long msgId);
+        void UnArchive(string hmiUserName, long msgId);
+        void DeleteMessage(string hmiUserName, long msgId);
+        void DeleteArchivedMessage(string hmiUserName, long msgId);
     }
 
 

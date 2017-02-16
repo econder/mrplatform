@@ -44,8 +44,8 @@ namespace MRPlatform_GUI_Test
             MRDbConnection dbConn = new MRDbConnection(DBPROVIDER, DBSERVER, DBNAME, DBUSER, DBPASS);
             DbConnection = dbConn;
 
-            AreaMessage mram = new AreaMessage(DbConnection);
-            mram.Send("mrsystems", cboRecipient.Text, txtMessage.Text, 2);
+            UserMessage mrum = new UserMessage(DbConnection);
+            mrum.Send("mrsystems", cboRecipient.Text, txtMessage.Text, 2);
         }
 
 		void Button1Click(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace MRPlatform_GUI_Test
             DbConnection = dbConn;
 
             UserMessage mrMsg = new UserMessage(DbConnection);
-			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked);
+			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex);
 			dataGrid1.DataSource = ds;
 		}
 		
@@ -83,7 +83,7 @@ namespace MRPlatform_GUI_Test
             DbConnection = dbConn;
 
             UserMessage mrMsg = new UserMessage(DbConnection);
-			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex, chkRead.Checked, chkArchived.Checked);
+			DataSet ds = mrMsg.GetMessages("Administrator", cboPriority.SelectedIndex);
 			dataGrid1.DataSource = ds;
 		}
 

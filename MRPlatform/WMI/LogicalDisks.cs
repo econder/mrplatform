@@ -55,24 +55,19 @@ namespace MRPlatform.WMI
             return Disks.GetEnumerator();
         }
 
+
         [DispId(-4)]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Disks.GetEnumerator();
         }
-
-        /*
-        public LogicalDisksEnumerator GetEnumerator()
-        {
-            return new LogicalDisks(_)
-        }
-
+        
 
         public LogicalDisk this[int index]
         {
             get { return Disks[index]; }
         }
-        */
+
 
         public LogicalDisk Disk(string driveLetter)
         {

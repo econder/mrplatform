@@ -53,13 +53,15 @@ namespace MRPlatformTests.Message
             _userMsg.Send(_sender, _recipient, _message, _priority);
 
             // Make sure the sent message exists
-            GetMessagesWithValidSender();
+            GetMessagesWithValidRecip();
         }
+
+        #region " GetMessages "
 
         // VERIFY MESSAGE EXISTS
         // GetMessages(string sender)
         [TestMethod]
-        public void GetMessagesWithValidSender()
+        public void GetMessagesWithValidRecip()
         {
             _ds = new DataSet();
             _ds = _userMsg.GetMessages(_recipient);
@@ -67,6 +69,17 @@ namespace MRPlatformTests.Message
 
             Assert.IsTrue(_ds.Tables.Count == 1);
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        // GetMessages(string sender)
+        [TestMethod]
+        public void GetMessagesInvalidRecip()
+        {
+            _ds = new DataSet();
+            _ds = _userMsg.GetMessages("");
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsFalse(_ds.Tables[0].Rows.Count >= 1);
         }
 
         // GetMessages(string recipient, int priority)
@@ -81,15 +94,30 @@ namespace MRPlatformTests.Message
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
         }
 
-        #region " GetUnreadMessages(string recipient) "
+        // GetMessages(string recipient, int priority)
+        [TestMethod]
+        public void GetMessagesWithInvalidSenderPriority()
+        {
+            _ds = new DataSet();
+            _ds = _userMsg.GetMessages("", -1);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsFalse(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        #endregion
+
+        #region " GetUnreadMessages "
 
         // GetUnreadMessages(string recipient)
         [TestMethod]
         public void GetUnreadMessagesWithValidRecipient()
         {
+            // Make sure a message exists
+            SendAllValidWithRecipientString();
+
             _ds = new DataSet();
             _ds = _userMsg.GetUnreadMessages(_recipient);
-            _msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
 
             Assert.IsTrue(_ds.Tables.Count == 1);
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
@@ -100,9 +128,10 @@ namespace MRPlatformTests.Message
         public void GetUnreadMessagesWithInvalidRecipient()
         {
             _ds = new DataSet();
-            _ds = _userMsg.GetUnreadMessages("John Doe");
+            _ds = _userMsg.GetUnreadMessages("");
+
             Assert.IsTrue(_ds.Tables.Count == 1);
-            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+            Assert.IsFalse(_ds.Tables[0].Rows.Count >= 1);
         }
 
         // GetUnreadMessages(string recipient, int priority)
@@ -113,6 +142,73 @@ namespace MRPlatformTests.Message
             _ds = _userMsg.GetMessages(_recipient, _priority);
             Assert.IsTrue(_ds.Tables.Count == 1);
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        #endregion
+
+        #region " GetArchivedMessages "
+
+        // GetArchivedMessages(string recipient)
+        [TestMethod]
+        public void GetArchivedMessagesWithValidRecipient()
+        {
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            _msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        // GetArchivedMessages(string recipient)
+        [TestMethod]
+        public void GetArchivedMessagesWithInvalidRecipient()
+        {
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages("");
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsFalse(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        // GetArchivedMessages(string recipient, int priority)
+        [TestMethod]
+        public void GetArchivedMessagesWithValidRecipientPriority()
+        {
+            _ds = new DataSet();
+            _ds = _userMsg.GetMessages(_recipient, _priority);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        #endregion
+
+        #region " MarkAsUnread "
+
+        // MARK MESSAGE AS READ
+        // MarkAsRead(string recipient, long msgId)
+        [TestMethod]
+        public void MarkAsReadWithValidRecipMsgId()
+        {
+            int unreadCount = 0;
+            int unreadCountPrev = 0;
+            long msgId;
+
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            _userMsg.MarkAsRead(_recipient, msgId);
+
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(unreadCount == unreadCountPrev - 1);
         }
 
         #endregion

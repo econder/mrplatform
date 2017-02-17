@@ -105,3 +105,18 @@ Invalid column name 'nodeName'.
 2/16/2017 3:23:50 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2/16/2017 3:23:51 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2/16/2017 3:23:51 PM     AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:01 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:04 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:21 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:22 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:22 PM     AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/17/2017 3:37:18 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@id".
+2/17/2017 3:37:51 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@id".
+2/17/2017 3:39:55 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@msgId".
+2/17/2017 3:40:16 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@msgId".
+2/17/2017 3:43:03 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Invalid column name 'recipient'.

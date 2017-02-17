@@ -16,12 +16,12 @@ namespace MRPlatform.Message
         DataSet GetUnreadMessages(string recipient, int priority);
         DataSet GetArchivedMessages(string recipient);
         DataSet GetArchivedMessages(string recipient, int priority);
-        void MarkAsUnread(string hmiUserName, long msgId);
-        void MarkAsRead(string hmiUserName, long msgId);
-        void Archive(string hmiUserName, long msgId);
-        void UnArchive(string hmiUserName, long msgId);
-        void DeleteMessage(string hmiUserName, long msgId);
-        void DeleteArchivedMessage(string hmiUserName, long msgId);
+        void MarkAsUnread(string recipient, long msgId);
+        void MarkAsRead(string recipient, long msgId);
+        void Archive(string recipient, long msgId);
+        void UnArchive(string recipient, long msgId);
+        void DeleteMessage(long msgId);
+        void DeleteArchivedMessage(long msgId);
     }
 
 

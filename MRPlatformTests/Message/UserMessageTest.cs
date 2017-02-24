@@ -183,9 +183,8 @@ namespace MRPlatformTests.Message
 
         #endregion
 
-        #region " MarkAsUnread "
+        #region " MarkAsRead "
 
-        // MARK MESSAGE AS READ
         // MarkAsRead(string recipient, long msgId)
         [TestMethod]
         public void MarkAsReadWithValidRecipMsgId()
@@ -194,6 +193,10 @@ namespace MRPlatformTests.Message
             int unreadCountPrev = 0;
             long msgId;
 
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
             _ds = new DataSet();
             _ds = _userMsg.GetUnreadMessages(_recipient);
             unreadCountPrev = _ds.Tables[0].Rows.Count;
@@ -202,13 +205,443 @@ namespace MRPlatformTests.Message
             Assert.IsTrue(_ds.Tables.Count == 1);
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
 
+            // Mark a message as read
             _userMsg.MarkAsRead(_recipient, msgId);
 
+            // Get unread messages count again to check
+            // that message is now marked as read
             _ds = new DataSet();
             _ds = _userMsg.GetUnreadMessages(_recipient);
             unreadCount = _ds.Tables[0].Rows.Count;
 
             Assert.IsTrue(unreadCount == unreadCountPrev - 1);
+        }
+
+        // MarkAsRead(string recipient, long msgId)
+        [TestMethod]
+        public void MarkAsReadWithInvalidRecipValidMsgId()
+        {
+            int unreadCount = 0;
+            int unreadCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Mark a message as read
+            _userMsg.MarkAsRead("", msgId);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsFalse(unreadCount == unreadCountPrev);
+        }
+
+        // MarkAsRead(string recipient, long msgId)
+        [TestMethod]
+        public void MarkAsReadWithValidRecipInvalidMsgId()
+        {
+            int unreadCount = 0;
+            int unreadCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Mark a message as read
+            _userMsg.MarkAsRead(_recipient, -1);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsFalse(unreadCount == unreadCountPrev);
+        }
+
+        #endregion
+
+        #region " MarkAsUnread "
+
+        // MarkAsUnread(string recipient, long msgId)
+        [TestMethod]
+        public void MarkAsUnReadWithValidRecipMsgId()
+        {
+            int unreadCount = 0;
+            int unreadCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Mark a message as read
+            _userMsg.MarkAsRead(_recipient, msgId);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(unreadCount == unreadCountPrev - 1);
+
+            _userMsg.MarkAsUnread(_recipient, _msgId);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(unreadCount == unreadCountPrev);
+        }
+
+        // MarkAsUnread(string recipient, long msgId)
+        [TestMethod]
+        public void MarkAsUnReadWithInvalidRecipValidMsgId()
+        {
+            int unreadCount = 0;
+            int unreadCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Mark a message as read
+            _userMsg.MarkAsRead(_recipient, msgId);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(unreadCount == unreadCountPrev - 1);
+
+            _userMsg.MarkAsUnread("", _msgId);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsFalse(unreadCount == unreadCountPrev);
+        }
+
+        // MarkAsUnread(string recipient, long msgId)
+        [TestMethod]
+        public void MarkAsUnReadWithValidRecipInvalidMsgId()
+        {
+            int unreadCount = 0;
+            int unreadCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Mark a message as read
+            _userMsg.MarkAsRead(_recipient, _msgId);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(unreadCount == unreadCountPrev - 1);
+
+            _userMsg.MarkAsUnread(_recipient, -1);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetUnreadMessages(_recipient);
+            unreadCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsFalse(unreadCount == unreadCountPrev);
+        }
+
+        #endregion
+
+        #region " Archive "
+
+        // Archive(string recipient, long msgId)
+        [TestMethod]
+        public void MarkAsArchivedWithValidRecipMsgId()
+        {
+            int archivedCount = 0;
+            int archivedCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Mark a message as read
+            _userMsg.Archive(_recipient, msgId);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(archivedCount == archivedCountPrev + 1);
+        }
+
+        // Archive(string recipient, long msgId)
+        [TestMethod]
+        public void ArchiveWithInvalidRecipValidMsgId()
+        {
+            int archivedCount = 0;
+            int archivedCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Mark a message as read
+            _userMsg.Archive("", msgId);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsFalse(archivedCount == archivedCountPrev + 1);
+        }
+
+        // Archive(string recipient, long msgId)
+        [TestMethod]
+        public void ArchiveWithValidRecipInvalidMsgId()
+        {
+            int archivedCount = 0;
+            int archivedCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCountPrev = _ds.Tables[0].Rows.Count;
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Mark a message as read
+            _userMsg.Archive(_recipient, -1);
+
+            // Get unread messages count again to check
+            // that message is now marked as read
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsFalse(archivedCount == archivedCountPrev);
+        }
+
+        #endregion
+
+        #region " UnArchive "
+
+        // UnArchive(string recipient, long msgId)
+        [TestMethod]
+        public void UnArchiveWithValidRecipMsgId()
+        {
+            int archivedCount = 0;
+            int archivedCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetMessages(_recipient);
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Archive a message
+            _userMsg.Archive(_recipient, msgId);
+
+            // Get archived messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCountPrev = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]) == msgId);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Unarchive a message
+            _userMsg.UnArchive(_recipient, _msgId);
+
+            // Get messages count again to check
+            // that message is now marked as archived
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(archivedCount == archivedCountPrev - 1);
+        }
+
+        // UnArchive(string recipient, long msgId)
+        [TestMethod]
+        public void UnArchiveWithInvalidRecipValidMsgId()
+        {
+            int archivedCount = 0;
+            int archivedCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetMessages(_recipient);
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Archive a message
+            _userMsg.Archive(_recipient, msgId);
+
+            // Get archived messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCountPrev = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]) == msgId);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Unarchive a message
+            _userMsg.UnArchive("", _msgId);
+
+            // Get messages count again to check
+            // that message is now marked as archived
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsFalse(archivedCount == archivedCountPrev - 1);
+        }
+
+        // UnArchive(string recipient, long msgId)
+        [TestMethod]
+        public void UnArchiveWithValidRecipInvalidMsgId()
+        {
+            int archivedCount = 0;
+            int archivedCountPrev = 0;
+            long msgId;
+
+            // Send a message first
+            SendAllValidWithRecipientString();
+
+            // Get unread messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetMessages(_recipient);
+            msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Archive a message
+            _userMsg.Archive(_recipient, 0);
+
+            // Get archived messages count
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCountPrev = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]) == msgId);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+
+            // Unarchive a message
+            _userMsg.UnArchive(_recipient, _msgId);
+
+            // Get messages count again to check
+            // that message is now marked as archived
+            _ds = new DataSet();
+            _ds = _userMsg.GetArchivedMessages(_recipient);
+            archivedCount = _ds.Tables[0].Rows.Count;
+
+            Assert.IsTrue(archivedCount == archivedCountPrev - 1);
         }
 
         #endregion

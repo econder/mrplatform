@@ -20,7 +20,7 @@ namespace MRPlatform
 
             using (StreamWriter sw = File.AppendText("MRPlatform_ErrorLog.txt"))
             {
-                sw.WriteLine(string.Format("{0, -25}{1}::{2}->{3}", DateTime.Now, className, methodName, message));
+                sw.WriteLine(string.Format("{0:yyyy-MM-dd HH:mm:ss}   {1}::{2}->{3}", DateTime.Now, className, methodName, message));
             }
         }
     }

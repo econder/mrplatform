@@ -120,3 +120,49 @@ Invalid column name 'nodeName'.
 2/17/2017 3:39:55 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@msgId".
 2/17/2017 3:40:16 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@msgId".
 2/17/2017 3:43:03 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Invalid column name 'recipient'.
+2/24/2017 10:56:24 AM    AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:27 AM    AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:39 AM    AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:40 AM    AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:40 AM    AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/24/2017 11:07:43 AM    UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+Cannot insert the value NULL into column 'id', table 'mrsystems.dbo.MessagesRead'; column does not allow nulls. INSERT fails.
+2/24/2017 1:16:03 PM     UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 1:55:21 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:26 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:49 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:49 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:50 PM     AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:53 PM     UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 1:55:53 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 2:30:23 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 2:30:23 PM     UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:40:32 PM     UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:40:32 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:41:34 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:41:49 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:42:32 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:43:26 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2017-02-24 16:50:44, -20 UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.

@@ -50,6 +50,8 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 string sQuery = "INSERT INTO Messages(sender, recipient, message, msgTypeId, priorityId)" +
                                 " VALUES(?, ?, ?, ?, ?)";
                                 //" VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + MESSAGETYPE + ", " + priority + ")";
@@ -76,10 +78,13 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
                                 " FROM vMessages" +
-                                " WHERE recipient = ?";
+                                " WHERE recipient = ?" +
+                                " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -96,11 +101,14 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
                                 " FROM vMessages" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?";
+                                " AND priorityId = ?" +
+                                " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -118,13 +126,16 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
                                 " FROM vMessages" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" + 
+                                " AND priorityId = ?" + 
                                 " AND msgDateTime >= ?" +
-                                " AND msgDateTime <	?";
+                                " AND msgDateTime <	?" +
+                                " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -144,13 +155,16 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
                                 " FROM vMessages" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" +
+                                " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
-                                " AND msgDateTime <	?";
+                                " AND msgDateTime <	?" +
+                                " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -170,11 +184,14 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
                                 " FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
-                                " AND userName = ?";
+                                " AND userName = ?" +
+                                " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -192,12 +209,15 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
                                 " FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
                                 " AND priority= ?" +
-                                " AND userName = ?";
+                                " AND userName = ?" +
+                                " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -216,13 +236,16 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessagesUnread" +
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" +
+                                " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?" +
-                                " AND userName = ?";
+                                " AND userName = ?" +
+                                " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -243,13 +266,16 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessagesUnread" +
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" +
+                                " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?" +
-                                " AND userName = ?";
+                                " AND userName = ?" +
+                                " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -270,6 +296,8 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessages" +
                                 " WHERE recipient = ?";
@@ -295,10 +323,12 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessages" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?";
+                                " AND priorityId = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
@@ -322,10 +352,12 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessages" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" +
+                                " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?";
 
@@ -353,10 +385,12 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessages" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" +
+                                " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?";
 
@@ -384,6 +418,8 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
@@ -411,10 +447,12 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" +
+                                " AND priorityId = ?" +
                                 " AND userName = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
@@ -440,10 +478,12 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" +
+                                " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?" +
                                 " AND userName = ?";
@@ -473,10 +513,12 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
-                                " AND priority = ?" +
+                                " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?" +
                                 " AND userName = ?";

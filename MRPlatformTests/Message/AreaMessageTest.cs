@@ -10,7 +10,7 @@ using MRPlatform.Message;
 namespace MRPlatformTests.Message
 {
     [TestClass]
-    class AreaMessageTest
+    public class AreaMessageTest
     {
         private MRDbConnection _mrdb;
         private string _provider = "SQLNCLI11";
@@ -21,10 +21,11 @@ namespace MRPlatformTests.Message
 
         private AreaMessage _msg;
         private string _sender = "Sender Name";
-        private string _senderInvalid = "John Doe";
+        //private string _senderInvalid = "John Doe";
+        private string _userName = "mrsystems";
         private string _area = "Influent PS";
         private string _areaInvalid = "Jane Doe";
-        private List<string> _recipients;
+        //private List<string> _recipients;
         private string _message = "This is a unit test area message";
         private int _priority = 1;
         private long _msgId;
@@ -95,6 +96,45 @@ namespace MRPlatformTests.Message
 
             Assert.IsTrue(_ds.Tables.Count == 1);
             Assert.IsFalse(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        #endregion
+
+        #region " GetUnreadMessages "
+
+        // GetUnreadMessages(string area)
+        [TestMethod]
+        public void GetUnreadMessagesWithValidArea()
+        {
+            // Make sure a message exists
+            SendAllWithValidAreaString();
+
+            _ds = new DataSet();
+            _ds = _msg.GetUnreadMessages(_userName, _area);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        // GetUnreadMessages(string area)
+        [TestMethod]
+        public void GetUnreadMessagesWithInvalidArea()
+        {
+            _ds = new DataSet();
+            _ds = _msg.GetUnreadMessages("", _area);
+
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsFalse(_ds.Tables[0].Rows.Count >= 1);
+        }
+
+        // GetUnreadMessages(string area, int priority)
+        [TestMethod]
+        public void GetUnreadMessagesWithValidAreaPriority()
+        {
+            _ds = new DataSet();
+            _ds = _msg.GetMessages(_area, _priority);
+            Assert.IsTrue(_ds.Tables.Count == 1);
+            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
         }
 
         #endregion

@@ -1,23 +1,4 @@
-﻿/***************************************************************************************************
- * Class: 		MRUserMessage.cs
- * Created By:	Eric Conder
- * Created On:	2014-03-04
- * 
- * Changes:
- * 
- * 2014-03-04	Created Send & Retrieve methods.
- * 
- * 2014-03-05	Created MarkAs... methods.
- * 
- * 2014-03-06	Created GetMessages methods.
- * 
- * 2014-04-03	Added error handling to some of the functions.
- * 
- * 2016-10-06   Changed class constructor to accept only an MRDbConnection object parameter to 
- *              simplify usage for the end user. Added sync method call as well to sync primary and 
- *              secondary databases.
- * *************************************************************************************************/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;

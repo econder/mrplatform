@@ -225,3 +225,23 @@ The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead
 2017-02-24 20:32:47   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-02-24 20:32:47   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-02-24 20:32:47   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:16   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:19   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:28   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:28   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-02-24 20:37:28   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-02-24 20:37:28   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:28   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:32   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:32   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:33   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:59   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:03   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:11   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:11   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-02-24 20:38:11   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-02-24 20:38:11   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:11   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:15   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:15   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:15   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.

@@ -14,3 +14,4 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRP
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRPlatform.tlb
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.csprojResolveAssemblyReference.cache

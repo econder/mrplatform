@@ -21,7 +21,7 @@ namespace MRPlatformTests.Message
 
         private UserMessage _msg;
         private string _sender = "Sender Name";
-        private string _senderInvalid = "John Doe";
+        //private string _senderInvalid = "John Doe";
         private string _recipient = "Recipient Name";
         private string _recipientInvalid = "Jane Doe";
         private List<string> _recipients;
@@ -523,10 +523,6 @@ namespace MRPlatformTests.Message
             _ds = new DataSet();
             _ds = _msg.GetArchivedMessages(_recipient);
             archivedCountPrev = _ds.Tables[0].Rows.Count;
-
-            Assert.IsTrue(Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]) == msgId);
-            Assert.IsTrue(_ds.Tables.Count == 1);
-            Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
 
             // Unarchive a message
             _msg.UnArchive("", _msgId);

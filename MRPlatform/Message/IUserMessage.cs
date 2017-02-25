@@ -9,7 +9,9 @@ namespace MRPlatform.Message
     public interface IUserMessage
     {
         void Send(string sender, string recipient, string message, int priority = 2);
-        void Send(string sender, List<string> recipients, string message, int priority = 2);
+
+        //void Send(string sender, List<string> recipients, string message, int priority = 2);
+
         DataSet GetMessages(string recipient);
         DataSet GetMessages(string recipient, int priority);
         DataSet GetUnreadMessages(string recipient);

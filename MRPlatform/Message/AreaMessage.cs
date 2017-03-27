@@ -45,18 +45,26 @@ namespace MRPlatform.Message
             _dbConnection = mrDbConnection;
 		}
 
-
-        public void Send(string sender, string recipient, string message, int priority = 2)
+        
+        public void Send(string sender, string area, string message, int priority = 2)
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 string sQuery = "INSERT INTO Messages(sender, recipient, message, msgTypeId, priorityId)" +
-                                " VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + MESSAGETYPE + ", " + priority + ")";
-                OleDbCommand dbCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                                " VALUES(?, ?, ?, ?, ?)";
+                                //" VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + MESSAGETYPE + ", " + priority + ")";
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@sender", sender);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@message", message);
+                sqlCmd.Parameters.AddWithValue("@msgTypeId", MESSAGETYPE);
+                sqlCmd.Parameters.AddWithValue("@priorityId", priority);
 
                 try
                 {
-                    dbCmd.ExecuteNonQuery();
+                    sqlCmd.ExecuteNonQuery();
                 }
                 catch (OleDbException ex)
                 {
@@ -70,12 +78,18 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
-                                " FROM vMessages" +
-                                " WHERE recipient='" + area + "'";
+                dbConnection.Open();
 
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
+                                " FROM vMessages" +
+                                " WHERE recipient = ?" +
+                                " ORDER BY msgDateTime DESC";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -87,13 +101,20 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" + 
-                                " FROM vMessages" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority;
+                dbConnection.Open();
 
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
+                                " FROM vMessages" +
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " ORDER BY msgDateTime DESC";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -105,15 +126,24 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
-                                " FROM vMessages" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" +
-                                " AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'";
+                dbConnection.Open();
 
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
+                                " FROM vMessages" +
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" + 
+                                " AND msgDateTime >= ?" +
+                                " AND msgDateTime <	?" +
+                                " ORDER BY msgDateTime DESC";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@msgDateTimeStart", dtDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@msgDateTimeEnd", dtDate.Date.ToString() + " 00:00:00.000");
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -125,15 +155,24 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
-                                " FROM vMessages" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" +
-                                " AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'";
+                dbConnection.Open();
 
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
+                                " FROM vMessages" +
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " AND msgDateTime >= ?" +
+                                " AND msgDateTime <	?" +
+                                " ORDER BY msgDateTime DESC";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@msgDateTimeStart", dtStartDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@msgDateTimeEnd", dtEndDate.Date.ToString() + " 00:00:00.000");
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -145,13 +184,20 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" + 
-                                " FROM vMessagesUnread" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND userName='" + userName + "'";
+                dbConnection.Open();
 
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
+                                " FROM vMessagesUnread" +
+                                " WHERE recipient = ?" +
+                                " AND sender = ?" +
+                                " ORDER BY msgDateTime DESC";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -163,14 +209,22 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority" +
-                                " FROM vMessagesUnread" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND userName='" + userName + "'";
+                dbConnection.Open();
 
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
+                                " FROM vMessagesUnread" +
+                                " WHERE recipient = ?" +
+                                " AND priority= ?" +
+                                " AND sender = ?" +
+                                " ORDER BY msgDateTime DESC";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -182,15 +236,25 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessagesUnread" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" +
-                                " AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'" +
-                                " AND userName='" + userName + "'";
+                dbConnection.Open();
 
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessagesUnread" +
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " AND msgDateTime >= ?" +
+                                " AND msgDateTime <	?" +
+                                " AND sender = ?" +
+                                " ORDER BY msgDateTime DESC";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@dtStartDate", dtDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@dtEndDate", dtDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -202,15 +266,25 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT msgDateTime, recipient, message, priority FROM vMessagesUnread" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" +
-                                " AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'" +
-                                " AND userName='" + userName + "'";
+                dbConnection.Open();
 
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessagesUnread" +
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " AND msgDateTime >= ?" +
+                                " AND msgDateTime <	?" +
+                                " AND sender = ?" +
+                                " ORDER BY msgDateTime DESC";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@dtStartDate", dtStartDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@dtEndDate", dtEndDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
 
                 return ds;
@@ -222,15 +296,18 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT COUNT(*) FROM Messages" +
-                                " WHERE recipient='" + area + "'";
+                dbConnection.Open();
 
-                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT COUNT(*) FROM vMessages" +
+                                " WHERE recipient = ?";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
 
                 try
                 {
-                    int rowCount = (int)cmd.ExecuteScalar();
+                    int rowCount = (int)sqlCmd.ExecuteScalar();
                     return rowCount;
                 }
                 catch (OleDbException ex)
@@ -246,16 +323,20 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT COUNT(*) FROM Messages" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority;
+                dbConnection.Open();
 
-                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT COUNT(*) FROM vMessages" +
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@prioprity", priority);
 
                 try
                 {
-                    int rowCount = (int)cmd.ExecuteScalar();
+                    int rowCount = (int)sqlCmd.ExecuteScalar();
                     return rowCount;
                 }
                 catch (OleDbException ex)
@@ -271,18 +352,24 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT COUNT(*) FROM Messages" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" +
-                                " AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'";
+                dbConnection.Open();
 
-                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT COUNT(*) FROM vMessages" +
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " AND msgDateTime >= ?" +
+                                " AND msgDateTime <	?";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@dtStartDate", dtDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@dtEndDate", dtDate.Date.ToString() + " 00:00:00.000");
 
                 try
                 {
-                    int rowCount = (int)cmd.ExecuteScalar();
+                    int rowCount = (int)sqlCmd.ExecuteScalar();
                     return rowCount;
                 }
                 catch (OleDbException ex)
@@ -298,18 +385,24 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT COUNT(*) FROM Messages" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" +
-                                " AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'";
+                dbConnection.Open();
 
-                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                DataSet ds = new DataSet();
+                string sQuery = "SELECT COUNT(*) FROM vMessages" +
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " AND msgDateTime >= ?" +
+                                " AND msgDateTime <	?";
+
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@dtStartDate", dtStartDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@dtEndDate", dtEndDate.Date.ToString() + " 00:00:00.000");
 
                 try
                 {
-                    int rowCount = (int)cmd.ExecuteScalar();
+                    int rowCount = (int)sqlCmd.ExecuteScalar();
                     return rowCount;
                 }
                 catch (OleDbException ex)
@@ -325,21 +418,25 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND userName='" + userName + "'";
+                                " WHERE recipient = ?" +
+                                " AND sender = ?";
 
-                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 try
                 {
-                    int rowCount = (int)cmd.ExecuteScalar();
+                    int rowCount = (int)sqlCmd.ExecuteScalar();
                     return rowCount;
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string sender, string area)", ex.Message);
                     return -1;
                 }
             }
@@ -350,22 +447,27 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND userName='" + userName + "'";
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " AND sender = ?";
 
-                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 try
                 {
-                    int rowCount = (int)cmd.ExecuteScalar();
+                    int rowCount = (int)sqlCmd.ExecuteScalar();
                     return rowCount;
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area, int priority)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string sender, string area, int priority)", ex.Message);
                     return -1;
                 }
             }
@@ -376,19 +478,26 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND msgDateTime >= '" + dtDate.Date.ToString() + " 00:00:00.000'" +
-                                " AND msgDateTime <	'" + dtDate.Date.ToString() + " 23:59:59.999'" +
-                                " AND userName='" + userName + "'";
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " AND msgDateTime >= ?" +
+                                " AND msgDateTime <	?" +
+                                " AND sender = ?";
 
-                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@dtStartDate", dtDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@dtEndDate", dtDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 try
                 {
-                    int rowCount = (int)cmd.ExecuteScalar();
+                    int rowCount = (int)sqlCmd.ExecuteScalar();
                     return rowCount;
                 }
                 catch (OleDbException ex)
@@ -404,24 +513,31 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
+
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
-                                " WHERE recipient='" + area + "'" +
-                                " AND priority=" + priority +
-                                " AND msgDateTime >= '" + dtStartDate.Date.ToString() + " 00:00:00.000'" +
-                                " AND msgDateTime <	'" + dtEndDate.Date.ToString() + " 23:59:59.999'" +
-                                " AND userName='" + userName + "'";
+                                " WHERE recipient = ?" +
+                                " AND priorityId = ?" +
+                                " AND msgDateTime >= ?" +
+                                " AND msgDateTime <	?" +
+                                " AND sender = ?";
 
-                OleDbCommand cmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@priority", priority);
+                sqlCmd.Parameters.AddWithValue("@dtStartDate", dtStartDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@dtEndDate", dtEndDate.Date.ToString() + " 00:00:00.000");
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 try
                 {
-                    int rowCount = (int)cmd.ExecuteScalar();
+                    int rowCount = (int)sqlCmd.ExecuteScalar();
                     return rowCount;
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string sender, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)", ex.Message);
                     return -1;
                 }
             }

@@ -1,23 +1,4 @@
-﻿/***************************************************************************************************
- * Class: 		MRUserMessage.cs
- * Created By:	Eric Conder
- * Created On:	2014-03-04
- * 
- * Changes:
- * 
- * 2014-03-04	Created Send & Retrieve methods.
- * 
- * 2014-03-05	Created MarkAs... methods.
- * 
- * 2014-03-06	Created GetMessages methods.
- * 
- * 2014-04-03	Added error handling to some of the functions.
- * 
- * 2016-10-06   Changed class constructor to accept only an MRDbConnection object parameter to 
- *              simplify usage for the end user. Added sync method call as well to sync primary and 
- *              secondary databases.
- * *************************************************************************************************/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -91,7 +72,6 @@ namespace MRPlatform.Message
                 catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "DoSend(string sender, string recipient, string message, int priority = 2)", ex.Message);
-                    throw;
                 }
             }
 		}
@@ -111,7 +91,7 @@ namespace MRPlatform.Message
         {
             string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessages" + 
                             " WHERE recipient='" + recipient + "'" + 
-                            " AND priority=" + priority + 
+                            " AND priorityId=" + priority + 
                             " ORDER BY msgDateTime DESC";
 
             return DoGetMessages(sQuery);
@@ -120,9 +100,8 @@ namespace MRPlatform.Message
 
         public DataSet GetUnreadMessages(string recipient)
         {
-            string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessages" +
+            string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessagesUnread" +
                             " WHERE recipient='" + recipient + "'" +
-                            " AND unread=" + 1 +
                             " ORDER BY msgDateTime DESC";
 
             return DoGetMessages(sQuery);
@@ -131,10 +110,9 @@ namespace MRPlatform.Message
 
         public DataSet GetUnreadMessages(string recipient, int priority)
         {
-            string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessages" + 
+            string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessagesUnread" + 
                             " WHERE recipient='" + recipient + "'" + 
                             " AND priorityId=" + priority + 
-                            " AND unread=" + 1 + 
                             " ORDER BY msgDateTime DESC";
 
             return DoGetMessages(sQuery);
@@ -143,9 +121,8 @@ namespace MRPlatform.Message
 
         public DataSet GetArchivedMessages(string recipient)
         {
-            string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM MessagesArchived" +
+            string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessagesArchived" +
                             " WHERE recipient='" + recipient + "'" +
-                            " AND archived=" + 1 +
                             " ORDER BY msgDateTime DESC";
 
             return DoGetMessages(sQuery);
@@ -154,10 +131,9 @@ namespace MRPlatform.Message
 
         public DataSet GetArchivedMessages(string recipient, int priority)
         {
-            string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM MessagesArchived" + 
+            string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessagesArchived" + 
                             " WHERE recipient='" + recipient + "'" + 
                             " AND priorityId=" + priority + 
-                            " AND archived=" + 1 + 
                             " ORDER BY msgDateTime DESC";
 
             return DoGetMessages(sQuery);
@@ -181,10 +157,12 @@ namespace MRPlatform.Message
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                string sQuery = "DELETE FROM MessagesRead WHERE id = @id AND recipient = @recipient";
+                dbConnection.Open();
+
+                string sQuery = "DELETE FROM MessagesRead WHERE msgId = ? AND recipient = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@id", msgId);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
                 sqlCmd.Parameters.AddWithValue("@recipient", recipient);
 
                 try
@@ -194,7 +172,6 @@ namespace MRPlatform.Message
                 catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "MarkAsUnread(string recipient, int msgId)", ex.Message);
-                    throw;
                 }
             }
         }
@@ -204,10 +181,15 @@ namespace MRPlatform.Message
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                string sQuery = "INSERT INTO MessagesRead(id, recipient) VALUES(@id, @recipient)";
+                dbConnection.Open();
+
+                string sQuery = "INSERT INTO MessagesRead(msgId, recipient)" +
+                                " SELECT id, recipient" +
+                                " FROM vMessages" +
+                                " WHERE id = ? AND recipient = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@id", msgId);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
                 sqlCmd.Parameters.AddWithValue("@recipient", recipient);
 
                 try
@@ -217,7 +199,6 @@ namespace MRPlatform.Message
                 catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "MarkAsRead(string recipient, int msgId)", ex.Message);
-                    throw;
                 }
             }
         }
@@ -227,10 +208,15 @@ namespace MRPlatform.Message
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                string sQuery = "INSERT INTO MessagesArchived(id, recipient) VALUES(@id, @recipient)";
+                dbConnection.Open();
+
+                string sQuery = "INSERT INTO MessagesArchived(msgId, recipient)" + 
+                                " SELECT id, recipient" + 
+                                " FROM vMessages" + 
+                                " WHERE id = ? AND recipient = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@id", msgId);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
                 sqlCmd.Parameters.AddWithValue("@recipient", recipient);
 
                 try
@@ -240,7 +226,6 @@ namespace MRPlatform.Message
                 catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Archive(string recipient, int msgId)", ex.Message);
-                    throw;
                 }
             }
         }
@@ -250,11 +235,12 @@ namespace MRPlatform.Message
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
 
-                string sQuery = "DELETE FROM MessagesArchived WHERE id = @id AND recipient = @recipient";
+                string sQuery = "DELETE FROM MessagesArchived WHERE msgId = ? AND recipient = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@id", msgId);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
                 sqlCmd.Parameters.AddWithValue("@recipient", recipient);
 
                 try
@@ -264,22 +250,21 @@ namespace MRPlatform.Message
                 catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "UnArchive(string recipient, int msgId)", ex.Message);
-                    throw;
                 }
             }
         }
 
 
-        public void DeleteMessage(string recipient, long msgId)
+        public void DeleteMessage(long msgId)
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
 
-                string sQuery = "DELETE FROM Messages WHERE id = @id AND recipient = @recipient";
+                string sQuery = "DELETE FROM Messages WHERE msgId = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@id", msgId);
-                sqlCmd.Parameters.AddWithValue("@recipient", recipient);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
 
                 try
                 {
@@ -287,23 +272,22 @@ namespace MRPlatform.Message
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "DeleteMessage(string recipient, int msgId)", ex.Message);
-                    throw;
+                    _errorLog.LogMessage(this.GetType().Name, "DeleteMessage(int msgId)", ex.Message);
                 }
             }
         }
 
 
-        public void DeleteArchivedMessage(string recipient, long msgId)
+        public void DeleteArchivedMessage(long msgId)
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
+                dbConnection.Open();
 
-                string sQuery = "DELETE FROM MessagesArchived WHERE id = @id AND recipient = @recipient";
+                string sQuery = "DELETE FROM MessagesArchived WHERE msgId = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@id", msgId);
-                sqlCmd.Parameters.AddWithValue("@recipient", recipient);
+                sqlCmd.Parameters.AddWithValue("@msgId", msgId);
 
                 try
                 {
@@ -311,8 +295,7 @@ namespace MRPlatform.Message
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "DeleteArchivedMessage(string recipient, int msgId)", ex.Message);
-                    throw;
+                    _errorLog.LogMessage(this.GetType().Name, "DeleteArchivedMessage(int msgId)", ex.Message);
                 }
             }
         }

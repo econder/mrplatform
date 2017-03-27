@@ -105,3 +105,153 @@ Invalid column name 'nodeName'.
 2/16/2017 3:23:50 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2/16/2017 3:23:51 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2/16/2017 3:23:51 PM     AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:01 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:04 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:16 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:21 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:22 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/17/2017 2:35:22 PM     AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/17/2017 3:37:18 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@id".
+2/17/2017 3:37:51 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@id".
+2/17/2017 3:39:55 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@msgId".
+2/17/2017 3:40:16 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Must declare the scalar variable "@msgId".
+2/17/2017 3:43:03 PM     UserMessage::MarkAsRead(string recipient, int msgId)->Invalid column name 'recipient'.
+2/24/2017 10:56:24 AM    AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:27 AM    AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:36 AM    AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:39 AM    AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:40 AM    AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 10:56:40 AM    AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/24/2017 11:07:43 AM    UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+Cannot insert the value NULL into column 'id', table 'mrsystems.dbo.MessagesRead'; column does not allow nulls. INSERT fails.
+2/24/2017 1:16:03 PM     UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 1:55:21 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:26 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:42 PM     AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:49 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:49 PM     AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:50 PM     AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2/24/2017 1:55:53 PM     UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 1:55:53 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 2:30:23 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 2:30:23 PM     UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:40:32 PM     UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:40:32 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:41:34 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:41:49 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:42:32 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2/24/2017 4:43:26 PM     UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2017-02-24 16:50:44, -20 UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2017-02-24 18:47:48   UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2017-02-24 18:53:21   UserMessage::Archive(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesArchived_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2017-02-24 18:54:33   UserMessage::MarkAsRead(string recipient, int msgId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead_Messages". The conflict occurred in database "mrsystems", table "dbo.Messages", column 'id'.
+2017-02-24 19:17:35   UserMessage::Archive(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:25:31   UserMessage::MarkAsRead(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:25:42   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:25:45   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:25:54   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 19:25:54   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-02-24 19:25:54   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-02-24 19:25:54   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:25:54   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 19:25:58   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:25:58   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:25:58   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:26:00   UserMessage::MarkAsRead(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:26:00   UserMessage::MarkAsRead(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:26:00   UserMessage::MarkAsRead(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:26:00   UserMessage::MarkAsRead(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:26:00   UserMessage::MarkAsRead(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:26:00   UserMessage::Archive(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:26:00   UserMessage::Archive(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:26:00   UserMessage::Archive(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:26:00   UserMessage::Archive(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:27:25   UserMessage::MarkAsRead(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:28:22   UserMessage::MarkAsRead(string recipient, int msgId)->Incorrect syntax near the keyword 'INTO'.
+2017-02-24 19:29:33   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:29:36   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:29:45   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 19:29:45   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-02-24 19:29:45   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-02-24 19:29:45   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:29:45   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 19:29:49   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:29:49   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:29:49   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:33:29   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:33:31   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:33:40   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 19:33:40   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-02-24 19:33:40   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-02-24 19:33:40   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:33:40   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 19:33:44   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:33:44   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 19:33:44   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:32:31   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:32:34   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:32:43   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:32:43   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-02-24 20:32:43   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-02-24 20:32:43   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:32:43   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:32:47   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:32:47   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:32:47   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:16   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:19   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:28   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:28   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-02-24 20:37:28   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-02-24 20:37:28   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:28   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:32   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:32   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:33   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:37:59   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:03   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:11   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:11   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-02-24 20:38:11   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-02-24 20:38:11   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:11   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:15   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:15   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-02-24 20:38:15   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-03-27 14:10:31   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-03-27 14:10:34   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-03-27 14:10:43   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-03-27 14:10:43   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-03-27 14:10:43   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-03-27 14:10:43   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-03-27 14:10:43   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-03-27 14:10:47   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-03-27 14:10:47   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-03-27 14:10:47   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.

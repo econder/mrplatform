@@ -3,7 +3,7 @@ using System.Data;
 using System.Runtime.InteropServices;
 
 
-namespace MRPlatform.InTouch
+namespace MRPlatform.HMI.Wonderware.InTouch
 {
     [Guid("B1F1FF23-8758-4978-8BE2-E65FBB07C8DA")]
     public interface IWindow

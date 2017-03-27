@@ -7,7 +7,7 @@ namespace MRPlatform.HMI
     [Guid("C0CB67B1-B4B6-4140-BE7B-03CD12850A5D")]
     public interface IMenu
     {
-        DataSet GetMenuItems(int pageNumber, int resultsPerPage);
+        DataSet GetNavigationItems(int pageNumber, int resultsPerPage);
         
     }
 

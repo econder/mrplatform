@@ -39,7 +39,7 @@ namespace MRPlatformTests.HMI
         public void GetMenuItems()
         {
             _ds = new DataSet();
-            _ds = _menu.GetMenuItems(_pageNumber, _resultsPerPage);
+            _ds = _menu.GetNavigationItems(_pageNumber, _resultsPerPage);
 
             Assert.IsTrue(_ds.Tables.Count == 1);
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);

@@ -153,7 +153,10 @@ namespace MRPlatform.DB
                     if(dataSet.Tables[0].Columns[i].DataType.ToString() == "System.Byte[]")
                     {
                         // Binary data must be properly encoded (bin.hex)
-                        if(!Convert.IsDBNull(dataSet.Tables[0].Rows[i].ItemArray[]))
+                        if(!Convert.IsDBNull(dataSet.Tables[0].Rows[i].ItemArray[k]))
+                        {
+                            xWriter.WriteAttributeString(dataSet.Tables[0].Columns[k].ColumnName, dataSet.Tables[0].Columns[k].ColumnName.ToString());
+                        }
                     }
                 }
             }

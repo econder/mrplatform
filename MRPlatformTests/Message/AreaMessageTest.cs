@@ -110,7 +110,7 @@ namespace MRPlatformTests.Message
             SendAllWithValidAreaString();
 
             _ds = new DataSet();
-            _ds = _msg.GetUnreadMessages(_userName, _area);
+            _ds = _msg.GetUnreadMessages(_sender, _area);
 
             Assert.IsTrue(_ds.Tables.Count == 1);
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);

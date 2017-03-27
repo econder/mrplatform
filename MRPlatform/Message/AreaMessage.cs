@@ -190,12 +190,12 @@ namespace MRPlatform.Message
                 string sQuery = "SELECT id, msgDateTime, recipient, message, priority" +
                                 " FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
-                                " AND userName = ?" +
+                                " AND sender = ?" +
                                 " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
-                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
@@ -216,13 +216,13 @@ namespace MRPlatform.Message
                                 " FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
                                 " AND priority= ?" +
-                                " AND userName = ?" +
+                                " AND sender = ?" +
                                 " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
                 sqlCmd.Parameters.AddWithValue("@priority", priority);
-                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
@@ -244,7 +244,7 @@ namespace MRPlatform.Message
                                 " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?" +
-                                " AND userName = ?" +
+                                " AND sender = ?" +
                                 " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
@@ -252,7 +252,7 @@ namespace MRPlatform.Message
                 sqlCmd.Parameters.AddWithValue("@priority", priority);
                 sqlCmd.Parameters.AddWithValue("@dtStartDate", dtDate.Date.ToString() + " 00:00:00.000");
                 sqlCmd.Parameters.AddWithValue("@dtEndDate", dtDate.Date.ToString() + " 00:00:00.000");
-                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
@@ -274,7 +274,7 @@ namespace MRPlatform.Message
                                 " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?" +
-                                " AND userName = ?" +
+                                " AND sender = ?" +
                                 " ORDER BY msgDateTime DESC";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
@@ -282,7 +282,7 @@ namespace MRPlatform.Message
                 sqlCmd.Parameters.AddWithValue("@priority", priority);
                 sqlCmd.Parameters.AddWithValue("@dtStartDate", dtStartDate.Date.ToString() + " 00:00:00.000");
                 sqlCmd.Parameters.AddWithValue("@dtEndDate", dtEndDate.Date.ToString() + " 00:00:00.000");
-                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 dbAdapt.Fill(ds);
@@ -423,11 +423,11 @@ namespace MRPlatform.Message
                 DataSet ds = new DataSet();
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
-                                " AND userName = ?";
+                                " AND sender = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
-                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 try
                 {
@@ -436,7 +436,7 @@ namespace MRPlatform.Message
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string sender, string area)", ex.Message);
                     return -1;
                 }
             }
@@ -453,12 +453,12 @@ namespace MRPlatform.Message
                 string sQuery = "SELECT COUNT(*) FROM vMessagesUnread" +
                                 " WHERE recipient = ?" +
                                 " AND priorityId = ?" +
-                                " AND userName = ?";
+                                " AND sender = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
                 sqlCmd.Parameters.AddWithValue("@priority", priority);
-                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 try
                 {
@@ -467,7 +467,7 @@ namespace MRPlatform.Message
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area, int priority)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string sender, string area, int priority)", ex.Message);
                     return -1;
                 }
             }
@@ -486,14 +486,14 @@ namespace MRPlatform.Message
                                 " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?" +
-                                " AND userName = ?";
+                                " AND sender = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
                 sqlCmd.Parameters.AddWithValue("@priority", priority);
                 sqlCmd.Parameters.AddWithValue("@dtStartDate", dtDate.Date.ToString() + " 00:00:00.000");
                 sqlCmd.Parameters.AddWithValue("@dtEndDate", dtDate.Date.ToString() + " 00:00:00.000");
-                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 try
                 {
@@ -521,14 +521,14 @@ namespace MRPlatform.Message
                                 " AND priorityId = ?" +
                                 " AND msgDateTime >= ?" +
                                 " AND msgDateTime <	?" +
-                                " AND userName = ?";
+                                " AND sender = ?";
 
                 OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@recipient", area);
                 sqlCmd.Parameters.AddWithValue("@priority", priority);
                 sqlCmd.Parameters.AddWithValue("@dtStartDate", dtStartDate.Date.ToString() + " 00:00:00.000");
                 sqlCmd.Parameters.AddWithValue("@dtEndDate", dtEndDate.Date.ToString() + " 00:00:00.000");
-                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@sender", userName);
 
                 try
                 {
@@ -537,7 +537,7 @@ namespace MRPlatform.Message
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string userName, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "UnreadCount(string sender, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)", ex.Message);
                     return -1;
                 }
             }

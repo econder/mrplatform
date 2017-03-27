@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Runtime.InteropServices;
 
 namespace MRPlatform.Message
@@ -6,7 +7,7 @@ namespace MRPlatform.Message
     [Guid("A2FCAB54-9614-431A-B003-CEE659E0E35F")]
     public interface IAreaMessage
     {
-        
+
     }
 
 

@@ -1,29 +1,14 @@
-﻿/***************************************************************************************************
- * Class: 			MRConnection.cs
- * Created By:		Eric Conder
- * Created On:		2014-01-06
- * 
- * Changes:
- * 
- * 2014-03-06	Recreated the MRConnection under new namespace MRPlatform2014.Data.Sql.
- * 
- * 2014-03-27	Writing MROleDbConnection.Open() functions to be used internally by the other classes
- * 				to access the SQL database.
- * 
- * 2014-04-03	Added deconstructor to close database if connection is still open when class is disposed.
- * 
- * 2016-08-29   Added new constructor parameters for the sync server's name, instance, username, & password.
- * 
- * *************************************************************************************************/
-using System;
+﻿using System;
 using System.Data;
 using System.Data.OleDb;
+using System.Runtime.InteropServices;
 
 using MRPlatform.AlarmEvent;
 
 
 namespace MRPlatform.DB.Sql
 {
+    [Guid("D098F6B4-0FB6-4695-92FF-B78724BAAAE6")]
     public class MRDbConnection
 	{
         private ErrorLog _errorLog;

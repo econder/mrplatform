@@ -5,9 +5,12 @@ using System.Runtime.InteropServices;
 using System.Threading;
 
 
-namespace MRPlatform.WMI
+namespace MRPlatformVBA.WMI
 {
-    [Guid("D7413FD7-F779-487D-865A-F8C32EACFE4B")]
+    [ComVisible(true)]
+    [Guid("D9C4BDC9-5792-4008-BE71-6822A5D116D5"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IProcessorEvents))]
     public class Processor : IProcessor
     {
         public int LoadPercentage { get; set; }

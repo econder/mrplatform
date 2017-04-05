@@ -1,0 +1,3 @@
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformVBA\obj\Debug\MRPlatformVBA.csprojResolveAssemblyReference.cache
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformVBA\obj\Debug\Interop.ADODB.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformVBA\obj\Debug\MRPlatformVBA.csproj.ResolveComReference.cache

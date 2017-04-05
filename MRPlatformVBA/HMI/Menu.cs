@@ -4,12 +4,15 @@ using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
 
-using MRPlatform.DB;
-using MRPlatform.DB.Sql;
+using MRPlatformVBA.DB;
+using MRPlatformVBA.DB.Sql;
 
-namespace MRPlatform.HMI
+namespace MRPlatformVBA.HMI
 {
-    [Guid("A5BBE422-69A6-40BF-996F-9B79A07A6831")]
+    [ComVisible(true)]
+    [Guid("FD4A0E0F-5766-44A0-9641-44FE480BA507"),
+        ClassInterface(ClassInterfaceType.None),
+        ComSourceInterfaces(typeof(IMenuEvents))]
     public class Menu : IMenu
     {
         private ErrorLog _errorLog = new ErrorLog();

@@ -4,14 +4,17 @@ using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
 
-using MRPlatform.DB.Sql;
+using MRPlatformVBA.DB.Sql;
 
-namespace MRPlatform.Message
+namespace MRPlatformVBA.Message
 {
     /// <summary>
     /// Description of MRMessage.
     /// </summary>
-    [Guid("389711FE-7AAB-452B-A14E-78EED94A23DB")]
+    [ComVisible(true)]
+    [Guid("1CA3538F-7E73-405C-B287-6295CC38A6C9"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IUserMessageEvents))]
     public class UserMessage : IUserMessage
 	{
         private ErrorLog _errorLog;

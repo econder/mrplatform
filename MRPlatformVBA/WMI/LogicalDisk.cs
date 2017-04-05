@@ -5,9 +5,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MRPlatform.WMI
+namespace MRPlatformVBA.WMI
 {
-    [Guid("877B18D5-8DA7-4933-8D8C-E4FDEECFE947")]
+    [ComVisible(true)]
+    [Guid("0B32AC98-9468-4B57-AD94-B0E148B4852C"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(ILogicalDiskEvents))]
     public class LogicalDisk : ILogicalDisk
     {
         public LogicalDisk()

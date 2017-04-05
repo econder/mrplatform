@@ -8,9 +8,12 @@ using System.Management;
 using System.Management.Instrumentation;
 
 
-namespace MRPlatform.WMI
+namespace MRPlatformVBA.WMI
 {
-    [Guid("62E2A76E-0471-4FB3-8293-A2F50D4A83DA")]
+    [ComVisible(true)]
+    [Guid("EEF6907D-F499-4D36-81AD-E5F652BC1304"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IOperatingSystemEvents))]
     public class OperatingSystem : IOperatingSystem
     {
         public string LastBootUpTime { get; set; }

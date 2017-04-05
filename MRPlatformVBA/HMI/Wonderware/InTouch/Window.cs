@@ -5,9 +5,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 
-namespace MRPlatform.HMI.Wonderware.InTouch
+namespace MRPlatformVBA.HMI.Wonderware.InTouch
 {
-    [Guid("7DE85542-10D9-4337-A2E7-EA5E72BA301A")]
+    [ComVisible(true)]
+    [Guid("EAD9934F-61ED-46B2-9D33-AB87D5DF41BC"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IWindowEvents))]
     class Window : IWindow
     {
         private const string INDEX_FILENAME = "ww_wdws.ndx";

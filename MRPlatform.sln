@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRPlatformTests", "MRPlatfo
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MRPlatform Setup", "MRPlatform Setup\MRPlatform Setup.vdproj", "{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRPlatformVBA", "MRPlatformVBA\MRPlatformVBA.csproj", "{382F9C31-AE4E-4939-8358-721B069C18C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,14 @@ Global
 		{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}.Debug|x86.ActiveCfg = Debug
 		{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}.Release|Any CPU.ActiveCfg = Release
 		{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}.Release|x86.ActiveCfg = Release
+		{382F9C31-AE4E-4939-8358-721B069C18C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{382F9C31-AE4E-4939-8358-721B069C18C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{382F9C31-AE4E-4939-8358-721B069C18C5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{382F9C31-AE4E-4939-8358-721B069C18C5}.Debug|x86.Build.0 = Debug|Any CPU
+		{382F9C31-AE4E-4939-8358-721B069C18C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{382F9C31-AE4E-4939-8358-721B069C18C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{382F9C31-AE4E-4939-8358-721B069C18C5}.Release|x86.ActiveCfg = Release|Any CPU
+		{382F9C31-AE4E-4939-8358-721B069C18C5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="HMI\MenuTest.cs" />
     <Compile Include="Message\AreaMessageTest.cs" />
     <Compile Include="Message\UserMessageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

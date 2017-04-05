@@ -1,15 +1,4 @@
-﻿/***************************************************************************************************
- * Class:    	MRTagEvent.cs
- * Created By:  Eric Conder
- * Created On:  2014-03-26
- * 
- * Changes:
- * 
- * 2014-04-01	Changed namespace from MRPlatform2014.Event to MRPlatform2014.AlarmEvent
- * 
- * 
- * *************************************************************************************************/
-using System;
+﻿using System;
 using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
@@ -22,10 +11,7 @@ namespace MRPlatform.AlarmEvent
     /// <summary>
     /// MRPlatform.AlarmEvent.MRTagEvent class.
     /// </summary>
-    [ComVisible(true)]
-    [Guid("8F141A9D-EB47-4FF5-9FFE-9C507625EAAF"),
-    ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(ITagEventEvents))]
+    [Guid("8F141A9D-EB47-4FF5-9FFE-9C507625EAAF")]
     public class TagEvent : ITagEvent
 	{
         public MRDbConnection _dbConnection;

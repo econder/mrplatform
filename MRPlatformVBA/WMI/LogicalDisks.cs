@@ -7,9 +7,12 @@ using System.Runtime.InteropServices;
 using System.Threading;
 
 
-namespace MRPlatform.WMI
+namespace MRPlatformVBA.WMI
 {
-    [Guid("455EE884-F3F1-46C1-B4E2-35BA2E31CE83")]
+    [ComVisible(true)]
+    [Guid("CBDC3FF0-03D8-43E7-8B7D-32B907A0AA97"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(ILogicalDisksEvents))]
     public class LogicalDisks : ILogicalDisks, IEnumerable<LogicalDisk>
     {
         public List<LogicalDisk> Disks;

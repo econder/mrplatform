@@ -3,15 +3,18 @@ using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
 
-using MRPlatform.DB.Sql;
+using MRPlatformVBA.DB.Sql;
 
 
-namespace MRPlatform.Wonderware.AlarmEvent
+namespace MRPlatformVBA.Wonderware.AlarmEvent
 {
     /// <summary>
     /// MRPlatform.AlarmEvent.MRAlarmEventLog class.
     /// </summary>
-    [Guid("96E0CD61-EC8D-428F-BAF7-0A0910A6432F")]
+    [ComVisible(false)]
+    [Guid("A4BF05E5-9627-4388-9B5C-31988AEC2656"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IAlarmEventLogEvents))]
     public class AlarmEventLog : IAlarmEventLog
 	{
         private ErrorLog _errorLog = new ErrorLog();

@@ -3,15 +3,18 @@ using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
 
-using MRPlatform.DB.Sql;
+using MRPlatformVBA.DB.Sql;
 
 
-namespace MRPlatform.Message
+namespace MRPlatformVBA.Message
 {
     /// <summary>
     /// Description of MRAreaMessage.
     /// </summary>
-    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668")]
+    [ComVisible(true)]
+    [Guid("F0EC291F-F17C-4CC2-A741-E464BAFB12B4"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IAreaMessageEvents))]
     public class AreaMessage : IAreaMessage
 	{
         private ErrorLog _errorLog = new ErrorLog();

@@ -3,15 +3,18 @@ using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
 
-using MRPlatform.DB.Sql;
+using MRPlatformVBA.DB.Sql;
 
 
-namespace MRPlatform.AlarmEvent
+namespace MRPlatformVBA.AlarmEvent
 {
     /// <summary>
     /// Description of MREvent.
     /// </summary>
-    [Guid("F3C0CE97-4E39-47A6-9856-F3A4E112C932")]
+    [ComVisible(true)]
+    [Guid("64DEF310-1D25-438E-834B-F58A22418CC3"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IUserEventEvents))]
     public class UserEvent : IUserEvent
 	{
         private MRDbConnection _dbConnection;

@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace MRPlatform.DB
 {
-    class DataSetConverter
+    public class DataSetConverter
     {
         public DataSetConverter()
         {
-            // Class constructorL
+            // Class constructor
         }
 
         public string GetADORecordset(DataSet dataSet, string databaseName)

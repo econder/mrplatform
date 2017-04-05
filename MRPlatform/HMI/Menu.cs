@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
 
+using MRPlatform.DB;
 using MRPlatform.DB.Sql;
 
 namespace MRPlatform.HMI
@@ -54,9 +55,5 @@ namespace MRPlatform.HMI
                 }
             }
         }
-
-
-
-
     }
 }

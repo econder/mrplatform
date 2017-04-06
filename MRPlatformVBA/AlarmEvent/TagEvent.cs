@@ -71,10 +71,10 @@ namespace MRPlatformVBA.AlarmEvent
                             " FROM TagEventLog" +
                             " ORDER BY evtDateTime DESC";
 
-            DataSet ds = new DataSet();
-            ds = GetDataSetFromQuery(sQuery);
+            ADODB.Recordset rs = new ADODB.Recordset();
+            rs = GetDataSetFromQuery(sQuery);
 
-            return ds;
+            return rs;
         }
 
 
@@ -84,7 +84,7 @@ namespace MRPlatformVBA.AlarmEvent
         /// <param name="dbConn">OleDbConnection object of the database connection.</param>
         /// <param name="startDateTime">DateTime object of the date of the recordset.</param>
         /// <returns>System.Data.DataSet</returns>
-        public DataSet GetHistory(DateTime startDate)
+        public ADODB.Recordset GetHistory(DateTime startDate)
         {
             string sQuery = "SELECT *" +
                             " FROM TagEventLog" +
@@ -92,10 +92,10 @@ namespace MRPlatformVBA.AlarmEvent
                             " AND evtDateTime <= '" + startDate + "23:59:59.999'" +
                             " ORDER BY evtDateTime";
 
-            DataSet ds = new DataSet();
-            ds = GetDataSetFromQuery(sQuery);
+            ADODB.Recordset rs = new ADODB.Recordset();
+            rs = GetDataSetFromQuery(sQuery);
 
-            return ds;
+            return rs;
         }
 
 
@@ -106,7 +106,7 @@ namespace MRPlatformVBA.AlarmEvent
         /// <param name="startDateTime">DateTime object of the start date of the recordset.</param>
         /// <param name="endDateTime">DateTime object of the end date of the recordset.</param>
         /// <returns>System.Data.DataSet</returns>
-        public DataSet GetHistory(DateTime startDateTime, DateTime endDateTime)
+        public ADODB.Recordset GetHistory(DateTime startDateTime, DateTime endDateTime)
         {
             string sQuery = "SELECT *" +
                             " FROM TagEventLog" +
@@ -114,10 +114,10 @@ namespace MRPlatformVBA.AlarmEvent
                             " AND evtDateTime <= '" + endDateTime + "'" +
                             " ORDER BY evtDateTime";
 
-            DataSet ds = new DataSet();
-            ds = GetDataSetFromQuery(sQuery);
+            ADODB.Recordset rs = new ADODB.Recordset();
+            rs = GetDataSetFromQuery(sQuery);
 
-            return ds;
+            return rs;
         }
 
 

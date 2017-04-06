@@ -11,5 +11,7 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\Debug\Microso
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\Debug\MRPlatform.tlb
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRPlatform.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Debug\MRPlatform.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\Interop.ADODB.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.csproj.ResolveComReference.cache
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.pdb

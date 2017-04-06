@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AlarmEvent\TagEventTest.cs" />
     <Compile Include="HMI\MenuTest.cs" />
     <Compile Include="Message\AreaMessageTest.cs" />
     <Compile Include="Message\UserMessageTest.cs" />
@@ -68,6 +69,17 @@
       <Project>{897c6892-eae0-4bbd-8571-7987fe652d1e}</Project>
       <Name>MRPlatform</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ADODB">
+      <Guid>{2A75196C-D9EB-4129-B803-931327F72D5C}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

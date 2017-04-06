@@ -15,3 +15,4 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\Interop
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.csproj.ResolveComReference.cache
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Debug\MRPlatform.csprojResolveAssemblyReference.cache

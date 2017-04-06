@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using System.Data.OleDb;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ADODB;
 
@@ -53,6 +55,16 @@ namespace MRPlatformTests.HMI
             Assert.IsTrue(_ds.Tables[0].Rows.Count == 20);
         }
 
+        // GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetNavigationItemsDSInvalidParams()
+        {
+            _ds = new DataSet();
+            _ds = _menu.GetNavigationItemsDataSet(_pageNumberInvalid, _resultsPerPageInvalid);
+        }
+
+
         // GetNavigationItemsRecordset(int pageNumber, int resultsPerPage)
         [TestMethod]
         public void GetNavigationItemsRS()
@@ -61,6 +73,33 @@ namespace MRPlatformTests.HMI
             _rs = _menuADO.GetNavigationItemsRecordset(_pageNumber, _resultsPerPage);
 
             Assert.IsTrue(_rs.RecordCount == 20);
+        }
+
+        // GetNavigationItemsRecordset(int pageNumber, int resultsPerPage)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetNavigationItemsRSInvalidParams()
+        {
+            _rs = new Recordset();
+            _rs = _menuADO.GetNavigationItemsRecordset(_pageNumberInvalid, _resultsPerPageInvalid);
+        }
+
+
+        // MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
+        [TestMethod]
+        public void MoveNavigationItem()
+        {
+            int recCount = -1;
+            recCount = MoveNavigationItem(Menu.ItemMoveDirection.Up, 4);
+        }
+
+
+        // MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void MoveNavigationItemInvalidParams()
+        {
+
         }
     }
 }

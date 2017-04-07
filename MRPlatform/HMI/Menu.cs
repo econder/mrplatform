@@ -117,11 +117,13 @@ namespace MRPlatform.HMI
 
                     try
                     {
-                        return sqlCmd.ExecuteNonQuery();
+                        
+                        sqlCmd.ExecuteNonQuery();
+                        return 0;
                     }
                     catch (OleDbException ex)
                     {
-                        _errorLog.LogMessage(this.GetType().Name, "GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)", ex.Message);
+                        _errorLog.LogMessage(this.GetType().Name, "MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)", ex.Message);
                         return -1;
                     }
                 }
@@ -145,16 +147,23 @@ namespace MRPlatform.HMI
                 Recordset rs = new Recordset();
                 rs.CursorType = CursorTypeEnum.adOpenStatic;
 
-                object recAffected = 0;
-                rs = dbCmd.Execute(out recAffected);
-
-                return Convert.ToInt32(recAffected);
+                try
+                {
+                    object recAffected;
+                    rs = dbCmd.Execute(out recAffected);
+                    return 0;
+                }
+                catch(COMException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)", ex.Message);
+                    return -1;
+                }
             }
         }
 
         private string GetMoveNavigationItemQuery()
         {
-            string sQuery = "EXEC [dbo].[mrspMoveItem] @currentOrderId = ?, @moveUp = ?";
+            string sQuery = "EXEC [dbo].[mrspMoveItem] ?, ?";
             return sQuery;
         }
     }

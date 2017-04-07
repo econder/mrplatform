@@ -90,7 +90,18 @@ namespace MRPlatformTests.HMI
         public void MoveNavigationItem()
         {
             int recCount = -1;
-            recCount = MoveNavigationItem(Menu.ItemMoveDirection.Up, 4);
+            recCount = _menu.MoveNavigationItem(Menu.ItemMoveDirection.Up, 4);
+            Assert.IsTrue(recCount >= 0);
+        }
+
+
+        // MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
+        [TestMethod]
+        public void MoveNavigationItemADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.MoveNavigationItem(Menu.ItemMoveDirection.Up, 4);
+            Assert.IsTrue(recCount >= 0);
         }
 
 
@@ -99,7 +110,20 @@ namespace MRPlatformTests.HMI
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void MoveNavigationItemInvalidParams()
         {
+            int recCount = -1;
+            recCount = _menu.MoveNavigationItem(Menu.ItemMoveDirection.Up, 0);
+            Assert.IsTrue(recCount >= 0);
+        }
 
+
+        // MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void MoveNavigationItemInvalidParamsADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.MoveNavigationItem(Menu.ItemMoveDirection.Up, 0);
+            Assert.IsTrue(recCount >= 0);
         }
     }
 }

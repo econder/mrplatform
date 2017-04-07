@@ -277,3 +277,20 @@ The INSERT statement conflicted with the FOREIGN KEY constraint "FK_MessagesRead
 2017-04-06 14:04:28   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
 2017-04-06 14:04:31   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->The number of rows provided for a FETCH clause must be greater then zero.
 2017-04-06 14:05:08   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->The number of rows provided for a FETCH clause must be greater then zero.
+2017-04-07 07:55:24   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-04-07 07:55:28   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-04-07 07:55:37   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-04-07 07:55:37   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-04-07 07:55:37   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-04-07 07:55:37   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-04-07 07:55:37   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-04-07 07:55:42   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-04-07 07:55:42   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-04-07 07:55:42   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-04-07 08:12:23   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Must declare the scalar variable "@return_valueEXEC".
+Incorrect syntax near '@return_value'.
+2017-04-07 08:15:10   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Must declare the scalar variable "@return_valueEXEC".
+Incorrect syntax near '@return_value'.
+2017-04-07 08:16:07   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Must declare the scalar variable "@return_valueEXEC".
+Incorrect syntax near '@return_value'.
+2017-04-07 08:18:09   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Must declare the scalar variable "@return_valueEXEC".

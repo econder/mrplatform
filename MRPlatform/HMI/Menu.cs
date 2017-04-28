@@ -166,5 +166,82 @@ namespace MRPlatform.HMI
             string sQuery = "EXEC [dbo].[mrspMoveItem] ?, ?";
             return sQuery;
         }
+
+
+        [ComVisible(true)]
+        // Use mrspMoveItem SQL stored procedure
+        public int AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        {
+            if (screenName == null) { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
+            if (screenName == "") { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
+            if (screenName.Length > 50 ) { throw new ArgumentOutOfRangeException("screenName", "screenName must be 50 characters or less."); }
+            if (titleTop.Length > 50) { throw new ArgumentOutOfRangeException("titleTop", "titleTop must be 50 characters or less."); }
+            if (titleBottom.Length > 50) { throw new ArgumentOutOfRangeException("titleBottom", "titleBottom must be 50 characters or less."); }
+
+            if (!_dbConnection.UseADODB)
+            {
+                // Use OleDb Connection
+                using (IDbConnection dbConnection = _dbConnection.Connection)
+                {
+                    dbConnection.Open();
+
+                    OleDbCommand sqlCmd = new OleDbCommand(GetAddNavigationItemQuery(), (OleDbConnection)dbConnection);
+                    sqlCmd.Parameters.AddWithValue("@screenName", screenName);
+                    sqlCmd.Parameters.AddWithValue("@titleTop", titleTop);
+                    sqlCmd.Parameters.AddWithValue("@titleBottom", titleBottom);
+
+                    try
+                    {
+                        sqlCmd.ExecuteNonQuery();
+                        return 0;
+                    }
+                    catch (OleDbException ex)
+                    {
+                        _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom)", ex.Message);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                // Use ADODB Connection
+                Connection dbConnection = _dbConnection.ADODBConnection;
+                dbConnection.Open();
+
+                Command dbCmd = new Command();
+                dbCmd.ActiveConnection = dbConnection;
+                dbCmd.CommandText = GetMoveNavigationItemQuery();
+                dbCmd.CommandType = CommandTypeEnum.adCmdText;
+                Parameter dbParam = new Parameter();
+                dbParam = dbCmd.CreateParameter("screenName", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, screenName);
+                dbCmd.Parameters.Append(dbParam);
+                dbParam = dbCmd.CreateParameter("titleTop", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, titleTop);
+                dbCmd.Parameters.Append(dbParam);
+                dbParam = dbCmd.CreateParameter("titleBottom", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, titleBottom);
+                dbCmd.Parameters.Append(dbParam);
+
+                Recordset rs = new Recordset();
+                rs.CursorType = CursorTypeEnum.adOpenStatic;
+
+                try
+                {
+                    object recAffected;
+                    rs = dbCmd.Execute(out recAffected);
+                    return 0;
+                }
+                catch (COMException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom)", ex.Message);
+                    return -1;
+                }
+            }
+        }
+
+        private string GetAddNavigationItemQuery()
+        {
+            string sQuery = "INSERT INTO NavMenu(screenName, titleTop, titleBottom, orderMenu)" +
+                            " VALUES(?, ?, ?, (SELECT MAX(orderMenu) + 1 FROM NavMenu))";
+            return sQuery;
+        }
     }
 }

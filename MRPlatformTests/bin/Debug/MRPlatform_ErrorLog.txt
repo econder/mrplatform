@@ -294,3 +294,16 @@ Incorrect syntax near '@return_value'.
 2017-04-07 08:16:07   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Must declare the scalar variable "@return_valueEXEC".
 Incorrect syntax near '@return_value'.
 2017-04-07 08:18:09   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Must declare the scalar variable "@return_valueEXEC".
+2017-04-28 16:12:27   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-04-28 16:12:41   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-04-28 16:13:08   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-04-28 16:13:08   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-04-28 16:13:08   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-04-28 16:13:08   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-04-28 16:13:08   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-04-28 16:13:23   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-04-28 16:13:23   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-04-28 16:13:24   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-04-28 17:00:41   Menu::AddNavigationItem(string screenName, string titleTop, string titleBottom)->Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+2017-04-28 17:01:35   Menu::AddNavigationItem(string screenName, string titleTop, string titleBottom)->Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.
+2017-04-28 17:04:21   Menu::AddNavigationItem(string screenName, string titleTop, string titleBottom)->Multiple-step OLE DB operation generated errors. Check each OLE DB status value, if available. No work was done.

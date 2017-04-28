@@ -29,6 +29,13 @@ namespace MRPlatformTests.HMI
         private int _resultsPerPage = 20;
         private int _resultsPerPageInvalid = 0;
 
+        private string _screenName = "zFS - Test Screen";
+        private string _titleTop = "Test Screen";
+        private string _titleBottom = "Name #1";
+        private string _screenNameInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        private string _titleTopInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        private string _titleBottomInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
         private DataSet _ds;
         private Recordset _rs;
 
@@ -43,6 +50,9 @@ namespace MRPlatformTests.HMI
             _mrDbADO = new MRDbConnection(_providerADO, _dbServer, _dbName, _dbUser, _dbPass, true);
             _menuADO = new Menu(_mrDbADO);
         }
+
+
+        #region " GetNavigationItems "
 
         // GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)
         [TestMethod]
@@ -84,6 +94,10 @@ namespace MRPlatformTests.HMI
             _rs = _menuADO.GetNavigationItemsRecordset(_pageNumberInvalid, _resultsPerPageInvalid);
         }
 
+        #endregion
+
+
+        #region " MoveNavigationItem "
 
         // MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
         [TestMethod]
@@ -125,5 +139,129 @@ namespace MRPlatformTests.HMI
             recCount = _menuADO.MoveNavigationItem(Menu.ItemMoveDirection.Up, 0);
             Assert.IsTrue(recCount >= 0);
         }
+
+        #endregion
+
+
+        #region " AddNavigationItem "
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        public void AddNavigationItem()
+        {
+            int recCount = -1;
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottom);
+            Assert.IsTrue(recCount >= 0);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        public void AddNavigationItemADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.AddNavigationItem(_screenName, _titleTop, _titleBottom);
+            Assert.IsTrue(recCount >= 0);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddNavigationItemNullScreenName()
+        {
+            int recCount = -1;
+            recCount = _menu.AddNavigationItem(null, _titleTop, _titleBottom);
+        }
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddNavigationItemEmptyScreenName()
+        {
+            int recCount = -1;
+            recCount = _menu.AddNavigationItem("", _titleTop, _titleBottom);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddNavigationItemInvalidScreenName()
+        {
+            int recCount = -1;
+            recCount = _menu.AddNavigationItem(_screenNameInvalid, _titleTop, _titleBottom);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddNavigationItemInvalidTitleTop()
+        {
+            int recCount = -1;
+            recCount = _menu.AddNavigationItem(_screenName, _titleTopInvalid, _titleBottom);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddNavigationItemInvalidTitleBottom()
+        {
+            int recCount = -1;
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddNavigationItemNullScreenNameADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.AddNavigationItem(null, _titleTop, _titleBottom);
+        }
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddNavigationItemEmptyScreenNameADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.AddNavigationItem("", _titleTop, _titleBottom);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddNavigationItemInvalidScreenNameADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.AddNavigationItem(_screenNameInvalid, _titleTop, _titleBottom);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddNavigationItemInvalidTitleTopADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.AddNavigationItem(_screenName, _titleTopInvalid, _titleBottom);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddNavigationItemInvalidTitleBottomADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid);
+        }
+
+        #endregion
     }
 }

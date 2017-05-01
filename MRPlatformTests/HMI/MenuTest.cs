@@ -263,5 +263,57 @@ namespace MRPlatformTests.HMI
         }
 
         #endregion
+
+        #region " DeleteNavigationItem "
+
+        // DeleteNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        public void DeleteNavigationItem()
+        {
+            int recCount = -1;
+            recCount = _menu.DeleteNavigationItem(_screenName);
+            Assert.IsTrue(recCount >= 0);
+        }
+
+
+        // DeleteNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        public void DeleteNavigationItemADO()
+        {
+            int recCount = -1;
+            recCount = _menuADO.DeleteNavigationItem(_screenName);
+            Assert.IsTrue(recCount >= 0);
+        }
+
+
+        // DeleteNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DeleteNavigationItemNullScreenName()
+        {
+            int recCount = -1;
+            recCount = _menu.DeleteNavigationItem(null);
+        }
+
+        // DeleteNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DeleteNavigationItemEmptyScreenName()
+        {
+            int recCount = -1;
+            recCount = _menu.DeleteNavigationItem("");
+        }
+
+
+        // DeleteNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void DeleteNavigationItemInvalidScreenName()
+        {
+            int recCount = -1;
+            recCount = _menu.DeleteNavigationItem(_screenNameInvalid);
+        }
+
+        #endregion
     }
 }

@@ -92,9 +92,7 @@
     <Compile Include="AlarmEvent\IUserEvent.cs" />
     <Compile Include="ErrorLog.cs" />
     <Compile Include="HMI\IMenu.cs" />
-    <Compile Include="HMI\IMenuNavigationItem.cs" />
     <Compile Include="HMI\Menu.cs" />
-    <Compile Include="HMI\MenuNavigationItem.cs" />
     <Compile Include="Message\IAreaMessage.cs" />
     <Compile Include="Message\IUserMessage.cs" />
     <Compile Include="HMI\Wonderware\AlarmEvent\IAlarmEventLog.cs" />

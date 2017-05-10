@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
 using ADODB;
 
-using MRPlatform.DB;
 using MRPlatform.DB.Sql;
 
 namespace MRPlatform.HMI
 {
-    [Guid("A5BBE422-69A6-40BF-996F-9B79A07A6831")]
+    [ComVisible(true)]
+    [Guid("5B6452DC-75CB-4BF1-A993-DC47AA251DFC"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IMenuEvents))]
     public class Menu : IMenu
     {
         private ErrorLog _errorLog = new ErrorLog();
@@ -21,13 +22,36 @@ namespace MRPlatform.HMI
             Up = 0,
             Down
         }
+
+
+
+        public Menu()
+        {
+
+        }
         
+
         public Menu(MRDbConnection mrDbConnection)
         {
             _dbConnection = mrDbConnection;
         }
 
 
+        /// <summary>
+        /// DbConnection Property
+        /// </summary>
+        public MRDbConnection DbConnection
+        {
+            get {
+                return _dbConnection;
+            }
+            set {
+                _dbConnection = value;
+            }
+        }
+
+
+        [ComVisible(false)]
         public DataSet GetNavigationItemsDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)
         {
             if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
@@ -57,7 +81,7 @@ namespace MRPlatform.HMI
             }
         }
 
-        [ComVisible(true)]
+
         public Recordset GetNavigationItemsRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true)
         {
             if(pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
@@ -84,6 +108,8 @@ namespace MRPlatform.HMI
             return rs;
         }
 
+
+        [ComVisible(false)]
         private string GetNavigationItemsQuery(bool sortAscending)
         {
             string sortOrder = null;
@@ -98,7 +124,6 @@ namespace MRPlatform.HMI
         }
 
 
-        [ComVisible(true)]
         // Use mrspMoveItem SQL stored procedure
         public int MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
         {
@@ -168,7 +193,6 @@ namespace MRPlatform.HMI
         }
 
 
-        [ComVisible(true)]
         public int AddNavigationItem(string screenName, string titleTop, string titleBottom)
         {
             if (screenName == null) { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
@@ -192,6 +216,7 @@ namespace MRPlatform.HMI
                     try
                     {
                         sqlCmd.ExecuteNonQuery();
+                        dbConnection.Close();
                         return 0;
                     }
                     catch (OleDbException ex)
@@ -244,7 +269,6 @@ namespace MRPlatform.HMI
         }
 
 
-        [ComVisible(true)]
         public int DeleteNavigationItem(string screenName)
         {
             if (screenName == null) { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }

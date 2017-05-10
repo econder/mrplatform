@@ -4,13 +4,14 @@ using System.Data.OleDb;
 using System.Runtime.InteropServices;
 using ADODB;
 
-using MRPlatform.AlarmEvent;
-
 
 namespace MRPlatform.DB.Sql
 {
-    [Guid("D098F6B4-0FB6-4695-92FF-B78724BAAAE6")]
-    public class MRDbConnection
+    [ComVisible(true)]
+    [Guid("D098F6B4-0FB6-4695-92FF-B78724BAAAE6"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IMRDbConnection))]
+    public class MRDbConnection : IMRDbConnection
 	{
         private ErrorLog _errorLog;
 
@@ -22,28 +23,16 @@ namespace MRPlatform.DB.Sql
         private string Password { get; set; }
         public bool UseADODB { get; set; }
 
+        public MRDbConnection()
+        {
+
+        }
+
         public MRDbConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
         {
-            _errorLog = new ErrorLog();
-
-            Provider = provider;
-            ServerName = serverName;
-            DatabaseName = databaseName;
-            UserName = userName;
-            Password = password;
-            UseADODB = useADODB;
-
-            if(useADODB)
-            {
-                // ADODB database connection string
-                ConnectionString = String.Format("Provider={0};Server={1};Database={2};Uid={3};Pwd={4};DataTypeCompatibility=80;", Provider, ServerName, DatabaseName, UserName, Password);
-            }
-            else
-            {
-                // SQL Native Client OLE database connection string
-                ConnectionString = String.Format("Provider={0};Data Source={1};Initial Catalog={2};User ID={3};Password={4};", Provider, ServerName, DatabaseName, UserName, Password);
-            }
+            OpenConnection(provider, serverName, databaseName, userName, password, useADODB);
         }
+
 
         // Used for SQL Native Client OLEDB connectivity from .NET-based clients
         // such as Wonderware InTouch
@@ -65,6 +54,29 @@ namespace MRPlatform.DB.Sql
                 conn.ConnectionString = ConnectionString;
                 conn.CursorLocation = CursorLocationEnum.adUseClient;
                 return conn;
+            }
+        }
+
+        public void OpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
+        {
+            _errorLog = new ErrorLog();
+
+            Provider = provider;
+            ServerName = serverName;
+            DatabaseName = databaseName;
+            UserName = userName;
+            Password = password;
+            UseADODB = useADODB;
+
+            if (useADODB)
+            {
+                // ADODB database connection string
+                ConnectionString = String.Format("Provider={0};Server={1};Database={2};Uid={3};Pwd={4};DataTypeCompatibility=80;", Provider, ServerName, DatabaseName, UserName, Password);
+            }
+            else
+            {
+                // SQL Native Client OLE database connection string
+                ConnectionString = String.Format("Provider={0};Data Source={1};Initial Catalog={2};User ID={3};Password={4};", Provider, ServerName, DatabaseName, UserName, Password);
             }
         }
     }

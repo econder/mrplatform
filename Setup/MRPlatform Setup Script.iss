@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MRPlatform Setup"
-#define MyAppVersion "1.5"
+#define MyAppVersion "1.7"
 #define MyAppPublisher "MR Systems"
 #define MyAppURL "http://www.mrsystems.com/"
 
@@ -13,7 +13,7 @@
 AppId={{6E522AB6-FE71-4322-891F-CE20398995F5}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
+AppVerName={#MyAppName}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}

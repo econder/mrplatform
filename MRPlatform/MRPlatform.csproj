@@ -62,7 +62,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <FileAlignment>4096</FileAlignment>
-    <RegisterForComInterop>false</RegisterForComInterop>
+    <RegisterForComInterop>true</RegisterForComInterop>
     <DebugType>Full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmEvent\IUserEvent.cs" />
+    <Compile Include="DB\Sql\IMRDbConnection.cs" />
     <Compile Include="ErrorLog.cs" />
     <Compile Include="HMI\IMenu.cs" />
     <Compile Include="HMI\Menu.cs" />

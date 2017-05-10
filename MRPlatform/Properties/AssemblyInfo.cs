@@ -1,4 +1,5 @@
-﻿#region Using directives
+﻿using System.Resources;
+#region Using directives
 
 using System;
 using System.Reflection;
@@ -14,13 +15,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MR Systems, Inc.")]
 [assembly: AssemblyProduct("MRPlatform")]
-[assembly: AssemblyCopyright("Copyright 2016")]
+[assembly: AssemblyCopyright("Copyright 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // This sets the default COM visibility of types in the assembly to invisible.
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.
-[assembly: ComVisible(false)]
+[assembly: ComVisible(true)]
 
 // The assembly version has following format :
 //
@@ -28,6 +29,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("1.5.*")]
+[assembly: AssemblyVersion("1.7.*")]
 [assembly: Guid("AD16EBAD-589E-452C-B10B-40C673BDDFE4")]
+[assembly: NeutralResourcesLanguage("en-US")]
 

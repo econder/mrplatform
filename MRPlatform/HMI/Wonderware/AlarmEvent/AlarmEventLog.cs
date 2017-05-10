@@ -19,6 +19,7 @@ namespace MRPlatform.Wonderware.AlarmEvent
         //Properties
         private MRDbConnection _dbConnection;
 
+
         /// <summary>Initializes a new instance of MRAlarmEventLog.</summary>
         /// <param name="mrDbConnection"></param>
         /// <example><code>

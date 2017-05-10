@@ -12,11 +12,24 @@ namespace MRPlatform.AlarmEvent
     /// <summary>
     /// MRPlatform.AlarmEvent.MRTagEvent class.
     /// </summary>
-    [Guid("8F141A9D-EB47-4FF5-9FFE-9C507625EAAF")]
+    [ComVisible(true)]
+    [Guid("8F141A9D-EB47-4FF5-9FFE-9C507625EAAF"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(ITagEvent))]
     public class TagEvent : ITagEvent
 	{
-        public MRDbConnection _dbConnection;
+        private MRDbConnection _dbConnection;
         private bool _useADODB = false;
+
+
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <remarks>Creates a new instance of MRTagEvent.</remarks>
+        public TagEvent()
+        {
+
+        }
 
         /// <summary>
         /// Class constructor
@@ -27,6 +40,20 @@ namespace MRPlatform.AlarmEvent
             _dbConnection = mrDbConnection;
             _useADODB = mrDbConnection.UseADODB;
 		}
+
+
+        public MRDbConnection DbConnection
+        {
+            get
+            {
+                return _dbConnection;
+            }
+            set
+            {
+                _dbConnection = value;
+                _useADODB = _dbConnection.UseADODB;
+            }
+        }
 
 
         /// <summary>
@@ -47,7 +74,6 @@ namespace MRPlatform.AlarmEvent
 		/// //Log event
 		/// mrte.LogEvent(InTouch:$Operator, InTouch:SCADA_NODE_NAME, "INF_PS_P1_SPD_SP", 53.5, 79.5); 
 		/// </code></example>
-        [ComVisible(true)]
         public void LogEvent(string userName, string nodeName, string tagName, float tagValueOrig, float tagValueNew)
 		{
             if(_useADODB)
@@ -81,15 +107,16 @@ namespace MRPlatform.AlarmEvent
                 }
             }
         }
-		
-		
-		/// <summary>GetHistory Method</summary>
-		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
-		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="dbConn">OleDbConnection object of the database connection.</param>
-		/// <param name="nRecordCount">Last 'n' number of records to return.</param>
-		/// <returns>System.Data.DataSet</returns>
-		public DataSet GetHistoryDataSet(string tagName, int nRecordCount)
+
+
+        /// <summary>GetHistory Method</summary>
+        /// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
+        /// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
+        /// <param name="dbConn">OleDbConnection object of the database connection.</param>
+        /// <param name="nRecordCount">Last 'n' number of records to return.</param>
+        /// <returns>System.Data.DataSet</returns>
+        [ComVisible(false)]
+        public DataSet GetHistoryDataSet(string tagName, int nRecordCount)
 		{
 			DataSet ds = new DataSet();
 			ds = GetDataSetFromQuery(GetHistoryQuery(tagName, nRecordCount));
@@ -97,7 +124,7 @@ namespace MRPlatform.AlarmEvent
 			return ds;
 		}
 
-        [ComVisible(true)]
+
         public Recordset GetHistoryRecordset(string tagName, int nRecordCount)
         {
             Recordset rs = new Recordset();
@@ -105,6 +132,7 @@ namespace MRPlatform.AlarmEvent
 
             return rs;
         }
+
 
         private string GetHistoryQuery(string tagName, int nRecordCount)
         {
@@ -114,15 +142,16 @@ namespace MRPlatform.AlarmEvent
 
             return sQuery;
         }
-		
-		
-		/// <summary>GetHistory Method</summary>
-		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
-		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="dbConn">OleDbConnection object of the database connection.</param>
-		/// <param name="startDateTime">DateTime object of the date of the recordset.</param>
-		/// <returns>System.Data.DataSet</returns>
-		public DataSet GetHistoryDataSet(DateTime startDate)
+
+
+        /// <summary>GetHistory Method</summary>
+        /// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
+        /// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
+        /// <param name="dbConn">OleDbConnection object of the database connection.</param>
+        /// <param name="startDateTime">DateTime object of the date of the recordset.</param>
+        /// <returns>System.Data.DataSet</returns>
+        [ComVisible(false)]
+        public DataSet GetHistoryDataSet(DateTime startDate)
 		{
 			DataSet ds = new DataSet();
 			ds = GetDataSetFromQuery(GetHistoryQuery(startDate));
@@ -130,7 +159,7 @@ namespace MRPlatform.AlarmEvent
 			return ds;
 		}
 
-        [ComVisible(true)]
+
         public Recordset GetHistoryRecordset(DateTime startDate)
         {
             Recordset rs = new Recordset();
@@ -138,6 +167,7 @@ namespace MRPlatform.AlarmEvent
 
             return rs;
         }
+
 
         private string GetHistoryQuery(DateTime startDate)
         {
@@ -158,6 +188,7 @@ namespace MRPlatform.AlarmEvent
         /// <param name="startDateTime">DateTime object of the start date of the recordset.</param>
         /// <param name="endDateTime">DateTime object of the end date of the recordset.</param>
         /// <returns>System.Data.DataSet</returns>
+        [ComVisible(false)]
         public DataSet GetHistoryDataSet(DateTime startDateTime, DateTime endDateTime)
 		{
 			DataSet ds = new DataSet();
@@ -166,7 +197,7 @@ namespace MRPlatform.AlarmEvent
 			return ds;
 		}
 
-        [ComVisible(true)]
+        
         public Recordset GetHistoryRecordset(DateTime startDateTime, DateTime endDateTime)
         {
             Recordset rs = new Recordset();
@@ -174,6 +205,7 @@ namespace MRPlatform.AlarmEvent
 
             return rs;
         }
+
 
         private string GetHistoryQuery(DateTime startDateTime, DateTime endDateTime)
         {
@@ -187,6 +219,7 @@ namespace MRPlatform.AlarmEvent
         }
 
 
+        [ComVisible(false)]
         private DataSet GetDataSetFromQuery(string sQuery)
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)

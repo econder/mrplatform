@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Runtime.InteropServices;
+using ADODB;
 
 using MRPlatform.DB.Sql;
 
@@ -15,9 +16,9 @@ namespace MRPlatform.AlarmEvent
     public interface IUserEvent
     {
         int LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource);
-        DataSet GetHistory(int nRecordCount);
-        DataSet GetHistory(DateTime startDate);
-        DataSet GetHistory(DateTime startDateTime, DateTime endDateTime);
+        Recordset GetHistoryRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true);
+        Recordset GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true);
+        Recordset GetHistoryRecordset(double eventStartDate, double eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true);
         MRDbConnection DbConnection { get; set; }
     }
 

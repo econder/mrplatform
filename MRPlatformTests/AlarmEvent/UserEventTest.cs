@@ -19,7 +19,7 @@ namespace MRPlatformTests.Message
         private string _dbUser = "mrsystems";
         private string _dbPass = "Reggie#123";
 
-        private TagEvent _te;
+        private UserEvent _ue;
         private string _userName = "mrsystems";
         private string _userNameInvalid = "";
         private string _nodeName = "WTP-WS1";
@@ -30,6 +30,10 @@ namespace MRPlatformTests.Message
         private string _eventSource = "FS - Plant Overview";
         private string _eventSourceInvalid = "";
 
+        private int _pageNumber = 1;
+        private int _resultsPerPage = 5000;
+        private bool _sortAscending = false;
+
         private DataSet _ds;
         private Recordset _rs;
         private long _msgId;
@@ -39,7 +43,7 @@ namespace MRPlatformTests.Message
         public void Initialize()
         {
             _mrdb = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass);
-            _te = new TagEvent(_mrdb);
+            _ue = new UserEvent(_mrdb);
         }
 
         // Send(string sender, string recipient, string message, int priority = 2)
@@ -51,15 +55,15 @@ namespace MRPlatformTests.Message
 
             // Get original row count
             _ds = new DataSet();
-            _ds = _te.GetHistoryDataSet(DateTime.Now);
+            _ds = _ue.GetHistoryDataSet(DateTime.Now, _pageNumber, _resultsPerPage, _sortAscending);
             countPrev = _ds.Tables[0].Rows.Count;
 
             // Log event
-            _te.LogEvent(_userName, _nodeName, _tagName, _tagValueOrig, _tagValueNew);
+            _ue.LogEvent(_userName, _nodeName, _eventMessage, _eventType, _eventSource);
 
             // Get original row count
             _ds = new DataSet();
-            _ds = _te.GetHistoryDataSet(DateTime.Now);
+            _ds = _ue.GetHistoryDataSet(DateTime.Now, _pageNumber, _resultsPerPage, _sortAscending);
             count = _ds.Tables[0].Rows.Count;
 
             Assert.IsTrue(count > countPrev);
@@ -72,14 +76,14 @@ namespace MRPlatformTests.Message
         public void GetHistoryWithValidStartDate()
         {
             _ds = new DataSet();
-            _ds = _te.GetHistoryDataSet(DateTime.Now);
+            _ds = _ue.GetHistoryDataSet(DateTime.Now, _pageNumber, _resultsPerPage, _sortAscending);
             _msgId = Convert.ToInt64(_ds.Tables[0].Rows[0]["id"]);
 
             Assert.IsTrue(_ds.Tables.Count == 1);
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
 
             _rs = new Recordset();
-            _rs = _te.GetHistoryRecordset(DateTime.Now);
+            _rs = _ue.GetHistoryRecordset(DateTime.Now.ToOADate(), _pageNumber, _resultsPerPage, _sortAscending);
 
             Assert.IsTrue(_rs.RecordCount >= 1);
         }

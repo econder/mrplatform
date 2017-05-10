@@ -43,8 +43,6 @@ namespace MRPlatform.AlarmEvent
             set
             {
                 _dbConnection = value;
-                _useADODB = _dbConnection.UseADODB;
-                
             }
         }
 
@@ -162,22 +160,90 @@ namespace MRPlatform.AlarmEvent
         }
         
 		
-		/// <summary>GetEventHistory Method</summary>
-		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
-		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="nRecordCount">Last 'n' number of records to return.</param>
-		/// <returns>System.Data.DataSet</returns>
         [ComVisible(false)]
-		public DataSet GetHistory(int nRecordCount)
+		public DataSet GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)
 		{
-            string sQuery = "SELECT TOP " + nRecordCount.ToString() + " * " +
-                            " FROM EventLog" +
-                            " ORDER BY evtDateTime DESC";
+            if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
+            if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
 
-            DataSet ds = new DataSet();
-            ds = DoGetDataSetFromQuery(sQuery);
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
 
-            return ds;
+                OleDbCommand sqlCmd = new OleDbCommand(GetHistoryQuery(sortAscending), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@offset", (pageNumber - 1) * resultsPerPage);
+                sqlCmd.Parameters.AddWithValue("@rowCount", resultsPerPage);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
+                DataSet ds = new DataSet();
+
+                try
+                {
+                    dbAdapt.Fill(ds);
+                    dbConnection.Close();
+                    return ds;
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+                    return ds;
+                }
+            }
+        }
+
+
+        public Recordset GetHistoryRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true)
+        {
+            if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
+            if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
+
+            Connection dbConnection = _dbConnection.ADODBConnection;
+            dbConnection.Open();
+
+            Command dbCmd = new Command();
+            dbCmd.ActiveConnection = dbConnection;
+            dbCmd.CommandText = GetHistoryQuery(sortAscending);
+            dbCmd.CommandType = CommandTypeEnum.adCmdText;
+            Parameter dbParam = new Parameter();
+            dbParam = dbCmd.CreateParameter("offset", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, (pageNumber - 1) * resultsPerPage);
+            dbCmd.Parameters.Append(dbParam);
+            dbParam = dbCmd.CreateParameter("rowCount", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, resultsPerPage);
+            dbCmd.Parameters.Append(dbParam);
+
+            Recordset rs = new Recordset();
+            rs.CursorType = CursorTypeEnum.adOpenStatic;
+
+            try
+            {
+                object recAffected;
+                rs = dbCmd.Execute(out recAffected);
+                return rs;
+            }
+            catch (COMException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetHistoryRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true)", ex.Message);
+                if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
+                    dbConnection.Close();
+
+                return rs;
+            }
+        }
+
+
+        [ComVisible(false)]
+        private string GetHistoryQuery(bool sortAscending)
+        {
+            string sortOrder = null;
+            if (sortAscending) { sortOrder = "ASC"; } else { sortOrder = "DESC"; }
+
+            string sQuery = String.Format("SELECT userName, nodeName, eventMessage, eventType, eventSource" +
+                                          " FROM EventLog ORDER BY evtDateTime {0}" + 
+                                          " OFFSET ? ROWS" + 
+                                          " FETCH NEXT ? ROWS ONLY", sortOrder);
+
+            return sQuery;
         }
 
 
@@ -187,52 +253,182 @@ namespace MRPlatform.AlarmEvent
         /// <param name="startDateTime">DateTime object of the date of the recordset.</param>
         /// <returns>System.Data.DataSet</returns>
         [ComVisible(false)]
-        public DataSet GetHistory(DateTime startDate)
+        public DataSet GetHistoryDataSet(DateTime eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)
 		{
-			string sQuery = "SELECT * " +
-                            " FROM EventLog" +
-                            " WHERE evtDateTime >= '" + startDate + " 00:00:00.000'" +
-                            " AND evtDateTime <= '" + startDate + "23:59:59.999'" + 
-                            " ORDER BY evtDateTime";
-			
-			DataSet ds = new DataSet();
-			ds = DoGetDataSetFromQuery(sQuery);
+            if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
+            if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
 
-			return ds;
-		}
-		
-		
-		/// <summary>GetEventHistory Method</summary>
-		/// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
-		/// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
-		/// <param name="startDateTime">DateTime object of the start date of the recordset.</param>
-		/// <param name="endDateTime">DateTime object of the end date of the recordset.</param>
-		/// <returns>System.Data.DataSet</returns>
-		public DataSet GetHistory(DateTime startDateTime, DateTime endDateTime)
-		{
-			string sQuery = "SELECT * " + 
-                            " FROM EventLog" + 
-                            " WHERE evtDateTime >= '" + startDateTime + "'" +
-                            " AND evtDateTime <= '" + endDateTime + "'" +
-                            " ORDER BY evtDateTime";
-			
-			DataSet ds = new DataSet();
-			ds = DoGetDataSetFromQuery(sQuery);
-			
-			return ds;
-		}
-		
-		
-		private DataSet DoGetDataSetFromQuery(string sQuery)
-		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                DataSet ds = new DataSet();
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sQuery, dbConnection.ConnectionString);
-                dbAdapt.Fill(ds);
+                dbConnection.Open();
 
-                return ds;
+                OleDbCommand sqlCmd = new OleDbCommand(GetHistoryStartEndDateQuery(sortAscending), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@startDate", eventDate);
+                sqlCmd.Parameters.AddWithValue("@endDate", eventDate);
+                sqlCmd.Parameters.AddWithValue("@offset", (pageNumber - 1) * resultsPerPage);
+                sqlCmd.Parameters.AddWithValue("@rowCount", resultsPerPage);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
+                DataSet ds = new DataSet();
+
+                try
+                {
+                    dbAdapt.Fill(ds);
+                    dbConnection.Close();
+                    return ds;
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "GetHistoryDataSet(DateTime eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+                    return ds;
+                }
             }
-		}
+        }
+
+
+        public Recordset GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)
+        {
+            DateTime dtEventDate = DateTime.FromOADate(eventDate); // Test for ArgumentException
+            if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
+            if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
+
+            Connection dbConnection = _dbConnection.ADODBConnection;
+            dbConnection.Open();
+
+            Command dbCmd = new Command();
+            dbCmd.ActiveConnection = dbConnection;
+            dbCmd.CommandText = GetHistoryStartEndDateQuery(sortAscending);
+            dbCmd.CommandType = CommandTypeEnum.adCmdText;
+            Parameter dbParam = new Parameter();
+            dbParam = dbCmd.CreateParameter("eventDate", DataTypeEnum.adDBDate, ParameterDirectionEnum.adParamInput, 0, dtEventDate);
+            dbCmd.Parameters.Append(dbParam);
+            dbParam = dbCmd.CreateParameter("offset", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, (pageNumber - 1) * resultsPerPage);
+            dbCmd.Parameters.Append(dbParam);
+            dbParam = dbCmd.CreateParameter("rowCount", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, resultsPerPage);
+            dbCmd.Parameters.Append(dbParam);
+
+            Recordset rs = new Recordset();
+            rs.CursorType = CursorTypeEnum.adOpenStatic;
+
+            try
+            {
+                object recAffected;
+                rs = dbCmd.Execute(out recAffected);
+                return rs;
+            }
+            catch (COMException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)", ex.Message);
+                if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
+                    dbConnection.Close();
+                return rs;
+            }
+        }
+
+
+        /// <summary>GetEventHistory Method</summary>
+        /// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
+        /// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
+        /// <param name="startDateTime">DateTime object of the start date of the recordset.</param>
+        /// <param name="endDateTime">DateTime object of the end date of the recordset.</param>
+        /// <returns>System.Data.DataSet</returns>
+        [ComVisible(false)]
+        public DataSet GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)
+		{
+            if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
+            if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
+
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetHistoryStartEndDateQuery(sortAscending), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@startDate", eventStartDate);
+                sqlCmd.Parameters.AddWithValue("@endDate", eventEndDate);
+                sqlCmd.Parameters.AddWithValue("@offset", (pageNumber - 1) * resultsPerPage);
+                sqlCmd.Parameters.AddWithValue("@rowCount", resultsPerPage);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
+                DataSet ds = new DataSet();
+
+                try
+                {
+                    dbAdapt.Fill(ds);
+                    dbConnection.Close();
+                    return ds;
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+                    return ds;
+                }
+            }
+        }
+
+
+        public Recordset GetHistoryRecordset(double eventStartDate, double eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)
+        {
+            DateTime dtEventStartDate = DateTime.FromOADate(eventStartDate); // Test for ArgumentException
+            DateTime dtEventEndDate = DateTime.FromOADate(eventEndDate); // Test for ArgumentException
+            if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
+            if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
+
+            Connection dbConnection = _dbConnection.ADODBConnection;
+            dbConnection.Open();
+
+            Command dbCmd = new Command();
+            dbCmd.ActiveConnection = dbConnection;
+            dbCmd.CommandText = GetHistoryStartEndDateQuery(sortAscending);
+            dbCmd.CommandType = CommandTypeEnum.adCmdText;
+            Parameter dbParam = new Parameter();
+            dbParam = dbCmd.CreateParameter("eventStartDate", DataTypeEnum.adDBDate, ParameterDirectionEnum.adParamInput, 0, dtEventStartDate);
+            dbCmd.Parameters.Append(dbParam);
+            dbParam = dbCmd.CreateParameter("eventEndDate", DataTypeEnum.adDBDate, ParameterDirectionEnum.adParamInput, 0, dtEventEndDate);
+            dbCmd.Parameters.Append(dbParam);
+            dbParam = dbCmd.CreateParameter("offset", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, (pageNumber - 1) * resultsPerPage);
+            dbCmd.Parameters.Append(dbParam);
+            dbParam = dbCmd.CreateParameter("rowCount", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, resultsPerPage);
+            dbCmd.Parameters.Append(dbParam);
+
+            Recordset rs = new Recordset();
+            rs.CursorType = CursorTypeEnum.adOpenStatic;
+
+            try
+            {
+                object recAffected;
+                rs = dbCmd.Execute(out recAffected);
+                dbConnection.Close();
+                dbConnection = null;
+                return rs;
+            }
+            catch (COMException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "GetHistoryRecordset(double eventStartDate, double eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)", ex.Message);
+                if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
+                    dbConnection.Close();
+                return rs;
+            }
+        }
+
+
+        [ComVisible(false)]
+        private string GetHistoryStartEndDateQuery(bool sortAscending)
+        {
+            string sortOrder = null;
+            if (sortAscending) { sortOrder = "ASC"; } else { sortOrder = "DESC"; }
+
+            string sQuery = String.Format("SELECT userName, nodeName, eventMessage, eventType, eventSource" +
+                                          " FROM EventLog" +
+                                          " WHERE evtDateTime >= ?" +
+                                          " AND evtDateTime <= ?" +
+                                          " ORDER BY evtDateTime {0}" +
+                                          " OFFSET ? ROWS" +
+                                          " FETCH NEXT ? ROWS ONLY", sortOrder);
+            return sQuery;
+        }
 	}
 }

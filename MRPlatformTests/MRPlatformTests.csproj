@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AlarmEvent\TagEventTest.cs" />
+    <Compile Include="AlarmEvent\UserEventTest.cs" />
     <Compile Include="HMI\MenuTest.cs" />
     <Compile Include="Message\AreaMessageTest.cs" />
     <Compile Include="Message\UserMessageTest.cs" />

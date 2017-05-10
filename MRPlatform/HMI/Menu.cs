@@ -71,11 +71,14 @@ namespace MRPlatform.HMI
                 try
                 {
                     dbAdapt.Fill(ds);
+                    dbConnection.Close();
                     return ds;
                 }
                 catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
                     return ds;
                 }
             }
@@ -103,9 +106,19 @@ namespace MRPlatform.HMI
             Recordset rs = new Recordset();
             rs.CursorType = CursorTypeEnum.adOpenStatic;
 
-            object recAffected = 0;
-            rs = dbCmd.Execute(out recAffected);
-            return rs;
+            try
+            {
+                object recAffected;
+                rs = dbCmd.Execute(out recAffected);
+                return rs;
+            }
+            catch (COMException ex)
+            {
+                _errorLog.LogMessage(this.GetType().Name, "MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)", ex.Message);
+                if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
+                    dbConnection.Close();
+                return rs;
+            }
         }
 
 
@@ -142,13 +155,15 @@ namespace MRPlatform.HMI
 
                     try
                     {
-                        
                         sqlCmd.ExecuteNonQuery();
+                        dbConnection.Close();
                         return 0;
                     }
                     catch (OleDbException ex)
                     {
                         _errorLog.LogMessage(this.GetType().Name, "MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)", ex.Message);
+                        if (dbConnection.State == ConnectionState.Open)
+                            dbConnection.Close();
                         return -1;
                     }
                 }
@@ -176,11 +191,15 @@ namespace MRPlatform.HMI
                 {
                     object recAffected;
                     rs = dbCmd.Execute(out recAffected);
+                    dbConnection.Close();
+                    dbConnection = null;
                     return 0;
                 }
                 catch(COMException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)", ex.Message);
+                    if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
+                        dbConnection.Close();
                     return -1;
                 }
             }
@@ -222,6 +241,8 @@ namespace MRPlatform.HMI
                     catch (OleDbException ex)
                     {
                         _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom)", ex.Message);
+                        if (dbConnection.State == ConnectionState.Open)
+                            dbConnection.Close();
                         return -1;
                     }
                 }
@@ -251,11 +272,15 @@ namespace MRPlatform.HMI
                 {
                     object recAffected;
                     rs = dbCmd.Execute(out recAffected);
+                    dbConnection.Close();
+                    dbConnection = null;
                     return 0;
                 }
                 catch (COMException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom)", ex.Message);
+                    if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
+                        dbConnection.Close();
                     return -1;
                 }
             }
@@ -288,11 +313,14 @@ namespace MRPlatform.HMI
                     try
                     {
                         sqlCmd.ExecuteNonQuery();
+                        dbConnection.Close();
                         return 0;
                     }
                     catch (OleDbException ex)
                     {
                         _errorLog.LogMessage(this.GetType().Name, "DeleteNavigationItem(string screenName)", ex.Message);
+                        if (dbConnection.State == ConnectionState.Open)
+                            dbConnection.Close();
                         return -1;
                     }
                 }
@@ -318,11 +346,15 @@ namespace MRPlatform.HMI
                 {
                     object recAffected;
                     rs = dbCmd.Execute(out recAffected);
+                    dbConnection.Close();
+                    dbConnection = null;
                     return 0;
                 }
                 catch (COMException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "DeleteNavigationItem(string screenName)", ex.Message);
+                    if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
+                        dbConnection.Close();
                     return -1;
                 }
             }

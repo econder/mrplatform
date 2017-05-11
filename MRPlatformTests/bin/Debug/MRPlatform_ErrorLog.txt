@@ -317,3 +317,77 @@ Incorrect syntax near '@return_value'.
 2017-05-10 16:49:42   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-05-10 16:49:42   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-05-10 16:49:43   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:12   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:15   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:24   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:24   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-05-11 13:23:24   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-05-11 13:23:24   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:24   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:28   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:28   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:28   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-05-11 13:23:31   UserEvent::GetHistoryDataSet(DateTime eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 13:23:31   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid object name 'EventLog'.
+2017-05-11 13:23:31   UserEvent::GetHistoryRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid object name 'EventLog'.
+2017-05-11 13:23:31   UserEvent::GetHistoryRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid object name 'EventLog'.
+2017-05-11 13:23:31   UserEvent::GetHistoryDataSet(DateTime eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 13:23:31   UserEvent::GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->No value given for one or more required parameters.
+2017-05-11 13:23:31   UserEvent::GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->No value given for one or more required parameters.
+2017-05-11 13:23:31   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 13:23:31   UserEvent::GetHistoryRecordset(double eventStartDate, double eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid object name 'EventLog'.
+2017-05-11 13:23:31   UserEvent::GetHistoryRecordset(double eventStartDate, double eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid object name 'EventLog'.
+2017-05-11 13:29:35   UserEvent::GetHistoryRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:29:35   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:29:35   UserEvent::GetHistoryDataSet(DateTime eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 13:29:35   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 13:29:35   UserEvent::GetHistoryDataSet(DateTime eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 13:29:35   UserEvent::GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->No value given for one or more required parameters.
+2017-05-11 13:29:35   UserEvent::GetHistoryRecordset(double eventStartDate, double eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:29:35   UserEvent::GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->No value given for one or more required parameters.
+2017-05-11 13:29:35   UserEvent::GetHistoryRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:29:35   UserEvent::GetHistoryRecordset(double eventStartDate, double eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:39:53   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:42:58   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:42:58   UserEvent::LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource)->Invalid column name 'evtSource'.
+Invalid column name 'evtType'.
+Invalid column name 'evtMessage'.
+2017-05-11 13:42:58   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:43:08   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:43:08   UserEvent::LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource)->Invalid column name 'evtSource'.
+Invalid column name 'evtType'.
+Invalid column name 'evtMessage'.
+2017-05-11 13:43:08   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:48:22   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:53:29   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:53:30   UserEvent::LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource)->Implicit conversion from data type nvarchar to varbinary is not allowed. Use the CONVERT function to run this query.
+2017-05-11 13:53:30   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:53:36   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:55:21   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:55:21   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:55:29   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:55:55   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:57:06   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:57:06   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'evtDateTime'.
+2017-05-11 13:59:44   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'eventDateTime'.
+2017-05-11 13:59:44   UserEvent::GetHistoryDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)->Invalid column name 'eventDateTime'.
+2017-05-11 14:03:05   UserEvent::LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource)->Invalid column name 'eventSource'.
+Invalid column name 'eventType'.
+Invalid column name 'eventMessage'.
+2017-05-11 14:10:06   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:10:06   UserEvent::GetHistoryDataSet(DateTime eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:10:06   UserEvent::GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->No value given for one or more required parameters.
+2017-05-11 14:10:06   UserEvent::GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->No value given for one or more required parameters.
+2017-05-11 14:10:23   UserEvent::GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->No value given for one or more required parameters.
+2017-05-11 14:11:44   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:11:44   UserEvent::GetHistoryDataSet(DateTime eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:14:20   UserEvent::GetHistoryRecordset(double eventDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->No value given for one or more required parameters.
+2017-05-11 14:29:08   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:36:36   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:38:06   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:39:07   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:42:28   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:44:32   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:45:31   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:46:32   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.
+2017-05-11 14:46:55   UserEvent::GetHistoryDataSet(DateTime eventStartDate, DateTime eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)->The fractional part of the provided time value overflows the scale of the corresponding SQL Server parameter or column. Increase bScale in DBPARAMBINDINFO or column scale to correct this error.

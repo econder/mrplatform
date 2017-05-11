@@ -72,12 +72,12 @@ namespace MRPlatform.AlarmEvent
             if (nodeName == null) { throw new ArgumentNullException("nodeName", "nodeName must not be null or empty."); }
             if (nodeName == "") { throw new ArgumentNullException("nodeName", "nodeName must not be null or empty."); }
             if (nodeName.Length > 50) { throw new ArgumentOutOfRangeException("nodeName", "nodeName must be 50 characters or less."); }
-            if (userName == null) { throw new ArgumentNullException("userName", "userName must not be null or empty."); }
-            if (userName == "") { throw new ArgumentNullException("userName", "userName must not be null or empty."); }
-            if (userName.Length > 8000) { throw new ArgumentOutOfRangeException("userName", "userName must be 8000 characters or less."); }
-            if (userName == null) { throw new ArgumentNullException("userName", "userName must not be null or empty."); }
-            if (userName == "") { throw new ArgumentNullException("userName", "userName must not be null or empty."); }
-            if (userName.Length > 50) { throw new ArgumentOutOfRangeException("userName", "userName must be 50 characters or less."); }
+            if (eventMessage == null) { throw new ArgumentNullException("eventMessage", "eventMessage must not be null or empty."); }
+            if (eventMessage == "") { throw new ArgumentNullException("eventMessage", "eventMessage must not be null or empty."); }
+            if (eventMessage.Length > 8000) { throw new ArgumentOutOfRangeException("eventMessage", "eventMessage must be 8000 characters or less."); }
+            if (eventSource == null) { throw new ArgumentNullException("eventSource", "eventSource must not be null or empty."); }
+            if (eventSource == "") { throw new ArgumentNullException("eventSource", "eventSource must not be null or empty."); }
+            if (eventSource.Length > 50) { throw new ArgumentOutOfRangeException("eventSource", "eventSource must be 50 characters or less."); }
 
             if (!_dbConnection.UseADODB)
             {
@@ -153,7 +153,7 @@ namespace MRPlatform.AlarmEvent
         [ComVisible(false)]
         private string GetLogEventQuery()
         {
-            string sQuery = "INSERT INTO EventLog(userName, nodeName, evtMessage, evtType, evtSource)" +
+            string sQuery = "INSERT INTO UserEventLog(userName, nodeName, evtMessage, evtType, evtSource)" +
                             " VALUES(?, ?, ?, ?, ?)";
 
             return sQuery;
@@ -238,8 +238,8 @@ namespace MRPlatform.AlarmEvent
             string sortOrder = null;
             if (sortAscending) { sortOrder = "ASC"; } else { sortOrder = "DESC"; }
 
-            string sQuery = String.Format("SELECT userName, nodeName, eventMessage, eventType, eventSource" +
-                                          " FROM EventLog ORDER BY evtDateTime {0}" + 
+            string sQuery = String.Format("SELECT id, userName, nodeName, evtMessage, evtType, evtSource" +
+                                          " FROM UserEventLog ORDER BY evtDateTime {0}" + 
                                           " OFFSET ? ROWS" + 
                                           " FETCH NEXT ? ROWS ONLY", sortOrder);
 
@@ -262,9 +262,9 @@ namespace MRPlatform.AlarmEvent
             {
                 dbConnection.Open();
 
-                OleDbCommand sqlCmd = new OleDbCommand(GetHistoryStartEndDateQuery(sortAscending), (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@startDate", eventDate);
-                sqlCmd.Parameters.AddWithValue("@endDate", eventDate);
+                OleDbCommand sqlCmd = new OleDbCommand(GetHistoryStartDateQuery(sortAscending), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@eventStartDate", eventDate.ToShortDateString());
+                sqlCmd.Parameters.AddWithValue("@eventEndDate", eventDate.ToShortDateString());
                 sqlCmd.Parameters.AddWithValue("@offset", (pageNumber - 1) * resultsPerPage);
                 sqlCmd.Parameters.AddWithValue("@rowCount", resultsPerPage);
 
@@ -299,10 +299,12 @@ namespace MRPlatform.AlarmEvent
 
             Command dbCmd = new Command();
             dbCmd.ActiveConnection = dbConnection;
-            dbCmd.CommandText = GetHistoryStartEndDateQuery(sortAscending);
+            dbCmd.CommandText = GetHistoryStartDateQuery(sortAscending);
             dbCmd.CommandType = CommandTypeEnum.adCmdText;
             Parameter dbParam = new Parameter();
-            dbParam = dbCmd.CreateParameter("eventDate", DataTypeEnum.adDBDate, ParameterDirectionEnum.adParamInput, 0, dtEventDate);
+            dbParam = dbCmd.CreateParameter("eventStartDate", DataTypeEnum.adDBDate, ParameterDirectionEnum.adParamInput, 0, dtEventDate.ToShortDateString());
+            dbCmd.Parameters.Append(dbParam);
+            dbParam = dbCmd.CreateParameter("eventEndDate", DataTypeEnum.adDBDate, ParameterDirectionEnum.adParamInput, 0, dtEventDate.ToShortDateString());
             dbCmd.Parameters.Append(dbParam);
             dbParam = dbCmd.CreateParameter("offset", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, (pageNumber - 1) * resultsPerPage);
             dbCmd.Parameters.Append(dbParam);
@@ -328,6 +330,23 @@ namespace MRPlatform.AlarmEvent
         }
 
 
+        [ComVisible(false)]
+        private string GetHistoryStartDateQuery(bool sortAscending)
+        {
+            string sortOrder = null;
+            if (sortAscending) { sortOrder = "ASC"; } else { sortOrder = "DESC"; }
+
+            string sQuery = String.Format("SELECT id, userName, nodeName, evtMessage, evtType, evtSource" +
+                                          " FROM UserEventLog" +
+                                          " WHERE evtDateTime >= ?" +
+                                          " AND evtDateTime < DATEADD(dd, 1, ?)" +
+                                          " ORDER BY evtDateTime {0}" +
+                                          " OFFSET ? ROWS" +
+                                          " FETCH NEXT ? ROWS ONLY", sortOrder);
+            return sQuery;
+        }
+
+
         /// <summary>GetEventHistory Method</summary>
         /// <remarks>Overloaded method to retrieve data from the mrsystems SQL Server database in the
         /// form of a System.Data.DataSet object that can be used to fill a DataGrid object.</remarks>
@@ -345,8 +364,8 @@ namespace MRPlatform.AlarmEvent
                 dbConnection.Open();
 
                 OleDbCommand sqlCmd = new OleDbCommand(GetHistoryStartEndDateQuery(sortAscending), (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@startDate", eventStartDate);
-                sqlCmd.Parameters.AddWithValue("@endDate", eventEndDate);
+                sqlCmd.Parameters.AddWithValue("@eventStartDate", eventStartDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                sqlCmd.Parameters.AddWithValue("@eventEndDate", eventEndDate.ToString("yyyy-MM-dd HH:mm:ss"));
                 sqlCmd.Parameters.AddWithValue("@offset", (pageNumber - 1) * resultsPerPage);
                 sqlCmd.Parameters.AddWithValue("@rowCount", resultsPerPage);
 
@@ -372,8 +391,8 @@ namespace MRPlatform.AlarmEvent
 
         public Recordset GetHistoryRecordset(double eventStartDate, double eventEndDate, int pageNumber, int resultsPerPage, bool sortAscending = true)
         {
-            DateTime dtEventStartDate = DateTime.FromOADate(eventStartDate); // Test for ArgumentException
-            DateTime dtEventEndDate = DateTime.FromOADate(eventEndDate); // Test for ArgumentException
+            string sEventStartDate = DateTime.FromOADate(eventStartDate).ToString("yyyy-MM-dd HH:mm:ss"); // Test for ArgumentException
+            string sEventEndDate = DateTime.FromOADate(eventEndDate).ToString("yyyy-MM-dd HH:mm:ss"); // Test for ArgumentException
             if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
             if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
 
@@ -385,9 +404,9 @@ namespace MRPlatform.AlarmEvent
             dbCmd.CommandText = GetHistoryStartEndDateQuery(sortAscending);
             dbCmd.CommandType = CommandTypeEnum.adCmdText;
             Parameter dbParam = new Parameter();
-            dbParam = dbCmd.CreateParameter("eventStartDate", DataTypeEnum.adDBDate, ParameterDirectionEnum.adParamInput, 0, dtEventStartDate);
+            dbParam = dbCmd.CreateParameter("eventStartDate", DataTypeEnum.adDate, ParameterDirectionEnum.adParamInput, 0, sEventStartDate);
             dbCmd.Parameters.Append(dbParam);
-            dbParam = dbCmd.CreateParameter("eventEndDate", DataTypeEnum.adDBDate, ParameterDirectionEnum.adParamInput, 0, dtEventEndDate);
+            dbParam = dbCmd.CreateParameter("eventEndDate", DataTypeEnum.adDate, ParameterDirectionEnum.adParamInput, 0, sEventEndDate);
             dbCmd.Parameters.Append(dbParam);
             dbParam = dbCmd.CreateParameter("offset", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, (pageNumber - 1) * resultsPerPage);
             dbCmd.Parameters.Append(dbParam);
@@ -401,8 +420,6 @@ namespace MRPlatform.AlarmEvent
             {
                 object recAffected;
                 rs = dbCmd.Execute(out recAffected);
-                dbConnection.Close();
-                dbConnection = null;
                 return rs;
             }
             catch (COMException ex)
@@ -421,8 +438,8 @@ namespace MRPlatform.AlarmEvent
             string sortOrder = null;
             if (sortAscending) { sortOrder = "ASC"; } else { sortOrder = "DESC"; }
 
-            string sQuery = String.Format("SELECT userName, nodeName, eventMessage, eventType, eventSource" +
-                                          " FROM EventLog" +
+            string sQuery = String.Format("SELECT id, userName, nodeName, evtMessage, evtType, evtSource" +
+                                          " FROM UserEventLog" +
                                           " WHERE evtDateTime >= ?" +
                                           " AND evtDateTime <= ?" +
                                           " ORDER BY evtDateTime {0}" +

@@ -11,7 +11,10 @@ namespace MRPlatform.Message
     /// <summary>
     /// Description of MRAreaMessage.
     /// </summary>
-    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668")]
+    [ComVisible(true)]
+    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IAreaMessageEvent))]
     public class AreaMessage : IAreaMessage
 	{
         private ErrorLog _errorLog = new ErrorLog();
@@ -20,42 +23,84 @@ namespace MRPlatform.Message
         // Global message type = 1 for Area Messages
         private const int MESSAGETYPE = 1;
 
+        public AreaMessage()
+        {
+
+        }
 
         public AreaMessage(MRDbConnection mrDbConnection)
 		{
             _dbConnection = mrDbConnection;
 		}
 
+
+        public MRDbConnection DbConnection
+        {
+            get
+            {
+                return _dbConnection;
+            }
+            set
+            {
+                _dbConnection = value;
+            }
+        }
+
         
         public void Send(string sender, string area, string message, int priority = 2)
 		{
-            using (IDbConnection dbConnection = _dbConnection.Connection)
+            // Parameter exceptions check
+            if (sender == null) { throw new ArgumentNullException("sender", "sender must not be null or empty."); }
+            if (sender == "") { throw new ArgumentNullException("sender", "sender must not be null or empty."); }
+            if (sender.Length > 50) { throw new ArgumentOutOfRangeException("sender", "sender must be 50 characters or less."); }
+            if (area == null) { throw new ArgumentNullException("area", "area must not be null or empty."); }
+            if (area == "") { throw new ArgumentNullException("area", "area must not be null or empty."); }
+            if (area.Length > 50) { throw new ArgumentOutOfRangeException("area", "area must be 50 characters or less."); }
+            if (message == null) { throw new ArgumentNullException("message", "message must not be null or empty."); }
+            if (message == "") { throw new ArgumentNullException("message", "message must not be null or empty."); }
+            if (message.Length > 5000) { throw new ArgumentOutOfRangeException("message", "message must be 50 characters or less."); }
+            if (priority < 1) { throw new ArgumentOutOfRangeException("priority", "priority must be greater than zero."); }
+
+            if (!_dbConnection.UseADODB)
             {
-                dbConnection.Open();
-
-                string sQuery = "INSERT INTO Messages(sender, recipient, message, msgTypeId, priorityId)" +
-                                " VALUES(?, ?, ?, ?, ?)";
-                                //" VALUES('" + sender + "', '" + recipient + "', '" + message + "', " + MESSAGETYPE + ", " + priority + ")";
-                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@sender", sender);
-                sqlCmd.Parameters.AddWithValue("@recipient", area);
-                sqlCmd.Parameters.AddWithValue("@message", message);
-                sqlCmd.Parameters.AddWithValue("@msgTypeId", MESSAGETYPE);
-                sqlCmd.Parameters.AddWithValue("@priorityId", priority);
-
-                try
+                using (IDbConnection dbConnection = _dbConnection.Connection)
                 {
-                    sqlCmd.ExecuteNonQuery();
-                }
-                catch (OleDbException ex)
-                {
-                    _errorLog.LogMessage(this.GetType().Name, "Send(string sender, string recipient, string message, int priority = 2)", ex.Message);
+                    dbConnection.Open();
+
+                    OleDbCommand sqlCmd = new OleDbCommand(GetSendQuery(), (OleDbConnection)dbConnection);
+                    sqlCmd.Parameters.AddWithValue("@sender", sender);
+                    sqlCmd.Parameters.AddWithValue("@recipient", area);
+                    sqlCmd.Parameters.AddWithValue("@message", message);
+                    sqlCmd.Parameters.AddWithValue("@msgTypeId", MESSAGETYPE);
+                    sqlCmd.Parameters.AddWithValue("@priorityId", priority);
+
+                    try
+                    {
+                        sqlCmd.ExecuteNonQuery();
+                    }
+                    catch (OleDbException ex)
+                    {
+                        _errorLog.LogMessage(this.GetType().Name, "Send(string sender, string recipient, string message, int priority = 2)", ex.Message);
+                    }
                 }
             }
+            else
+            {
+
+            }
 		}
+
+
+        [ComVisible(false)]
+        private string GetSendQuery()
+        {
+            string sQuery = "INSERT INTO Messages(sender, recipient, message, msgTypeId, priorityId)" +
+                            " VALUES(?, ?, ?, ?, ?)";
+            return sQuery;
+        }
 		
-		
-		public DataSet GetMessages(string area)
+
+	    public DataSet GetMessages(string area)
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {

@@ -1,20 +1,4 @@
-﻿/***************************************************************************************************
-* Class:    	MRAreaMessage.cs
-* Created By:	Eric Conder
-* Created On:	2014-03-07
-* 
-* Changes:
-* 
-* 2014-03-07	Created class.
-*				
-* 2014-04-03	Added msgType to Send function query.
-* 
-* 2016-10-06    Changed class constructor to accept only an MRDbConnection object parameter to 
-*               simplify usage for the end user. Added sync method call as well to sync primary and 
-*               secondary databases.
-*               
-****************************************************************************************************/
-using System;
+﻿using System;
 using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
@@ -27,10 +11,7 @@ namespace MRPlatform.Message
     /// <summary>
     /// Description of MRAreaMessage.
     /// </summary>
-    [ComVisible(true)]
-    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
-    ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IAreaMessageEvents))]
+    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668")]
     public class AreaMessage : IAreaMessage
 	{
         private ErrorLog _errorLog = new ErrorLog();

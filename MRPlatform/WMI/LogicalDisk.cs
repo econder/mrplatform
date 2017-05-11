@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 
 namespace MRPlatform.WMI
 {
-    [ComVisible(true)]
-    [Guid("877B18D5-8DA7-4933-8D8C-E4FDEECFE947"),
-    ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(ILogicalDiskEvents))]
+    [Guid("877B18D5-8DA7-4933-8D8C-E4FDEECFE947")]
     public class LogicalDisk : ILogicalDisk
     {
         public LogicalDisk()

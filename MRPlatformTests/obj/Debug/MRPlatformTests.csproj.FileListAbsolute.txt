@@ -3,5 +3,7 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\bin\Debug\MR
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\bin\Debug\MRPlatform.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\bin\Debug\MRPlatform.pdb
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Debug\MRPlatformTests.csprojResolveAssemblyReference.cache
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Debug\Interop.ADODB.dll
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Debug\MRPlatformTests.csproj.ResolveComReference.cache
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Debug\MRPlatformTests.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Debug\MRPlatformTests.pdb

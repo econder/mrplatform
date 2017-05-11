@@ -1,30 +1,17 @@
-﻿/***************************************************************************************************
- * Class: 			MRConnection.cs
- * Created By:		Eric Conder
- * Created On:		2014-01-06
- * 
- * Changes:
- * 
- * 2014-03-06	Recreated the MRConnection under new namespace MRPlatform2014.Data.Sql.
- * 
- * 2014-03-27	Writing MROleDbConnection.Open() functions to be used internally by the other classes
- * 				to access the SQL database.
- * 
- * 2014-04-03	Added deconstructor to close database if connection is still open when class is disposed.
- * 
- * 2016-08-29   Added new constructor parameters for the sync server's name, instance, username, & password.
- * 
- * *************************************************************************************************/
-using System;
+﻿using System;
 using System.Data;
 using System.Data.OleDb;
-
-using MRPlatform.AlarmEvent;
+using System.Runtime.InteropServices;
+using ADODB;
 
 
 namespace MRPlatform.DB.Sql
 {
-    public class MRDbConnection
+    [ComVisible(true)]
+    [Guid("D098F6B4-0FB6-4695-92FF-B78724BAAAE6"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IMRDbConnection))]
+    public class MRDbConnection : IMRDbConnection
 	{
         private ErrorLog _errorLog;
 
@@ -34,25 +21,62 @@ namespace MRPlatform.DB.Sql
         public string DatabaseName { get; set; }
         public string UserName { get; set; }
         private string Password { get; set; }
+        public bool UseADODB { get; set; }
 
-        public MRDbConnection(string provider, string serverName, string databaseName, string userName, string password)
+        public MRDbConnection()
+        {
+
+        }
+
+        public MRDbConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
+        {
+            OpenConnection(provider, serverName, databaseName, userName, password, useADODB);
+        }
+
+
+        // Used for SQL Native Client OLEDB connectivity from .NET-based clients
+        // such as Wonderware InTouch
+        public IDbConnection Connection
+        {
+            get
+            {
+                return new OleDbConnection(ConnectionString);
+            }
+        }
+
+        // Used for ADODB connectivity from COM-based clients
+        // such as FactoryTalk View SE and iFix Workspace
+        public ADODB.Connection ADODBConnection
+        {
+            get
+            {
+                ADODB.Connection conn = new ADODB.Connection();
+                conn.ConnectionString = ConnectionString;
+                conn.CursorLocation = CursorLocationEnum.adUseClient;
+                return conn;
+            }
+        }
+
+        public void OpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
         {
             _errorLog = new ErrorLog();
 
             Provider = provider;
             ServerName = serverName;
             DatabaseName = databaseName;
-            UserName = UserName;
+            UserName = userName;
             Password = password;
+            UseADODB = useADODB;
 
-            ConnectionString = String.Format("Provider={0};Server={1};Database={2};Uid={3};Pwd={4};", provider, serverName, databaseName, userName, password);
-        }
-
-        public IDbConnection Connection
-        {
-            get
+            if (useADODB)
             {
-                return new OleDbConnection(ConnectionString);
+                // ADODB database connection string
+                ConnectionString = String.Format("Provider={0};Server={1};Database={2};Uid={3};Pwd={4};DataTypeCompatibility=80;", Provider, ServerName, DatabaseName, UserName, Password);
+            }
+            else
+            {
+                // SQL Native Client OLE database connection string
+                ConnectionString = String.Format("Provider={0};Data Source={1};Initial Catalog={2};User ID={3};Password={4};", Provider, ServerName, DatabaseName, UserName, Password);
             }
         }
     }

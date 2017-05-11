@@ -7,10 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace MRPlatform.HMI.Wonderware.InTouch
 {
-    [ComVisible(true)]
-    [Guid("7DE85542-10D9-4337-A2E7-EA5E72BA301A"),
-    ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IWindowEvents))]
+    [Guid("7DE85542-10D9-4337-A2E7-EA5E72BA301A")]
     class Window : IWindow
     {
         private const string INDEX_FILENAME = "ww_wdws.ndx";

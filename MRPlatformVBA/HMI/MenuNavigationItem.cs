@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MRPlatform.HMI
+namespace MRPlatformVBA.HMI
 {
     [ComVisible(true)]
-    [Guid("FD0FD4F7-98F9-4802-A29C-D0931A603EB6"),
+    [Guid("3256CDEA-24D2-4B24-9161-58021495CE6C"),
         ClassInterface(ClassInterfaceType.None),
         ComSourceInterfaces(typeof(IMenuNavItemEvents))]
     public class MenuNavigationItem

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,11 +20,8 @@ namespace MRPlatformTests.Message
 
         private AreaMessage _msg;
         private string _sender = "Sender Name";
-        //private string _senderInvalid = "John Doe";
-        private string _userName = "mrsystems";
         private string _area = "Influent PS";
         private string _areaInvalid = "Jane Doe";
-        //private List<string> _recipients;
         private string _message = "This is a unit test area message";
         private int _priority = 1;
         private long _msgId;

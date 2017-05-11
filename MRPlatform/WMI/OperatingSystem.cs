@@ -10,10 +10,7 @@ using System.Management.Instrumentation;
 
 namespace MRPlatform.WMI
 {
-    [ComVisible(true)]
-    [Guid("62E2A76E-0471-4FB3-8293-A2F50D4A83DA"),
-    ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IOperatingSystemEvents))]
+    [Guid("62E2A76E-0471-4FB3-8293-A2F50D4A83DA")]
     public class OperatingSystem : IOperatingSystem
     {
         public string LastBootUpTime { get; set; }

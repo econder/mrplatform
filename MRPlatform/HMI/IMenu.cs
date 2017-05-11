@@ -1,17 +1,25 @@
 ﻿using System;
-using System.Data;
 using System.Runtime.InteropServices;
+using ADODB;
+
+using MRPlatform.DB.Sql;
+
 
 namespace MRPlatform.HMI
 {
-    [Guid("C0CB67B1-B4B6-4140-BE7B-03CD12850A5D")]
+    [Guid("A3313A06-4401-4A28-B0DE-421ED3B482CC")]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenu
     {
-        DataSet GetNavigationItems(int pageNumber, int resultsPerPage);
-        
+        Recordset GetNavigationItemsRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true);
+        int MoveNavigationItem(Menu.ItemMoveDirection direction, int currentOrderId);
+        int AddNavigationItem(string screenName, string titleTop, string titleBottom);
+        int DeleteNavigationItem(string screenName);
+        MRDbConnection DbConnection { get; set; }
     }
 
-    [Guid("FA730550-AC4D-4BA5-A442-4387CA07601C")]
+    [Guid("41DFA2B1-0812-4717-AA62-D6146042312E")]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenuEvents
     {
 

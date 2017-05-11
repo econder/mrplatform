@@ -87,21 +87,23 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
     <Reference Include="System.Management.Instrumentation" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmEvent\IUserEvent.cs" />
+    <Compile Include="DB\Sql\IMRDbConnection.cs" />
     <Compile Include="ErrorLog.cs" />
+    <Compile Include="HMI\IMenu.cs" />
+    <Compile Include="HMI\Menu.cs" />
     <Compile Include="Message\IAreaMessage.cs" />
     <Compile Include="Message\IUserMessage.cs" />
-    <Compile Include="Wonderware\AlarmEvent\IAlarmEventLog.cs" />
+    <Compile Include="HMI\Wonderware\AlarmEvent\IAlarmEventLog.cs" />
     <Compile Include="AlarmEvent\ITagEvent.cs" />
-    <Compile Include="Wonderware\AlarmEvent\AlarmEventLog.cs" />
+    <Compile Include="HMI\Wonderware\AlarmEvent\AlarmEventLog.cs" />
     <Compile Include="DB\Sql\MRDbConnection.cs" />
     <Compile Include="AlarmEvent\UserEvent.cs" />
     <Compile Include="AlarmEvent\TagEvent.cs" />
-    <Compile Include="InTouch\IWindow.cs" />
-    <Compile Include="InTouch\Window.cs" />
+    <Compile Include="HMI\Wonderware\InTouch\IWindow.cs" />
+    <Compile Include="HMI\Wonderware\InTouch\Window.cs" />
     <Compile Include="Message\AreaMessage.cs" />
     <Compile Include="Message\UserMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,6 +116,16 @@
     <Compile Include="WMI\OperatingSystem.cs" />
     <Compile Include="WMI\Processor.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="ADODB">
+      <Guid>{2A75196C-D9EB-4129-B803-931327F72D5C}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

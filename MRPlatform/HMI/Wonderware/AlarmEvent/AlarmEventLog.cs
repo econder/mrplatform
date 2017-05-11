@@ -1,38 +1,4 @@
-﻿/***************************************************************************************************
- * Class:    	MRAlarmEventLog.cs
- * Created By:  Eric Conder
- * Created On:  2014-03-28
- * 
- * Changes:
- * 2014-04-01	Renamed MRAlarm to MRAlarmEventLog to be more descriptive. Added
- * 				GetTopAlarmOccurrences() classes.
- * 				
- * 2016-08-29   Updated MRDbConnection methods to match method name changes in MRDbConnection. Added
- *              comments to all methods and properties.
- * 
- * 2016-10-06   Changed class constructor to accept only an MRDbConnection object parameter to 
- *              simplify usage for the end user. Added sync method call as well to sync primary and 
- *              secondary databases.
- * 
- * 2016-10-07   Merged in newer codebase from MRPlatform2014 SharpDevelop project. Merged changes include:
- * 
- *       2014-04-07	Added function documentation.
- * 		    		Added overloaded functions to allow passing dates as strings, not just System.DateTime
- * 			    	objects.
- * 
- *       2014-04-09	Fixed date issues in private function queries.
- * 
- *       2014-05-21	Changed sql query strings to OleDbCommand objects to prevent connection initialization
- * 		    		errors from happening.
- * 
- *       2014-05-24	Issues using MRDbConnection class. Now initiating SQLDB connection in class
- * 			    	constructor.
- * 
- *       2014-07-01	Added GetAlarmsEvents methods to return alarms & events from a date or date range.
- *  
- *   
- * *************************************************************************************************/
-using System;
+﻿using System;
 using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
@@ -45,16 +11,14 @@ namespace MRPlatform.Wonderware.AlarmEvent
     /// <summary>
     /// MRPlatform.AlarmEvent.MRAlarmEventLog class.
     /// </summary>
-    [ComVisible(false)]
-    [Guid("96E0CD61-EC8D-428F-BAF7-0A0910A6432F"),
-    ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IAlarmEventLogEvents))]
+    [Guid("96E0CD61-EC8D-428F-BAF7-0A0910A6432F")]
     public class AlarmEventLog : IAlarmEventLog
 	{
         private ErrorLog _errorLog = new ErrorLog();
 
         //Properties
         private MRDbConnection _dbConnection;
+
 
         /// <summary>Initializes a new instance of MRAlarmEventLog.</summary>
         /// <param name="mrDbConnection"></param>

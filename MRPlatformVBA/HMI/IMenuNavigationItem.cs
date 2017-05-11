@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MRPlatform.HMI
+namespace MRPlatformVBA.HMI
 {
-    [Guid("41CE3BF5-7D5A-45EB-A16E-1C499627C204")]
+    [Guid("B15D3E45-383A-437D-8897-D04946C6D558")]
     public interface IMenuNavItem
     {
 
     }
 
-    [Guid("E36D4442-2A38-4560-B14B-A5A529E01518")]
+    [Guid("BA9C337E-0B97-415F-8E2B-9DA728E3B229")]
     public interface IMenuNavItemEvents
     {
 

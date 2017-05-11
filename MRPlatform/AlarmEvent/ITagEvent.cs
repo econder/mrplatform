@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Data;
 using System.Runtime.InteropServices;
+
+using MRPlatform.DB.Sql;
 
 
 namespace MRPlatform.AlarmEvent
@@ -8,13 +9,16 @@ namespace MRPlatform.AlarmEvent
     /// <summary>
     /// IMRTagEvent interface.
     /// </summary>
+    [ComVisible(true)]
     [Guid("7BB5187C-0964-4920-8CC5-612E136B36BA")]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface ITagEvent
     {
         void LogEvent(string userName, string nodeName, string tagName, float tagValueOrig, float tagValueNew);
-        DataSet GetHistory(string tagName, int nRecordCount);
-        DataSet GetHistory(DateTime startDate);
-        DataSet GetHistory(DateTime startDateTime, DateTime endDateTime);
+        ADODB.Recordset GetHistoryRecordset(string tagName, int nRecordCount);
+        ADODB.Recordset GetHistoryRecordset(DateTime startDate);
+        ADODB.Recordset GetHistoryRecordset(DateTime startDateTime, DateTime endDateTime);
+        MRDbConnection DbConnection { get; set; }
     }
 
 

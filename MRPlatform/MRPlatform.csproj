@@ -94,6 +94,8 @@
     <Compile Include="ErrorLog.cs" />
     <Compile Include="HMI\IMenu.cs" />
     <Compile Include="HMI\Menu.cs" />
+    <Compile Include="HMI\Rockwell\FTViewSE\IWindow.cs" />
+    <Compile Include="HMI\Rockwell\FTViewSE\Window.cs" />
     <Compile Include="Message\IAreaMessage.cs" />
     <Compile Include="Message\IUserMessage.cs" />
     <Compile Include="HMI\Wonderware\AlarmEvent\IAlarmEventLog.cs" />
@@ -127,5 +129,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

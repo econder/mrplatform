@@ -5,12 +5,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 
-namespace MRPlatform.HMI.Wonderware.InTouch
+namespace MRPlatform.HMI.Rockwell.FTViewSE
 {
-    [Guid("7DE85542-10D9-4337-A2E7-EA5E72BA301A")]
+    [ComVisible(true)]
+    [Guid("20927EEC-4F15-491C-AF96-8F8766D27BBC")]
     class Window : IWindow
     {
-        private const string INDEX_FILENAME = "ww_wdws.ndx";
         private ErrorLog _errorLog;
 
         public int WindowCount { get; }
@@ -31,25 +31,7 @@ namespace MRPlatform.HMI.Wonderware.InTouch
 
         private void ParseWindowsIndexFile(string applicationPath)
         {
-            NameValueCollection arWindows = new NameValueCollection();
-            string fileLine, windowIndex, windowName;
-
-            try
-            {
-                StreamReader file = new StreamReader(string.Format("{0}\\{1}", applicationPath, INDEX_FILENAME));
-
-                while((fileLine = file.ReadLine()) != null)
-                {
-                    windowIndex = fileLine.Substring(0, 6);
-                    windowName = fileLine.Substring(6, fileLine.Length - 6);
-
-                    arWindows.Add(windowIndex, windowName);
-                }
-            }
-            catch(IOException ex)
-            {
-                _errorLog.LogMessage(this.GetType().Name, "ParseWindowsIndexFile(string applicationPath)", ex.Message);
-            }
+            
         }
     }
 }

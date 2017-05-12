@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ADODB;
 
 using MRPlatform.DB.Sql;
 using MRPlatform.Message;
@@ -11,40 +12,74 @@ namespace MRPlatformTests.Message
     [TestClass]
     public class AreaMessageTest
     {
-        private MRDbConnection _mrdb;
+        private MRDbConnection _mrdb, _mrdbADO;
         private string _provider = "SQLNCLI11";
         private string _dbServer = "WIN-1I5C3456H92\\SQLEXPRESS";
         private string _dbName = "mrsystems";
         private string _dbUser = "mrsystems";
         private string _dbPass = "Reggie#123";
 
-        private AreaMessage _msg;
+        private AreaMessage _msg, _msgADO;
         private string _sender = "Sender Name";
+        private string _senderInvalid = "";
         private string _area = "Influent PS";
-        private string _areaInvalid = "Jane Doe";
+        private string _areaInvalid = "";
         private string _message = "This is a unit test area message";
+        private string _messageInvalid = "";
         private int _priority = 1;
-        private long _msgId;
+        private int _priorityInvalid = 0;
+
+        private int _pageNumber = 1;
+        private int _pageNumberInvalid = 0;
+        private int _resultsPerPage = 5000;
+        private int _resultsPerPageInvalid = 0;
+        private bool _sortAscending = false;
 
         private DataSet _ds;
+        private Recordset _rs;
 
 
         [TestInitialize]
         public void Initialize()
         {
+            // OleDbConnection
             _mrdb = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass);
+            _mrdbADO = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass, true);
+
+            // ADODB Connection
             _msg = new AreaMessage(_mrdb);
+            _msgADO = new AreaMessage(_mrdbADO);
         }
 
-        // Send(string sender, string recipient, string message, int priority = 2)
+
+        #region " Send "
+
+        // Send(string sender, string area, string message, int priority = 2)
         [TestMethod]
-        public void SendAllWithValidAreaString()
+        public void Send()
         {
+            int count = 0;
+            int countPrev = 0;
+
+            //Get original row count
+            _ds = new DataSet();
+            _ds = _msg.GetMessages(_area, 0);
+            if (_ds.Tables.Count == 0)
+            {
+                countPrev = 0;
+            }
+            else
+            {
+                countPrev = _ds.Tables[0].Rows.Count;
+            }
+
             _msg.Send(_sender, _area, _message, _priority);
 
             // Make sure the sent message exists
             GetMessagesWithValidArea();
         }
+
+        #endregion
 
         #region " GetMessages "
 

@@ -20,7 +20,7 @@ namespace MRPlatform.DB.Sql
         public string ServerName { get; set; }
         public string DatabaseName { get; set; }
         public string UserName { get; set; }
-        private string Password { get; set; }
+        public string Password { get; set; }
         public bool UseADODB { get; set; }
 
         public MRDbConnection()

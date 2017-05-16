@@ -11,7 +11,10 @@ namespace MRPlatform.Message
     /// <summary>
     /// Description of MRMessage.
     /// </summary>
-    [Guid("389711FE-7AAB-452B-A14E-78EED94A23DB")]
+    [ComVisible(true)]
+    [Guid("389711FE-7AAB-452B-A14E-78EED94A23DB"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IAreaMessageEvent))]
     public class UserMessage : IUserMessage
 	{
         private ErrorLog _errorLog;
@@ -20,6 +23,10 @@ namespace MRPlatform.Message
         // Global message type = 2 for User Messages
         private const int MESSAGETYPE = 2;
 
+        public UserMessage()
+        {
+
+        }
 
         public UserMessage(MRDbConnection mrDbConnection)
 		{
@@ -34,6 +41,30 @@ namespace MRPlatform.Message
                 return new OleDbConnection(_dbConnection.ConnectionString);
             }
         }
+
+
+        #region " Properties "
+
+        public MRDbConnection DbConnection
+        {
+            get
+            {
+                return _dbConnection;
+            }
+            set
+            {
+                _dbConnection = value;
+            }
+        }
+
+        public int ResultsPageNumber { get; set; }
+        public int ResultsPerPage { get; set; }
+        public bool SortAscending { get; set; }
+
+        #endregion
+
+
+        #region " Send "
 
 
         public void Send(string sender, string recipient, string message, int priority = 2)
@@ -73,7 +104,9 @@ namespace MRPlatform.Message
             }
 		}
 
-        
+        #endregion
+
+
         public DataSet GetMessages(string recipient)
         {
             string sQuery = "SELECT id, msgDateTime, recipient, message, priority FROM vMessages" + 

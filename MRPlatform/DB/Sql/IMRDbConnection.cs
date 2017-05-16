@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Data;
-using System.Data.OleDb;
 using System.Runtime.InteropServices;
-using ADODB;
 
 
 namespace MRPlatform.DB.Sql
@@ -14,6 +11,7 @@ namespace MRPlatform.DB.Sql
         string ServerName { get; set; }
         string DatabaseName { get; set; }
         string UserName { get; set; }
+        string Password { get; set; }
         bool UseADODB { get; set; }
         void OpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false);
     }

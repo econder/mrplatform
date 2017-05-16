@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using ADODB;
 
@@ -11,7 +12,7 @@ namespace MRPlatform.HMI
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenu
     {
-        Recordset GetNavigationItemsRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true);
+        Dictionary<int, MenuItem> GetNavigationItemsRecordset();
         int MoveNavigationItem(Menu.ItemMoveDirection direction, int currentOrderId);
         int AddNavigationItem(string screenName, string titleTop, string titleBottom);
         int DeleteNavigationItem(string screenName);

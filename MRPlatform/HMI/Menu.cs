@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
@@ -27,15 +28,25 @@ namespace MRPlatform.HMI
 
         public Menu()
         {
-
+            // Set property defaults
+            ResultsPageNumber = 1;
+            ResultsPerPage = 100;
+            SortAscending = true;
         }
         
 
         public Menu(MRDbConnection mrDbConnection)
         {
             _dbConnection = mrDbConnection;
+
+            // Set property defaults
+            ResultsPageNumber = 1;
+            ResultsPerPage = 100;
+            SortAscending = true;
         }
 
+
+        #region " Properties "
 
         /// <summary>
         /// DbConnection Property
@@ -50,20 +61,26 @@ namespace MRPlatform.HMI
             }
         }
 
+        public int ResultsPageNumber { get; set; }
+        public int ResultsPerPage { get; set; }
+        public bool SortAscending { get; set; }
+
+        #endregion
+
 
         [ComVisible(false)]
-        public DataSet GetNavigationItemsDataSet(int pageNumber, int resultsPerPage, bool sortAscending = true)
+        public DataSet GetNavigationItemsDataSet()
         {
-            if (pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
-            if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
+            if (ResultsPageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)ResultsPageNumber, "Page number value must be greater than zero."); }
+            if (ResultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)ResultsPerPage, "Results per page value must be greater than zero."); }
 
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
                 dbConnection.Open();
                 
-                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(sortAscending), (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@offset", (pageNumber - 1) * resultsPerPage);
-                sqlCmd.Parameters.AddWithValue("@rowCount", resultsPerPage);
+                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(SortAscending), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@offset", (ResultsPageNumber - 1) * ResultsPerPage);
+                sqlCmd.Parameters.AddWithValue("@rowCount", ResultsPerPage);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 DataSet ds = new DataSet();
@@ -85,26 +102,25 @@ namespace MRPlatform.HMI
         }
 
 
-        public Recordset GetNavigationItemsRecordset(int pageNumber, int resultsPerPage, bool sortAscending = true)
+        public Dictionary<int, MenuItem> GetNavigationItemsRecordset()
         {
-            if(pageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)pageNumber, "Page number value must be greater than zero."); }
-            if (resultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)resultsPerPage, "Results per page value must be greater than zero."); }
+            if(ResultsPageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)ResultsPageNumber, "Page number value must be greater than zero."); }
+            if (ResultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)ResultsPerPage, "Results per page value must be greater than zero."); }
 
             Connection dbConnection = _dbConnection.ADODBConnection;
             dbConnection.Open();
 
             Command dbCmd = new Command();
             dbCmd.ActiveConnection = dbConnection;
-            dbCmd.CommandText = GetNavigationItemsQuery(sortAscending);
+            dbCmd.CommandText = GetNavigationItemsQuery(SortAscending);
             dbCmd.CommandType = CommandTypeEnum.adCmdText;
             Parameter dbParam = new Parameter();
-            dbParam = dbCmd.CreateParameter("offset", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, (pageNumber - 1) * resultsPerPage);
+            dbParam = dbCmd.CreateParameter("offset", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, (ResultsPageNumber - 1) * ResultsPerPage);
             dbCmd.Parameters.Append(dbParam);
-            dbParam = dbCmd.CreateParameter("rowCount", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, resultsPerPage);
+            dbParam = dbCmd.CreateParameter("rowCount", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, ResultsPerPage);
             dbCmd.Parameters.Append(dbParam);
 
-            Recordset rs = new Recordset();
-            rs.CursorType = CursorTypeEnum.adOpenStatic;
+            Dictionary<int, MenuItem> menuItems = new Dictionary<int, MenuItem>();
 
             try
             {
@@ -289,7 +305,7 @@ namespace MRPlatform.HMI
         private string GetAddNavigationItemQuery()
         {
             string sQuery = "INSERT INTO NavMenu(screenName, titleTop, titleBottom, orderMenu)" +
-                            " VALUES(?, ?, ?, (SELECT MAX(orderMenu) + 1 FROM NavMenu))";
+                            " VALUES(?, ?, ?, (SELECT CASE WHEN MAX(orderMenu) IS NULL THEN 1 ELSE MAX(orderMenu) + 1 END AS calcOrderMenu FROM NavMenu))";
             return sQuery;
         }
 

@@ -957,29 +957,84 @@ namespace MRPlatform.Message
 
         public int Count(string area)
 		{
-            using (IDbConnection dbConnection = _dbConnection.Connection)
+            if (area == "" | area == null) { throw new ArgumentNullException("area", "Area parameter cannot be empty or null."); }
+
+            if (!_dbConnection.UseADODB)
             {
+                using (IDbConnection dbConnection = _dbConnection.Connection)
+                {
+                    dbConnection.Open();
+
+                    OleDbCommand sqlCmd = new OleDbCommand(CountQuery_Area(), (OleDbConnection)dbConnection);
+                    sqlCmd.Parameters.AddWithValue("@recipient", area);
+
+                    OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
+                    DataSet ds = new DataSet();
+
+                    try
+                    {
+                        dbAdapt.Fill(ds);
+                        dbConnection.Close();
+                        if (ds.Tables.Count > 0)
+                        {
+                            return ds.Tables[0].Rows.Count;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                    catch (OleDbException ex)
+                    {
+                        _errorLog.LogMessage(this.GetType().Name, "Count(string area)", ex.Message);
+                        if (dbConnection.State == ConnectionState.Open)
+                            dbConnection.Close();
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                // Use ADODB Connection
+                Connection dbConnection = _dbConnection.ADODBConnection;
                 dbConnection.Open();
 
-                DataSet ds = new DataSet();
-                string sQuery = "SELECT COUNT(*) FROM vMessages" +
-                                " WHERE recipient = ?";
+                Command dbCmd = new Command();
+                dbCmd.ActiveConnection = dbConnection;
+                dbCmd.CommandText = CountQuery_Area();
+                dbCmd.CommandType = CommandTypeEnum.adCmdText;
 
-                OleDbCommand sqlCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                Parameter dbParam = new Parameter();
+                dbParam = dbCmd.CreateParameter("recipient", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, area);
+                dbCmd.Parameters.Append(dbParam);
+
+                Recordset rs = new Recordset();
+                rs.CursorType = CursorTypeEnum.adOpenStatic;
 
                 try
                 {
-                    int rowCount = (int)sqlCmd.ExecuteScalar();
-                    return rowCount;
+                    object recAffected;
+                    rs = dbCmd.Execute(out recAffected);
+                    int nCount = rs.RecordCount;
+
+                    dbConnection.Close();
+                    return nCount;
                 }
-                catch (OleDbException ex)
+                catch (COMException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Count(string area)", ex.Message);
                     return -1;
                 }
             }
-		}
+        }
+
+        [ComVisible(false)]
+        private string CountQuery_Area()
+        {
+            string sQuery = "SELECT COUNT(*) FROM vMessages" +
+                            " WHERE recipient = ?";
+            return sQuery;
+        }
 		
 		
 		public int Count(string area, int priority)
@@ -1009,6 +1064,15 @@ namespace MRPlatform.Message
                 }
             }
 		}
+
+        [ComVisible(false)]
+        private string CountQuery_AreaPriority()
+        {
+            string sQuery = "SELECT COUNT(*) FROM vMessages" +
+                            " WHERE recipient = ?" +
+                            " AND priorityId = ?";
+            return sQuery;
+        }
 		
 		
 		private int Count(string area, int priority, DateTime dtDate)

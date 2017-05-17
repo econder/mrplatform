@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
+using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ADODB;
 
@@ -54,6 +55,14 @@ namespace MRPlatformTests.HMI
 
         #region " GetNavigationItems "
 
+        [TestMethod]
+        public void Items()
+        {
+            Collection items = _menu.Items;
+            Assert.IsTrue(items.Count > 0);
+        }
+
+        /*
         // GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)
         [TestMethod]
         public void GetNavigationItemsDS()
@@ -93,7 +102,7 @@ namespace MRPlatformTests.HMI
             _rs = new Recordset();
             _rs = _menuADO.GetNavigationItemsRecordset(_pageNumberInvalid, _resultsPerPageInvalid);
         }
-
+        */
         #endregion
 
 

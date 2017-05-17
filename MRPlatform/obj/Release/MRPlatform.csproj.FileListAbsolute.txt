@@ -4,3 +4,4 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\MRPla
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\Interop.ADODB.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\MRPlatform.csproj.ResolveComReference.cache
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\MRPlatform.csprojResolveAssemblyReference.cache
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.VisualBasic.dll

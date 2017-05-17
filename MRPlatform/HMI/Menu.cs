@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
+using Microsoft.VisualBasic;
 using ADODB;
 
 using MRPlatform.DB.Sql;
@@ -17,13 +18,13 @@ namespace MRPlatform.HMI
     {
         private ErrorLog _errorLog = new ErrorLog();
         private MRDbConnection _dbConnection;
+        private Collection _itemsCollection;
 
         public enum ItemMoveDirection
         {
             Up = 0,
             Down
         }
-
 
 
         public Menu()
@@ -67,7 +68,74 @@ namespace MRPlatform.HMI
 
         #endregion
 
+        [DispId(-4)]
+        public Collection Items
+        {
+            get
+            {
+                _itemsCollection = GetItemsCollection();
+                return _itemsCollection;
+            }
+        }
 
+        private Collection GetItemsCollection()
+        {
+            Collection itemsCollection = new Collection();
+
+            List<MenuItem> menuItems = new List<MenuItem>();
+            foreach(MenuItem item in menuItems)
+            {
+                itemsCollection.Add(item);
+            }
+
+            return itemsCollection;
+        }
+        
+        private List<MenuItem> DoGetItems()
+        {
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(SortAscending), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@offset", (ResultsPageNumber - 1) * ResultsPerPage);
+                sqlCmd.Parameters.AddWithValue("@rowCount", ResultsPerPage);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
+                DataSet ds = new DataSet();
+
+                List<MenuItem> menuItems = new List<MenuItem>();
+
+                try
+                {
+                    dbAdapt.Fill(ds);
+                    dbConnection.Close();
+
+                    if(ds.Tables.Count > 0)
+                    {
+                        foreach(DataRow row in ds.Tables[0].Rows)
+                        {
+                            menuItems.Add(new MenuItem(row["screenName"].ToString(),
+                                                       row["titleTop"].ToString(),
+                                                       row["titleBottom"].ToString(),
+                                                       (int)row["orderMenu"]));
+                        }
+                    }
+
+                    return menuItems;
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+                    return menuItems;
+                }
+            }
+        }
+
+
+        /*
         [ComVisible(false)]
         public DataSet GetNavigationItemsDataSet()
         {
@@ -102,7 +170,7 @@ namespace MRPlatform.HMI
         }
 
 
-        public Dictionary<int, MenuItem> GetNavigationItemsRecordset()
+        public MenuItems GetNavigationItemsRecordset()
         {
             if(ResultsPageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)ResultsPageNumber, "Page number value must be greater than zero."); }
             if (ResultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)ResultsPerPage, "Results per page value must be greater than zero."); }
@@ -136,7 +204,7 @@ namespace MRPlatform.HMI
                 return rs;
             }
         }
-
+        */
 
         [ComVisible(false)]
         private string GetNavigationItemsQuery(bool sortAscending)

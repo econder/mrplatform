@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Microsoft.VisualBasic;
 using ADODB;
 
 using MRPlatform.DB.Sql;
@@ -12,7 +13,7 @@ namespace MRPlatform.HMI
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenu
     {
-        Dictionary<int, MenuItem> GetNavigationItemsRecordset();
+        Collection Items { get; }
         int MoveNavigationItem(Menu.ItemMoveDirection direction, int currentOrderId);
         int AddNavigationItem(string screenName, string titleTop, string titleBottom);
         int DeleteNavigationItem(string screenName);

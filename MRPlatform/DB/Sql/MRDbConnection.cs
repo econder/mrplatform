@@ -28,10 +28,12 @@ namespace MRPlatform.DB.Sql
 
         }
 
+        /*
         public MRDbConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
         {
             OpenConnection(provider, serverName, databaseName, userName, password, useADODB);
         }
+        */
 
 
         // Used for SQL Native Client OLEDB connectivity from .NET-based clients

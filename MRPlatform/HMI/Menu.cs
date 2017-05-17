@@ -68,7 +68,6 @@ namespace MRPlatform.HMI
 
         #endregion
 
-        [DispId(-4)]
         public Collection Items
         {
             get
@@ -82,7 +81,7 @@ namespace MRPlatform.HMI
         {
             Collection itemsCollection = new Collection();
 
-            List<MenuItem> menuItems = new List<MenuItem>();
+            List<MenuItem> menuItems = DoGetItems();
             foreach(MenuItem item in menuItems)
             {
                 itemsCollection.Add(item);

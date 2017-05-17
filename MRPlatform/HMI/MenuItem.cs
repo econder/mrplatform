@@ -10,6 +10,23 @@ namespace MRPlatform.HMI
     ComSourceInterfaces(typeof(IMenuItemEvents))]
     public class MenuItem : IMenuItem
     {
-        
+        public MenuItem()
+        {
+
+        }
+
+        public MenuItem(string screenName, string titleTop, string titleBottom, int menuOrder)
+        {
+            ScreenName = screenName;
+            TitleTop = titleTop;
+            TitleBottom = titleBottom;
+            MenuOrder = menuOrder;
+        }
+
+
+        public string ScreenName { get; set; }
+        public string TitleTop { get; set; }
+        public string TitleBottom { get; set; }
+        public int MenuOrder { get; set; }
     }
 }

@@ -85,7 +85,6 @@ namespace MRPlatform.WMI
     }
 
 
-
     public class LogicalDisksEnumerator : IEnumerator
     {
         public LogicalDisks[] _logicalDisks;

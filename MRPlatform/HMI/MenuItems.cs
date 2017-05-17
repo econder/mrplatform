@@ -6,33 +6,74 @@ using System.Runtime.InteropServices;
 
 namespace MRPlatform.HMI
 {
-    public class MenuItems
+    public class MenuItems : IMenuItem, IEnumerable
     {
-        private Dictionary<object, object> _items = new Dictionary<object, object>();
+        private MenuItem[] _menuItems;
 
-        public void Add(ref object Item, [Optional]ref object Key, [Optional]ref object Before, [Optional]ref object After)
+
+        public MenuItem this[int index]
         {
-            _items.Add(Key, Item);
+            get
+            {
+                return _menuItems[index];
+            }
         }
 
-        public int Count()
+        [DispId(-4)]
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return _items.Count;
+            return (IEnumerator)GetEnumerator();
         }
 
-        public IEnumerator<MenuItem> GetEnumerator()
+        public MenuItemsEnumerator GetEnumerator()
         {
-            return _items.Values.GetEnumerator();
+            return new MenuItemsEnumerator(_menuItems);
+        }
+    }
+
+
+    public class MenuItemsEnumerator : IEnumerator
+    {
+        public MenuItem[] _menuItems;
+        int position = -1;
+
+        public MenuItemsEnumerator(MenuItem[] list)
+        {
+            _menuItems = list;
         }
 
-        public dynamic Item(ref object Index)
+        public bool MoveNext()
         {
-            return _items[Index];
+            position++;
+            return position < _menuItems.Length;
         }
 
-        public void Remove(ref object Index)
+        public void Reset()
         {
-            _items.Remove(Index);
+            position = -1;
+        }
+
+        object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
+        }
+
+        public MenuItem Current
+        {
+            get
+            {
+                try
+                {
+                    return _menuItems[position];
+                }
+                catch
+                {
+                    throw new InvalidOperationException();
+                }
+            }
         }
     }
 }

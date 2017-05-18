@@ -11,14 +11,14 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("5B6452DC-75CB-4BF1-A993-DC47AA251DFC"),
+    [Guid("E6144974-7343-4691-83F4-28704ED86F17"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IMenuEvent))]
+    ComSourceInterfaces(typeof(IMenu))]
     public class Menu : IMenu
     {
         private ErrorLog _errorLog = new ErrorLog();
         private MRDbConnection _dbConnection;
-        private Collection _itemsCollection;
+        private MenuItems _itemsCollection;
 
         public enum ItemMoveDirection
         {
@@ -68,13 +68,17 @@ namespace MRPlatform.HMI
 
         #endregion
 
-        [DispId(-4)]
-        public Collection MenuItems()
+        //[DispId(-4)]
+        public MenuItems MenuItemsCollection
         {
-            _itemsCollection = GetItemsCollection();
-            return _itemsCollection;
+            get
+            {
+                _itemsCollection = DoGetItems();
+                return _itemsCollection;
+            }
         }
 
+        /*
         private Collection GetItemsCollection()
         {
             Collection itemsCollection = new Collection();
@@ -90,7 +94,8 @@ namespace MRPlatform.HMI
 
             return itemsCollection;
         }
-        
+        */
+
         private MenuItems DoGetItems()
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
@@ -113,12 +118,14 @@ namespace MRPlatform.HMI
 
                     if(ds.Tables.Count > 0)
                     {
+                        int i = 0;
                         foreach(DataRow row in ds.Tables[0].Rows)
                         {
-                            menuItems.Add(new MenuItem(row["screenName"].ToString(),
+                            menuItems.Add(i, new MenuItem(row["screenName"].ToString(),
                                                        row["titleTop"].ToString(),
                                                        row["titleBottom"].ToString(),
                                                        (int)row["orderMenu"]));
+                            i++;
                         }
                     }
 

@@ -9,20 +9,22 @@ using MRPlatform.DB.Sql;
 
 namespace MRPlatform.HMI
 {
-    [Guid("A3313A06-4401-4A28-B0DE-421ED3B482CC")]
-    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true),
+    Guid("FB6802A2-681C-4104-B27C-AB87D5A87DB8"),
+    InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenu
     {
-        Collection MenuItems();
+        MenuItems MenuItemsCollection { get; }
         int MoveNavigationItem(Menu.ItemMoveDirection direction, int currentOrderId);
         int AddNavigationItem(string screenName, string titleTop, string titleBottom);
         int DeleteNavigationItem(string screenName);
         MRDbConnection DbConnection { get; set; }
     }
 
-    [Guid("41DFA2B1-0812-4717-AA62-D6146042312E")]
-    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
-    public interface IMenuEvent
+    [ComVisible(true),
+    Guid("38B30781-EB81-4577-8035-B34E91321BCA"),
+    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
+    public interface IMenuEvents
     {
 
     }

@@ -8,43 +8,27 @@ using Microsoft.VisualBasic;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("646270A3-919F-450B-8728-C73710789262"),
+    [Guid("51FA2D6C-1DEC-4038-A777-49BD4B27D885"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IMenuItemsEvent))]
+    ComSourceInterfaces(typeof(IMenuItems))]
     public class MenuItems : IMenuItems
     {
-        //private MenuItem[] _menuItems;
-        private Dictionary<int, MenuItem> _items = new Dictionary<int, MenuItem>();
-        private int _position = -1;
+        private SortedList _items;
 
+        
         public MenuItems()
         {
-
+            _items = new SortedList();
         }
 
-        public void Add(MenuItem item)
+        public void Add(int key, MenuItem item)
         {
-            _items.Add(_position++, item);
+            _items.Add(key, item);
         }
 
-        public void Remove(int index)
+        public void Remove(int key)
         {
-            _items.Remove(index);
-        }
-
-        public bool MoveNext()
-        {
-            if (_position + 1 >= Count)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public void Reset()
-        {
-            _position = -1;
+            _items.Remove(key);
         }
 
         public int Count
@@ -55,37 +39,24 @@ namespace MRPlatform.HMI
             }
         }
 
-        public object Current
+        public object this[int key]
         {
             get
             {
-                if(_position < 0)
-                {
-                    throw new InvalidOperationException();
-                }
-                else if(_position > Count)
-                {
-                    throw new InvalidOperationException();
-                }
-                else
-                {
-                    return this[_position];
-                }
+                return _items[key];
+            }
+            set
+            {
+                _items[key] = value;
             }
         }
 
-        public MenuItem this[int index]
-        {
-            get
-            {
-                return _items[index];
-            }
-        }
 
         [DispId(-4)]
         public IEnumerator GetEnumerator()
         {
-            return _items.Values.GetEnumerator();
+            ICollection keys = _items.Keys;
+            return (IEnumerator)keys.GetEnumerator();
         }
     }
 }

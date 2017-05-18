@@ -3,8 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace MRPlatform.HMI
 {
-    [Guid("C653721F-AFD0-434A-9F77-CBCB97D49D77")]
-    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true),
+    Guid("C653721F-AFD0-434A-9F77-CBCB97D49D77"),
+    InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenuItem
     {
         string ScreenName { get; set; }
@@ -13,9 +14,10 @@ namespace MRPlatform.HMI
         int MenuOrder { get; set; }
     }
 
-    [Guid("090943E8-7A3D-40E3-BE80-6CED0873D361")]
-    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
-    public interface IMenuItemEvent
+    [ComVisible(true),
+    Guid("090943E8-7A3D-40E3-BE80-6CED0873D361"),
+    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
+    public interface IMenuItemEvents
     {
 
     }

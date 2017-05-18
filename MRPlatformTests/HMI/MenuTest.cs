@@ -58,7 +58,7 @@ namespace MRPlatformTests.HMI
         [TestMethod]
         public void Items()
         {
-            Collection items = _menu.MenuItems();
+            MenuItems items = _menu.MenuItems;
             Assert.IsTrue(items.Count > 0);
 
             MenuItem item = new MenuItem();

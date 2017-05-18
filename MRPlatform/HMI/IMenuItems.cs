@@ -5,20 +5,22 @@ using System.Runtime.InteropServices;
 
 namespace MRPlatform.HMI
 {
-    [Guid("802E6E43-850F-402F-968F-E042F2D5BFB0")]
-    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
-    public interface IMenuItems : IEnumerator
+    [ComVisible(true),
+    Guid("76134D72-9EE6-43D4-B03D-2E5D0D9E1294"),
+    InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    public interface IMenuItems : IEnumerable
     {
-        void Add(MenuItem item);
-        void Remove(int index);
+        void Add(int key, MenuItem item);
+        void Remove(int key);
         int Count { get; }
-        MenuItem this[int index] { get; }
-        IEnumerator GetEnumerator();
+        new IEnumerator GetEnumerator();
+        object this[int key] { get; set; }
     }
 
-    [Guid("DEC9F308-E586-4D40-97CA-84114760321E")]
-    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
-    public interface IMenuItemsEvent
+    [ComVisible(true),
+    Guid("DEC9F308-E586-4D40-97CA-84114760321E"),
+    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
+    public interface IMenuItemsEvents
     {
 
     }

@@ -4,7 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace MRPlatform.DB.Sql
 {
-    [Guid("32272D87-D33E-4A44-B1C7-B13CAFF772A2")]
+    [ComVisible(true),
+    Guid("32272D87-D33E-4A44-B1C7-B13CAFF772A2"),
+    InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMRDbConnection
     {
         string Provider { get; set; }
@@ -16,8 +18,9 @@ namespace MRPlatform.DB.Sql
         void OpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false);
     }
 
-
-    [Guid("4281EA48-B5F6-456F-8535-C0B775A482CF")]
+    [ComVisible(true),
+    Guid("4281EA48-B5F6-456F-8535-C0B775A482CF"),
+    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMRDbConnectionEvents
     {
 

@@ -14,7 +14,7 @@ namespace MRPlatform.Message
     [ComVisible(true)]
     [Guid("389711FE-7AAB-452B-A14E-78EED94A23DB"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IAreaMessageEvent))]
+    ComSourceInterfaces(typeof(IUserMessage))]
     public class UserMessage : IUserMessage
 	{
         private ErrorLog _errorLog;

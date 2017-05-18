@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace MRPlatform.WMI
 {
-    [Guid("A78CC312-25AC-4EEB-8E04-20F8C0E50245")]
+    [ComVisible(true),
+    Guid("A78CC312-25AC-4EEB-8E04-20F8C0E50245"),
+    InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface ILogicalDisk
     {
         string Caption { get; set; }
@@ -24,7 +26,9 @@ namespace MRPlatform.WMI
     }
 
 
-    [Guid("332A5B08-0A10-46AB-90E8-660BD4E24811")]
+    [ComVisible(true),
+    Guid("332A5B08-0A10-46AB-90E8-660BD4E24811"),
+    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface ILogicalDiskEvents
     {
 

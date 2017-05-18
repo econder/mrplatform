@@ -7,7 +7,10 @@ using System.Threading;
 
 namespace MRPlatform.WMI
 {
-    [Guid("D7413FD7-F779-487D-865A-F8C32EACFE4B")]
+    [ComVisible(true)]
+    [Guid("D7413FD7-F779-487D-865A-F8C32EACFE4B"),
+    ClassInterface(ClassInterfaceType.None),
+    ComSourceInterfaces(typeof(IProcessor))]
     public class Processor : IProcessor
     {
         public int LoadPercentage { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Microsoft.VisualBasic;
 
 
 namespace MRPlatform.HMI
@@ -9,32 +10,67 @@ namespace MRPlatform.HMI
     [ComVisible(true)]
     [Guid("646270A3-919F-450B-8728-C73710789262"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IMenuEvents))]
-    public class MenuItems : IMenuItem
+    ComSourceInterfaces(typeof(IMenuItemsEvent))]
+    public class MenuItems : IMenuItems
     {
         //private MenuItem[] _menuItems;
-        public Dictionary<int, MenuItem> Items;
+        private Dictionary<int, MenuItem> _items = new Dictionary<int, MenuItem>();
+        private int _position = -1;
 
         public MenuItems()
         {
-            
+
         }
 
         public void Add(MenuItem item)
         {
-            Items.Add(Items.Count + 1, item);
+            _items.Add(_position++, item);
         }
 
         public void Remove(int index)
         {
-            Items.Remove(index);
+            _items.Remove(index);
+        }
+
+        public bool MoveNext()
+        {
+            if (_position + 1 >= Count)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public void Reset()
+        {
+            _position = -1;
         }
 
         public int Count
         {
             get
             {
-                return Items.Count;
+                return _items.Count;
+            }
+        }
+
+        public object Current
+        {
+            get
+            {
+                if(_position < 0)
+                {
+                    throw new InvalidOperationException();
+                }
+                else if(_position > Count)
+                {
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    return this[_position];
+                }
             }
         }
 
@@ -42,70 +78,14 @@ namespace MRPlatform.HMI
         {
             get
             {
-                return Items[index];
+                return _items[index];
             }
         }
 
-        /*
         [DispId(-4)]
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
-            return (IEnumerator)GetEnumerator();
-        }
-
-        public MenuItemsEnumerator GetEnumerator()
-        {
-            return new MenuItemsEnumerator(Items);
-        }
-        */
-    }
-
-
-    /*
-    public class MenuItemsEnumerator : IEnumerator
-    {
-        //public MenuItem[] _menuItems;
-        private Dictionary<int, MenuItem> _menuItems = new Dictionary<int, MenuItem>();
-        int position = -1;
-
-        public MenuItemsEnumerator(Dictionary<int, MenuItem> list)
-        {
-            _menuItems = list;
-        }
-
-        public bool MoveNext()
-        {
-            position++;
-            return position < _menuItems.Count;
-        }
-
-        public void Reset()
-        {
-            position = -1;
-        }
-
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
-
-        public MenuItem Current
-        {
-            get
-            {
-                try
-                {
-                    return _menuItems[position];
-                }
-                catch
-                {
-                    throw new InvalidOperationException();
-                }
-            }
+            return _items.Values.GetEnumerator();
         }
     }
-    */
 }

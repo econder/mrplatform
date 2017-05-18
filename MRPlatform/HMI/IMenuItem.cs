@@ -15,7 +15,7 @@ namespace MRPlatform.HMI
 
     [Guid("090943E8-7A3D-40E3-BE80-6CED0873D361")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
-    public interface IMenuItemEvents
+    public interface IMenuItemEvent
     {
 
     }

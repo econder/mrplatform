@@ -7,7 +7,7 @@ namespace MRPlatform.HMI
     [ComVisible(true)]
     [Guid("55159BB3-B19A-4CF4-820F-A110119AD97C"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IMenuItemEvents))]
+    ComSourceInterfaces(typeof(IMenuItemEvent))]
     public class MenuItem : IMenuItem
     {
         public MenuItem()

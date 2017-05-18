@@ -13,7 +13,7 @@ namespace MRPlatform.HMI
     [ComVisible(true)]
     [Guid("5B6452DC-75CB-4BF1-A993-DC47AA251DFC"),
     ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(IMenuEvents))]
+    ComSourceInterfaces(typeof(IMenuEvent))]
     public class Menu : IMenu
     {
         private ErrorLog _errorLog = new ErrorLog();
@@ -68,20 +68,21 @@ namespace MRPlatform.HMI
 
         #endregion
 
-        public Collection Items
+        [DispId(-4)]
+        public Collection MenuItems()
         {
-            get
-            {
-                _itemsCollection = GetItemsCollection();
-                return _itemsCollection;
-            }
+            _itemsCollection = GetItemsCollection();
+            return _itemsCollection;
         }
 
         private Collection GetItemsCollection()
         {
             Collection itemsCollection = new Collection();
+            MenuItems menuItems = new MenuItems();
+            menuItems = DoGetItems();
 
-            List<MenuItem> menuItems = DoGetItems();
+            //List<MenuItem> menuItems = DoGetItems();
+
             foreach(MenuItem item in menuItems)
             {
                 itemsCollection.Add(item);
@@ -90,7 +91,7 @@ namespace MRPlatform.HMI
             return itemsCollection;
         }
         
-        private List<MenuItem> DoGetItems()
+        private MenuItems DoGetItems()
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
@@ -103,7 +104,7 @@ namespace MRPlatform.HMI
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 DataSet ds = new DataSet();
 
-                List<MenuItem> menuItems = new List<MenuItem>();
+                MenuItems menuItems = new MenuItems();
 
                 try
                 {

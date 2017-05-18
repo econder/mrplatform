@@ -13,7 +13,7 @@ namespace MRPlatform.HMI
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenu
     {
-        Collection Items { get; }
+        Collection MenuItems();
         int MoveNavigationItem(Menu.ItemMoveDirection direction, int currentOrderId);
         int AddNavigationItem(string screenName, string titleTop, string titleBottom);
         int DeleteNavigationItem(string screenName);
@@ -22,7 +22,7 @@ namespace MRPlatform.HMI
 
     [Guid("41DFA2B1-0812-4717-AA62-D6146042312E")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
-    public interface IMenuEvents
+    public interface IMenuEvent
     {
 
     }

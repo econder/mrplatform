@@ -96,6 +96,7 @@
     <Compile Include="DB\Sql\IMRDbConnection.cs" />
     <Compile Include="ErrorLog.cs" />
     <Compile Include="HMI\IMenu.cs" />
+    <Compile Include="HMI\IMenuItems.cs" />
     <Compile Include="HMI\IMenuItem.cs" />
     <Compile Include="HMI\Menu.cs" />
     <Compile Include="HMI\MenuItem.cs" />

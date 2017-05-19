@@ -78,23 +78,6 @@ namespace MRPlatform.HMI
             }
         }
 
-        /*
-        private Collection GetItemsCollection()
-        {
-            Collection itemsCollection = new Collection();
-            MenuItems menuItems = new MenuItems();
-            menuItems = DoGetItems();
-
-            //List<MenuItem> menuItems = DoGetItems();
-
-            foreach(MenuItem item in menuItems)
-            {
-                itemsCollection.Add(item);
-            }
-
-            return itemsCollection;
-        }
-        */
 
         private MenuItems DoGetItems()
         {

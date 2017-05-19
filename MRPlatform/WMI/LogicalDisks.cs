@@ -13,16 +13,19 @@ namespace MRPlatform.WMI
     [Guid("455EE884-F3F1-46C1-B4E2-35BA2E31CE83"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(ILogicalDisks))]
-    public class LogicalDisks : ILogicalDisks, IEnumerable<LogicalDisk>
+    public class LogicalDisks : ILogicalDisks
     {
-        public List<LogicalDisk> Disks;
+        private SortedList _disks;
+
 
         public LogicalDisks()
         {
-            Disks = new List<LogicalDisk>();
+            _disks = new SortedList();
+
             SelectQuery selectQuery = new SelectQuery("SELECT * FROM Win32_LogicalDisk");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(selectQuery);
             ManagementObjectCollection objCol = searcher.Get();
+            int i = 0;
 
             foreach (ManagementObject obj in objCol)
             {
@@ -39,98 +42,53 @@ namespace MRPlatform.WMI
                 ld.Status = Convert.ToString(obj["Status"]);
                 ld.SystemName = Convert.ToString(obj["SystemName"]);
 
+                // Increment counter
+                i++;
+
                 // Add LogicalDisk to Disks Collection
-                Disks.Add(ld);
+                _disks.Add(i, ld);
             }
 
             // Cleanup resources
             objCol.Dispose();
         }
 
-
-        //IEnumerable require these methods
-        [DispId(-4)]
-        IEnumerator<LogicalDisk> IEnumerable<LogicalDisk>.GetEnumerator()
+        public void Add(int index, LogicalDisk disk)
         {
-            return Disks.GetEnumerator();
+            _disks.Add(index, disk);
         }
 
-
-        [DispId(-4)]
-        IEnumerator IEnumerable.GetEnumerator()
+        public void Remove(int index)
         {
-            return Disks.GetEnumerator();
-        }
-        
-
-        public LogicalDisk this[int index]
-        {
-            get { return Disks[index]; }
+            _disks.Remove(index);
         }
 
-
-        public LogicalDisk Disk(string driveLetter)
-        {
-            if (driveLetter == null)
-                throw new ArgumentNullException(driveLetter, "Drive letter parameter cannot be null.");
-
-            try
-            {
-                return Disks.Find(ld => ld.Name == string.Format("{0}:", driveLetter));
-            }
-            catch(ArgumentNullException)
-            {
-                LogicalDisk ld = new LogicalDisk();
-                ld.Description = String.Format("Drive letter {0} not found.", driveLetter);
-                return null;
-            }
-        }
-    }
-
-
-    public class LogicalDisksEnumerator : IEnumerator
-    {
-        public LogicalDisks[] _logicalDisks;
-        int position = -1;
-
-        public LogicalDisksEnumerator(LogicalDisks[] logicalDisks)
-        {
-            _logicalDisks = logicalDisks;
-
-        }
-
-        public bool MoveNext()
-        {
-            position++;
-            return position < _logicalDisks.Length;
-        }
-
-        public void Reset()
-        {
-            position = -1;
-        }
-
-        object IEnumerator.Current
+        public int Count
         {
             get
             {
-                return Current;
+                return _disks.Count;
             }
         }
 
-        public LogicalDisks Current
+        public object this[int index]
         {
             get
             {
-                try
-                {
-                    return _logicalDisks[position];
-                }
-                catch(IndexOutOfRangeException)
-                {
-                    throw new InvalidOperationException();
-                }
+                return _disks[index];
             }
+            set
+            {
+                _disks[index] = value;
+            }
+        }
+
+
+        [DispId(-4)]
+        public IEnumerator GetEnumerator()
+        {
+            ICollection keys = _disks.Keys;
+            return (IEnumerator)keys.GetEnumerator();
         }
     }
 }

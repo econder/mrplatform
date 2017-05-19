@@ -10,8 +10,11 @@ namespace MRPlatform.WMI
     InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface ILogicalDisks : IEnumerable
     {
-        //LogicalDisk this[int index] { get; }
-        LogicalDisk Disk(string driveLetter);
+        void Add(int index, LogicalDisk disk);
+        void Remove(int index);
+        int Count { get; }
+        new IEnumerator GetEnumerator();
+        object this[int index] { get; set; }
     }
 
 

@@ -8,7 +8,7 @@ using ADODB;
 namespace MRPlatform.DB.Sql
 {
     [ComVisible(true)]
-    [Guid("D098F6B4-0FB6-4695-92FF-B78724BAAAE6"),
+    [Guid("E25C95DF-1D5E-45E1-A466-527581C98B7B"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMRDbConnection))]
     public class MRDbConnection : IMRDbConnection
@@ -57,7 +57,24 @@ namespace MRPlatform.DB.Sql
             }
         }
 
+        public void OpenConnection()
+        {
+            DoOpenConnection(Provider, ServerName, DatabaseName, UserName, Password, UseADODB);
+        }
+
         public void OpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
+        {
+            Provider = provider;
+            ServerName = serverName;
+            DatabaseName = databaseName;
+            UserName = userName;
+            Password = password;
+            UseADODB = useADODB;
+
+            DoOpenConnection(Provider, ServerName, DatabaseName, UserName, Password, UseADODB);
+        }
+
+        private void DoOpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
         {
             _errorLog = new ErrorLog();
 

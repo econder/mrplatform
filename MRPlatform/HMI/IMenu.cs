@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Microsoft.VisualBasic;
-using ADODB;
 
 using MRPlatform.DB.Sql;
 
@@ -10,7 +7,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true),
-    Guid("FB6802A2-681C-4104-B27C-AB87D5A87DB8"),
+    Guid("DF942625-5F43-4356-83B7-52A841301E55"),
     InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenu
     {
@@ -22,7 +19,7 @@ namespace MRPlatform.HMI
     }
 
     [ComVisible(true),
-    Guid("38B30781-EB81-4577-8035-B34E91321BCA"),
+    Guid("F34D3F08-2781-4AEC-9237-AB5CF8355EBE"),
     InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMenuEvents
     {

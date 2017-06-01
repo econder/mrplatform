@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
-using Microsoft.VisualBasic;
 using ADODB;
 
 using MRPlatform.DB.Sql;
@@ -11,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("E6144974-7343-4691-83F4-28704ED86F17"),
+    [Guid("38EA1310-DC6A-4C6B-96BA-A48BA993D406"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenu))]
     public class Menu : IMenu

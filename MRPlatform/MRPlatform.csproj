@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MRPlatform</RootNamespace>
     <AssemblyName>MRPlatform</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -74,10 +74,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RegisterForComInterop>true</RegisterForComInterop>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>MRPlatform_COM_Key.snk</AssemblyOriginatorKeyFile>

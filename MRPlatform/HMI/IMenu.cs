@@ -7,7 +7,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true),
-    Guid("DF942625-5F43-4356-83B7-52A841301E55"),
+    Guid("49BE52F5-1A3D-4119-8E02-7913F2BA35A3"),
     InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenu
     {
@@ -16,10 +16,13 @@ namespace MRPlatform.HMI
         int AddNavigationItem(string screenName, string titleTop, string titleBottom);
         int DeleteNavigationItem(string screenName);
         MRDbConnection DbConnection { get; set; }
+        int ResultsPageNumber { get; set; }
+        int ResultsPerPage { get; set; }
+        bool SortAscending { get; set; }
     }
 
     [ComVisible(true),
-    Guid("F34D3F08-2781-4AEC-9237-AB5CF8355EBE"),
+    Guid("3620D6CE-C6EF-4AC9-ADDA-6AE85FA52B67"),
     InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMenuEvents
     {

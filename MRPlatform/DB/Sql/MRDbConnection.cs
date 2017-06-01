@@ -154,14 +154,14 @@ namespace MRPlatform.DB.Sql
             Password = password;
             UseADODB = useADODB;
 
-            if (!useADODB)
+            if (useADODB)
             {
-                // SQL Native Client OLE database connection string
+                // ADODB database connection string
                 ConnectionString = String.Format("Provider={0};Server={1};Database={2};Uid={3};Pwd={4};DataTypeCompatibility=80;", Provider, ServerName, DatabaseName, UserName, Password);
             }
             else
             {
-                // ADODB database connection string
+                // SQL Native Client OLE database connection string
                 ConnectionString = String.Format("Provider={0};Data Source={1};Initial Catalog={2};User ID={3};Password={4};", Provider, ServerName, DatabaseName, UserName, Password);
             }
         }

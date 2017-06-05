@@ -19,7 +19,7 @@ namespace MRPlatformTests.Message
         private string _dbUser = "mrsystems";
         private string _dbPass = "Reggie#123";
 
-        private UserEvent _ue;
+        private UserEvent _ue, _ueADO;
         private string _userName = "mrsystems";
         private string _userNameInvalid = "";
         private string _nodeName = "WTP-WS1";
@@ -43,9 +43,13 @@ namespace MRPlatformTests.Message
         [TestInitialize]
         public void Initialize()
         {
+            // OleDbConnection
             _mrdb = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass);
-            _mrdbADO = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass, true);
             _ue = new UserEvent(_mrdb);
+
+            // ADODB Connection
+            _mrdbADO = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass, true);
+            _ue = new UserEvent(_mrdbADO);
         }
 
         #region " LogEvent() "
@@ -96,16 +100,16 @@ namespace MRPlatformTests.Message
 
             // Get original row count
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(_pageNumber, _resultsPerPage, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(_pageNumber, _resultsPerPage, _sortAscending);
             countPrev = _rs.RecordCount;
             _rs.Close();
 
             // Log event
-            _ue.LogEvent(_userName, _nodeName, _eventMessage, _eventType, _eventSource);
+            _ueADO.LogEvent(_userName, _nodeName, _eventMessage, _eventType, _eventSource);
 
             // Get original row count
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(_pageNumber, _resultsPerPage, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(_pageNumber, _resultsPerPage, _sortAscending);
             count = _rs.RecordCount;
             _rs.Close();
 
@@ -127,7 +131,7 @@ namespace MRPlatformTests.Message
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
 
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(_pageNumber, _resultsPerPage, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(_pageNumber, _resultsPerPage, _sortAscending);
 
             Assert.IsTrue(_rs.RecordCount >= 1);
         }
@@ -147,7 +151,7 @@ namespace MRPlatformTests.Message
         public void GetHistoryInvalidPageNumberRecordset()
         {
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(_pageNumberInvalid, _resultsPerPage, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(_pageNumberInvalid, _resultsPerPage, _sortAscending);
         }
 
         // GetHistory(int pageNumber, int resultsPerPage, bool sortAscending)
@@ -165,7 +169,7 @@ namespace MRPlatformTests.Message
         public void GetHistoryInvalidResultsPerPageRecordset()
         {
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(_pageNumber, _resultsPerPageInvalid, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(_pageNumber, _resultsPerPageInvalid, _sortAscending);
         }
 
         #endregion
@@ -186,7 +190,7 @@ namespace MRPlatformTests.Message
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
 
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(DateTime.Now.ToOADate(), _pageNumber, _resultsPerPage, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(DateTime.Now.ToOADate(), _pageNumber, _resultsPerPage, _sortAscending);
 
             Assert.IsTrue(_rs.RecordCount >= 1);
         }
@@ -206,7 +210,7 @@ namespace MRPlatformTests.Message
         public void GetHistoryEventDateInvalidPageNumberRecordset()
         {
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(DateTime.Now.ToOADate(), _pageNumberInvalid, _resultsPerPage, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(DateTime.Now.ToOADate(), _pageNumberInvalid, _resultsPerPage, _sortAscending);
         }
 
         // GetHistory(int pageNumber, int resultsPerPage, bool sortAscending)
@@ -224,7 +228,7 @@ namespace MRPlatformTests.Message
         public void GetHistoryEventDateInvalidResultsPerPageRecordset()
         {
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(DateTime.Now.ToOADate(), _pageNumber, _resultsPerPageInvalid, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(DateTime.Now.ToOADate(), _pageNumber, _resultsPerPageInvalid, _sortAscending);
         }
 
         #endregion
@@ -245,7 +249,7 @@ namespace MRPlatformTests.Message
             Assert.IsTrue(_ds.Tables[0].Rows.Count >= 1);
 
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(DateTime.Now.AddDays(-1).ToOADate(), DateTime.Now.ToOADate(), _pageNumber, _resultsPerPage, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(DateTime.Now.AddDays(-1).ToOADate(), DateTime.Now.ToOADate(), _pageNumber, _resultsPerPage, _sortAscending);
 
             Assert.IsTrue(_rs.RecordCount >= 1);
         }
@@ -265,7 +269,7 @@ namespace MRPlatformTests.Message
         public void GetHistoryEventStartEndDateInvalidPageNumberRecordset()
         {
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(DateTime.Now.ToOADate(), DateTime.Now.ToOADate(), _pageNumberInvalid, _resultsPerPage, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(DateTime.Now.ToOADate(), DateTime.Now.ToOADate(), _pageNumberInvalid, _resultsPerPage, _sortAscending);
         }
 
         // GetHistory(int pageNumber, int resultsPerPage, bool sortAscending)
@@ -283,7 +287,7 @@ namespace MRPlatformTests.Message
         public void GetHistoryEventStartEndDateInvalidResultsPerPageRecordset()
         {
             _rs = new Recordset();
-            _rs = _ue.GetHistoryRecordset(DateTime.Now.ToOADate(), DateTime.Now.ToOADate(), _pageNumber, _resultsPerPageInvalid, _sortAscending);
+            _rs = _ueADO.GetHistoryRecordset(DateTime.Now.ToOADate(), DateTime.Now.ToOADate(), _pageNumber, _resultsPerPageInvalid, _sortAscending);
         }
 
         #endregion

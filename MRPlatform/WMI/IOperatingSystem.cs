@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace MRPlatform.WMI
 {
-    [Guid("AF44AE77-9547-4135-92E8-0C090E83D2AD")]
+    [ComVisible(true),
+    Guid("AF44AE77-9547-4135-92E8-0C090E83D2AD"),
+    InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IOperatingSystem
     {
         string LastBootUpTime { get; }
@@ -15,7 +17,9 @@ namespace MRPlatform.WMI
         double TotalVisibleMemorySize { get; }
     }
 
-    [Guid("2BCA9644-9CC5-405F-8167-C94022FFBF2E")]
+    [ComVisible(true),
+    Guid("2BCA9644-9CC5-405F-8167-C94022FFBF2E"),
+    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IOperatingSystemEvents
     {
 

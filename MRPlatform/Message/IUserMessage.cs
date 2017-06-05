@@ -5,7 +5,9 @@ using System.Runtime.InteropServices;
 
 namespace MRPlatform.Message
 {
-    [Guid("FF4433E8-41EF-4D00-8C40-C349FD6FDE3C")]
+    [ComVisible(true),
+    Guid("FF4433E8-41EF-4D00-8C40-C349FD6FDE3C"),
+    InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IUserMessage
     {
         void Send(string sender, string recipient, string message, int priority = 2);
@@ -27,7 +29,9 @@ namespace MRPlatform.Message
     }
 
 
-    [Guid("48677FF9-D71A-45ED-915B-CF86D2F22DC5")]
+    [ComVisible(true),
+    Guid("48677FF9-D71A-45ED-915B-CF86D2F22DC5"),
+    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IUserMessageEvents
     {
 

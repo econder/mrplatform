@@ -1,25 +1,28 @@
 ﻿using System;
-using System.Data;
-using System.Data.OleDb;
 using System.Runtime.InteropServices;
-using ADODB;
 
 
 namespace MRPlatform.DB.Sql
 {
-    [Guid("32272D87-D33E-4A44-B1C7-B13CAFF772A2")]
+    [ComVisible(true),
+    Guid("78480383-748D-4D56-A0C6-036BD66D0F68"),
+    InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMRDbConnection
     {
         string Provider { get; set; }
         string ServerName { get; set; }
         string DatabaseName { get; set; }
         string UserName { get; set; }
+        string Password { get; set; }
         bool UseADODB { get; set; }
+        MRDbConnection.State ConnectionState { get; }
+        void OpenConnection();
         void OpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false);
     }
 
-
-    [Guid("4281EA48-B5F6-456F-8535-C0B775A482CF")]
+    [ComVisible(true),
+    Guid("0E154126-60F9-47F3-BE12-AEAA71E4634D"),
+    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMRDbConnectionEvents
     {
 

@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MRPlatform</RootNamespace>
     <AssemblyName>MRPlatform</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -17,7 +17,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <NoWin32Manifest>False</NoWin32Manifest>
-    <SignAssembly>False</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
@@ -74,12 +74,20 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <FileAlignment>4096</FileAlignment>
-    <DebugType>None</DebugType>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RegisterForComInterop>true</RegisterForComInterop>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>MRPlatform_COM_Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -93,7 +101,13 @@
     <Compile Include="DB\Sql\IMRDbConnection.cs" />
     <Compile Include="ErrorLog.cs" />
     <Compile Include="HMI\IMenu.cs" />
+    <Compile Include="HMI\IMenuItems.cs" />
+    <Compile Include="HMI\IMenuItem.cs" />
     <Compile Include="HMI\Menu.cs" />
+    <Compile Include="HMI\MenuItem.cs" />
+    <Compile Include="HMI\MenuItems.cs" />
+    <Compile Include="HMI\Rockwell\FTViewSE\IWindow.cs" />
+    <Compile Include="HMI\Rockwell\FTViewSE\Window.cs" />
     <Compile Include="Message\IAreaMessage.cs" />
     <Compile Include="Message\IUserMessage.cs" />
     <Compile Include="HMI\Wonderware\AlarmEvent\IAlarmEventLog.cs" />
@@ -109,6 +123,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WMI\ILogicalDisk.cs" />
     <Compile Include="WMI\ILogicalDisks.cs" />
+    <Compile Include="WMI\IMenuItems.cs" />
     <Compile Include="WMI\IOperatingSystem.cs" />
     <Compile Include="WMI\IProcessor.cs" />
     <Compile Include="WMI\LogicalDisk.cs" />
@@ -126,6 +141,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MRPlatform_COM_Key.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

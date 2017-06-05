@@ -8,7 +8,7 @@ using ADODB;
 namespace MRPlatform.DB.Sql
 {
     [ComVisible(true)]
-    [Guid("D098F6B4-0FB6-4695-92FF-B78724BAAAE6"),
+    [Guid("F59194D9-0FF0-4244-994A-E0887AF2B8A1"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMRDbConnection))]
     public class MRDbConnection : IMRDbConnection
@@ -20,17 +20,86 @@ namespace MRPlatform.DB.Sql
         public string ServerName { get; set; }
         public string DatabaseName { get; set; }
         public string UserName { get; set; }
-        private string Password { get; set; }
+        public string Password { get; set; }
         public bool UseADODB { get; set; }
+
+        public enum State
+        {
+            Error = -1,
+            Broken = 0,
+            Closed = 1,
+            Open = 2,
+            Connecting = 4,
+            Executing = 8,
+            Fetching = 16
+        }
+
 
         public MRDbConnection()
         {
-
+            
         }
 
         public MRDbConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
         {
             OpenConnection(provider, serverName, databaseName, userName, password, useADODB);
+        }
+
+
+        public State ConnectionState
+        {
+            get
+            {
+                if(!UseADODB)
+                {
+                    switch (Connection.State)
+                    {
+                        case System.Data.ConnectionState.Broken:
+                            return State.Broken;
+
+                        case System.Data.ConnectionState.Closed:
+                            return State.Closed;
+
+                        case System.Data.ConnectionState.Connecting:
+                            return State.Connecting;
+
+                        case System.Data.ConnectionState.Executing:
+                            return State.Executing;
+
+                        case System.Data.ConnectionState.Fetching:
+                            return State.Fetching;
+
+                        case System.Data.ConnectionState.Open:
+                            return State.Open;
+
+                        default:
+                            return State.Error;
+                    }
+                }
+                else
+                {
+                    switch(ADODBConnection.State)
+                    {
+                        case 0: // adStateClosed
+                            return State.Closed;
+
+                        case 1: // adStateOpen
+                            return State.Open;
+
+                        case 2: // adStateConnecting
+                            return State.Connecting;
+
+                        case 4: // adStateExecuting
+                            return State.Executing;
+
+                        case 8: // adStateFetching
+                            return State.Fetching;
+
+                        default:
+                            return State.Error;
+                    }
+                }
+            }
         }
 
 
@@ -57,7 +126,24 @@ namespace MRPlatform.DB.Sql
             }
         }
 
+        public void OpenConnection()
+        {
+            DoOpenConnection(Provider, ServerName, DatabaseName, UserName, Password, UseADODB);
+        }
+
         public void OpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
+        {
+            Provider = provider;
+            ServerName = serverName;
+            DatabaseName = databaseName;
+            UserName = userName;
+            Password = password;
+            UseADODB = useADODB;
+
+            DoOpenConnection(Provider, ServerName, DatabaseName, UserName, Password, UseADODB);
+        }
+
+        private void DoOpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false)
         {
             _errorLog = new ErrorLog();
 

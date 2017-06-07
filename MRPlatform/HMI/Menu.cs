@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("44E1A7A9-82D7-4055-B407-6CB36AA8B9BA"),
+    [Guid("04B870DE-F7D4-4AA5-AF6B-3A00703E9220"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenu))]
     public class Menu : IMenu
@@ -90,7 +90,7 @@ namespace MRPlatform.HMI
             {
                 dbConnection.Open();
 
-                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(), (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(ResultsSortOrder), (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@offset", (ResultsPageNumber - 1) * ResultsPerPage);
                 sqlCmd.Parameters.AddWithValue("@rowCount", ResultsPerPage);
 
@@ -109,7 +109,8 @@ namespace MRPlatform.HMI
                         int i = 0;
                         foreach(DataRow row in ds.Tables[0].Rows)
                         {
-                            menuItems.Add(i, new MenuItem(row["screenName"].ToString(),
+                            menuItems.Add(i, new MenuItem((int)row["id"],
+                                                       row["screenName"].ToString(),
                                                        row["titleTop"].ToString(),
                                                        row["titleBottom"].ToString(),
                                                        (int)row["orderMenu"]));
@@ -150,7 +151,7 @@ namespace MRPlatform.HMI
                     break;
             }
 
-            string sQuery = String.Format("SELECT screenName, titleTop, titleBottom, orderMenu" +
+            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderMenu" +
                             " FROM NavMenu ORDER BY {0}" +
                             " OFFSET ? ROWS" +
                             " FETCH NEXT ? ROWS ONLY", sortOrder);
@@ -316,12 +317,8 @@ namespace MRPlatform.HMI
         }
 
 
-        public int DeleteNavigationItem(string screenName)
+        public int DeleteNavigationItem(int menuItemId)
         {
-            if (screenName == null) { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
-            if (screenName == "") { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
-            if (screenName.Length > 50) { throw new ArgumentOutOfRangeException("screenName", "screenName must be 50 characters or less."); }
-
             if (!_dbConnection.UseADODB)
             {
                 // Use OleDb Connection
@@ -330,7 +327,7 @@ namespace MRPlatform.HMI
                     dbConnection.Open();
 
                     OleDbCommand sqlCmd = new OleDbCommand(GetDeleteNavigationItemQuery(), (OleDbConnection)dbConnection);
-                    sqlCmd.Parameters.AddWithValue("@screenName", screenName);
+                    sqlCmd.Parameters.AddWithValue("@id", menuItemId);
 
                     try
                     {
@@ -340,7 +337,7 @@ namespace MRPlatform.HMI
                     }
                     catch (OleDbException ex)
                     {
-                        _errorLog.LogMessage(this.GetType().Name, "DeleteNavigationItem(string screenName)", ex.Message);
+                        _errorLog.LogMessage(this.GetType().Name, "DeleteNavigationItem(int menuItemId)", ex.Message);
                         if (dbConnection.State == ConnectionState.Open)
                             dbConnection.Close();
                         return -1;
@@ -358,7 +355,7 @@ namespace MRPlatform.HMI
                 dbCmd.CommandText = GetDeleteNavigationItemQuery();
                 dbCmd.CommandType = CommandTypeEnum.adCmdText;
                 Parameter dbParam = new Parameter();
-                dbParam = dbCmd.CreateParameter("screenName", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, screenName);
+                dbParam = dbCmd.CreateParameter("id", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 999999999, menuItemId);
                 dbCmd.Parameters.Append(dbParam);
 
                 Recordset rs = new Recordset();
@@ -384,7 +381,7 @@ namespace MRPlatform.HMI
 
         private string GetDeleteNavigationItemQuery()
         {
-            string sQuery = "DELETE FROM NavMenu WHERE screenName = ?";
+            string sQuery = "DELETE FROM NavMenu WHERE id = ?";
             return sQuery;
         }
     }

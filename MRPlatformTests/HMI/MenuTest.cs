@@ -30,6 +30,7 @@ namespace MRPlatformTests.HMI
         private int _resultsPerPage = 20;
         private int _resultsPerPageInvalid = 0;
 
+        private int _id = 1;
         private string _screenName = "zFS - Test Screen";
         private string _titleTop = "Test Screen";
         private string _titleBottom = "Name #1";
@@ -294,7 +295,7 @@ namespace MRPlatformTests.HMI
         public void DeleteNavigationItem()
         {
             int recCount = -1;
-            recCount = _menu.DeleteNavigationItem(_screenName);
+            recCount = _menu.DeleteNavigationItem(_id);
             Assert.IsTrue(recCount >= 0);
         }
 
@@ -304,37 +305,8 @@ namespace MRPlatformTests.HMI
         public void DeleteNavigationItemADO()
         {
             int recCount = -1;
-            recCount = _menuADO.DeleteNavigationItem(_screenName);
+            recCount = _menuADO.DeleteNavigationItem(_id);
             Assert.IsTrue(recCount >= 0);
-        }
-
-
-        // DeleteNavigationItem(string screenName, string titleTop, string titleBottom)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void DeleteNavigationItemNullScreenName()
-        {
-            int recCount = -1;
-            recCount = _menu.DeleteNavigationItem(null);
-        }
-
-        // DeleteNavigationItem(string screenName, string titleTop, string titleBottom)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void DeleteNavigationItemEmptyScreenName()
-        {
-            int recCount = -1;
-            recCount = _menu.DeleteNavigationItem("");
-        }
-
-
-        // DeleteNavigationItem(string screenName, string titleTop, string titleBottom)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void DeleteNavigationItemInvalidScreenName()
-        {
-            int recCount = -1;
-            recCount = _menu.DeleteNavigationItem(_screenNameInvalid);
         }
 
         #endregion

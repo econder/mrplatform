@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("44B6ABCC-EA69-4093-A7C6-CB699EC8A9CD"),
+    [Guid("44E1A7A9-82D7-4055-B407-6CB36AA8B9BA"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenu))]
     public class Menu : IMenu
@@ -24,13 +24,20 @@ namespace MRPlatform.HMI
             Down
         }
 
+        public enum ItemSortOrder
+        {
+            Custom = 0,
+            Ascending,
+            Descending
+        }
+
 
         public Menu()
         {
             // Set property defaults
             ResultsPageNumber = 1;
             ResultsPerPage = 100;
-            SortAscending = true;
+            ResultsSortOrder = ItemSortOrder.Custom;
         }
         
 
@@ -41,7 +48,7 @@ namespace MRPlatform.HMI
             // Set property defaults
             ResultsPageNumber = 1;
             ResultsPerPage = 100;
-            SortAscending = true;
+            ResultsSortOrder = ItemSortOrder.Custom;
         }
 
 
@@ -62,7 +69,7 @@ namespace MRPlatform.HMI
 
         public int ResultsPageNumber { get; set; }
         public int ResultsPerPage { get; set; }
-        public bool SortAscending { get; set; }
+        public ItemSortOrder ResultsSortOrder { get; set; }
 
         #endregion
 
@@ -83,7 +90,7 @@ namespace MRPlatform.HMI
             {
                 dbConnection.Open();
 
-                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(SortAscending), (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(), (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@offset", (ResultsPageNumber - 1) * ResultsPerPage);
                 sqlCmd.Parameters.AddWithValue("@rowCount", ResultsPerPage);
 
@@ -123,85 +130,28 @@ namespace MRPlatform.HMI
         }
 
 
-        /*
         [ComVisible(false)]
-        public DataSet GetNavigationItemsDataSet()
-        {
-            if (ResultsPageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)ResultsPageNumber, "Page number value must be greater than zero."); }
-            if (ResultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)ResultsPerPage, "Results per page value must be greater than zero."); }
-
-            using (IDbConnection dbConnection = _dbConnection.Connection)
-            {
-                dbConnection.Open();
-                
-                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(SortAscending), (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@offset", (ResultsPageNumber - 1) * ResultsPerPage);
-                sqlCmd.Parameters.AddWithValue("@rowCount", ResultsPerPage);
-
-                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
-                DataSet ds = new DataSet();
-
-                try
-                {
-                    dbAdapt.Fill(ds);
-                    dbConnection.Close();
-                    return ds;
-                }
-                catch (OleDbException ex)
-                {
-                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)", ex.Message);
-                    if (dbConnection.State == ConnectionState.Open)
-                        dbConnection.Close();
-                    return ds;
-                }
-            }
-        }
-
-
-        public MenuItems GetNavigationItemsRecordset()
-        {
-            if(ResultsPageNumber < 1) { throw new ArgumentOutOfRangeException("pageNumber", (object)ResultsPageNumber, "Page number value must be greater than zero."); }
-            if (ResultsPerPage < 1) { throw new ArgumentOutOfRangeException("resultsPerPage", (object)ResultsPerPage, "Results per page value must be greater than zero."); }
-
-            Connection dbConnection = _dbConnection.ADODBConnection;
-            dbConnection.Open();
-
-            Command dbCmd = new Command();
-            dbCmd.ActiveConnection = dbConnection;
-            dbCmd.CommandText = GetNavigationItemsQuery(SortAscending);
-            dbCmd.CommandType = CommandTypeEnum.adCmdText;
-            Parameter dbParam = new Parameter();
-            dbParam = dbCmd.CreateParameter("offset", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, (ResultsPageNumber - 1) * ResultsPerPage);
-            dbCmd.Parameters.Append(dbParam);
-            dbParam = dbCmd.CreateParameter("rowCount", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 20, ResultsPerPage);
-            dbCmd.Parameters.Append(dbParam);
-
-            Dictionary<int, MenuItem> menuItems = new Dictionary<int, MenuItem>();
-
-            try
-            {
-                object recAffected;
-                rs = dbCmd.Execute(out recAffected);
-                return rs;
-            }
-            catch (COMException ex)
-            {
-                _errorLog.LogMessage(this.GetType().Name, "MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)", ex.Message);
-                if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
-                    dbConnection.Close();
-                return rs;
-            }
-        }
-        */
-
-        [ComVisible(false)]
-        private string GetNavigationItemsQuery(bool sortAscending)
+        private string GetNavigationItemsQuery(ItemSortOrder itemSortOrder = ItemSortOrder.Custom)
         {
             string sortOrder = null;
-            if(sortAscending) { sortOrder = "ASC"; } else { sortOrder = "DESC"; }
+
+            switch(itemSortOrder)
+            {
+                case ItemSortOrder.Custom:
+                    sortOrder = "orderMenu ASC";
+                    break;
+
+                case ItemSortOrder.Ascending:
+                    sortOrder = "titleTop + ' ' + titleBottom ASC";
+                    break;
+
+                case ItemSortOrder.Descending:
+                    sortOrder = "titleTop + ' ' + titleBottom DESC";
+                    break;
+            }
 
             string sQuery = String.Format("SELECT screenName, titleTop, titleBottom, orderMenu" +
-                            " FROM NavMenu ORDER BY orderMenu {0}" +
+                            " FROM NavMenu ORDER BY {0}" +
                             " OFFSET ? ROWS" +
                             " FETCH NEXT ? ROWS ONLY", sortOrder);
 

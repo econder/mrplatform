@@ -18,7 +18,6 @@ namespace MRPlatform.HMI
         MRDbConnection DbConnection { get; set; }
         int ResultsPageNumber { get; set; }
         int ResultsPerPage { get; set; }
-        bool SortAscending { get; set; }
     }
 
     [ComVisible(true),

@@ -13,13 +13,9 @@ namespace MRPlatform.Message
     /// Description of MRAreaMessage.
     /// </summary>
     [ComVisible(true)]
-    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
+    [Guid("7D955804-27A0-4620-809C-24AA10F5EAED"),
     ClassInterface(ClassInterfaceType.None),
-<<<<<<< HEAD
-    ComSourceInterfaces(typeof(IAreaMessageEvent))]
-=======
     ComSourceInterfaces(typeof(IAreaMessage))]
->>>>>>> feature/ConvertToADO
     public class AreaMessage : IAreaMessage
 	{
         private ErrorLog _errorLog = new ErrorLog();
@@ -30,14 +26,10 @@ namespace MRPlatform.Message
 
         public AreaMessage()
         {
-<<<<<<< HEAD
-
-=======
             // Set property defaults
             ResultsPageNumber = 1;
             ResultsPerPage = 100;
             SortAscending = true;
->>>>>>> feature/ConvertToADO
         }
 
         public AreaMessage(MRDbConnection mrDbConnection)
@@ -70,27 +62,9 @@ namespace MRPlatform.Message
 
         #endregion
 
-<<<<<<< HEAD
-
-        public MRDbConnection DbConnection
-        {
-            get
-            {
-                return _dbConnection;
-            }
-            set
-            {
-                _dbConnection = value;
-            }
-        }
-
-        
-        public void Send(string sender, string area, string message, int priority = 2)
-=======
         #region " Send "
 
         public int Send(string sender, string area, string message, int priority = 2)
->>>>>>> feature/ConvertToADO
 		{
             // Parameter exceptions check
             if (sender == null) { throw new ArgumentNullException("sender", "sender must not be null or empty."); }
@@ -107,26 +81,6 @@ namespace MRPlatform.Message
             if (!_dbConnection.UseADODB)
             {
                 using (IDbConnection dbConnection = _dbConnection.Connection)
-<<<<<<< HEAD
-                {
-                    dbConnection.Open();
-
-                    OleDbCommand sqlCmd = new OleDbCommand(GetSendQuery(), (OleDbConnection)dbConnection);
-                    sqlCmd.Parameters.AddWithValue("@sender", sender);
-                    sqlCmd.Parameters.AddWithValue("@recipient", area);
-                    sqlCmd.Parameters.AddWithValue("@message", message);
-                    sqlCmd.Parameters.AddWithValue("@msgTypeId", MESSAGETYPE);
-                    sqlCmd.Parameters.AddWithValue("@priorityId", priority);
-
-                    try
-                    {
-                        sqlCmd.ExecuteNonQuery();
-                    }
-                    catch (OleDbException ex)
-                    {
-                        _errorLog.LogMessage(this.GetType().Name, "Send(string sender, string recipient, string message, int priority = 2)", ex.Message);
-                    }
-=======
                 {
                     dbConnection.Open();
 
@@ -189,12 +143,7 @@ namespace MRPlatform.Message
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Send(string sender, string recipient, string message, int priority = 2)", ex.Message);
                     return -1;
->>>>>>> feature/ConvertToADO
                 }
-            }
-            else
-            {
-
             }
 		}
 
@@ -206,11 +155,6 @@ namespace MRPlatform.Message
                             " VALUES(?, ?, ?, ?, ?)";
             return sQuery;
         }
-<<<<<<< HEAD
-		
-
-	    public DataSet GetMessages(string area)
-=======
 
         #endregion
 
@@ -218,7 +162,6 @@ namespace MRPlatform.Message
 
         [ComVisible(false)]
 	    public DataSet GetMessagesDataSet(string area)
->>>>>>> feature/ConvertToADO
 		{
             if (area == "" | area == null) { throw new ArgumentNullException("area", "Area parameter cannot be empty or null."); }
 
@@ -1132,7 +1075,7 @@ namespace MRPlatform.Message
         }
 		
 		
-		private int Count(string area, int priority, DateTime dtDate)
+		public int Count(string area, int priority, DateTime dtDate)
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
@@ -1165,7 +1108,7 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private int Count(string area, int priority, DateTime dtStartDate, DateTime dtEndDate)
+		public int Count(string area, int priority, DateTime dtStartDate, DateTime dtEndDate)
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
@@ -1261,7 +1204,7 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private int UnreadCount(string userName, string area, int priority, DateTime dtDate)
+		public int UnreadCount(string userName, string area, int priority, DateTime dtDate)
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
@@ -1296,7 +1239,7 @@ namespace MRPlatform.Message
 		}
 		
 		
-		private int UnreadCount(string userName, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)
+		public int UnreadCount(string userName, string area, int priority, DateTime dtStartDate, DateTime dtEndDate)
 		{
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {

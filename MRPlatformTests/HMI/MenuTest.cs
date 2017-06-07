@@ -164,7 +164,7 @@ namespace MRPlatformTests.HMI
         {
             int recCount = -1;
             recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottom);
-            Assert.IsTrue(recCount >= 0);
+            Assert.IsTrue(recCount == 0);
         }
 
 
@@ -174,7 +174,7 @@ namespace MRPlatformTests.HMI
         {
             int recCount = -1;
             recCount = _menuADO.AddNavigationItem(_screenName, _titleTop, _titleBottom);
-            Assert.IsTrue(recCount >= 0);
+            Assert.IsTrue(recCount == 0);
         }
 
 
@@ -224,6 +224,16 @@ namespace MRPlatformTests.HMI
         {
             int recCount = -1;
             recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid);
+        }
+
+
+        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        [TestMethod]
+        public void AddNavigationItemBlankTitleBottom()
+        {
+            int recCount = -1;
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, "");
+            Assert.IsTrue(recCount == 0);
         }
 
 

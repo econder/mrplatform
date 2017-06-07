@@ -1,29 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### What is MRPlatform?
 
-### What is this repository for?
+* C#.NET class library to create custom, standard functionality between SCADA software platforms
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Dependencies
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
+* .NET framework 4.0
+* SQL Server/SQL Express 2012 or greater
 
 ### Who do I talk to? ###
 
 * Eric Conder, 678-325-2815, econder@mrsystems.com
+
+### Version Information
+
+#### 2.0.3.2
+* Modified DeleteNavigationItem parameter to use an integer representing the SQL record Id rather than the screen name when deleting menu items.
+* Fixed sort options issue where only custom ascending and descending were available. Now custom, alphabetical ascending, and alphabetical descending are all options using the ItemSortOrder enum in the Menu class.

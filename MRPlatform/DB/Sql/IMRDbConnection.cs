@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-
 namespace MRPlatform.DB.Sql
 {
     [ComVisible(true),
-    Guid("78480383-748D-4D56-A0C6-036BD66D0F68"),
+    Guid("46677521-57B5-45D8-89ED-7BB58D4222C1"),
     InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMRDbConnection
     {
@@ -21,7 +20,7 @@ namespace MRPlatform.DB.Sql
     }
 
     [ComVisible(true),
-    Guid("0E154126-60F9-47F3-BE12-AEAA71E4634D"),
+    Guid("007AFB6A-2137-413D-B4CE-292B792541D1"),
     InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMRDbConnectionEvents
     {

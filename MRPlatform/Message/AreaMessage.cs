@@ -13,7 +13,7 @@ namespace MRPlatform.Message
     /// Description of MRAreaMessage.
     /// </summary>
     [ComVisible(true)]
-    [Guid("832C3EAF-D79D-42A0-989E-D1514F630668"),
+    [Guid("7D955804-27A0-4620-809C-24AA10F5EAED"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IAreaMessage))]
     public class AreaMessage : IAreaMessage

@@ -30,6 +30,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
 [assembly: AssemblyVersion("2.0.3.*")]
-[assembly: Guid("19A0B6D8-7EF0-426D-8609-F0451A86AF04")]
+[assembly: Guid("C6AD295A-3483-472D-A796-4E08A0D181B4")]
 [assembly: NeutralResourcesLanguage("en-US")]
 

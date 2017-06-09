@@ -228,14 +228,11 @@ namespace MRPlatform.HMI
                     try
                     {
                         sqlCmd.ExecuteNonQuery();
-                        dbConnection.Close();
                         return 0;
                     }
                     catch (OleDbException ex)
                     {
                         _errorLog.LogMessage(this.GetType().Name, "MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)", ex.Message);
-                        if (dbConnection.State == ConnectionState.Open)
-                            dbConnection.Close();
                         return -1;
                     }
                 }

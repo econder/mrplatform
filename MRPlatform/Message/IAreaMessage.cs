@@ -7,21 +7,20 @@ using MRPlatform.DB.Sql;
 
 namespace MRPlatform.Message
 {
-    [ComVisible(true),
-    Guid("CEB87A17-BC06-4C18-A8C0-5B53F94B4AFB"),
-    InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [Guid("A2FCAB54-9614-431A-B003-CEE659E0E35F")]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IAreaMessage
     {
-        MRDbConnection DbConnection { get; set; }
         int Send(string sender, string area, string message, int priority = 2);
+        MRDbConnection DbConnection { get; set; }
         Recordset GetMessagesRecordset(string area);
         Recordset GetMessagesRecordset(string area, int priority);
-        Recordset GetMessagesRecordset(string area, int priority, double messageDate);
-        Recordset GetMessagesRecordset(string area, int priority, double messageStartDate, double messageEndDate);
+        Recordset GetMessagesRecordset(string area, int priority, double dtDate);
+        Recordset GetMessagesRecordset(string area, int priority, double dtStartDate, double dtEndDate);
         Recordset GetUnreadMessagesRecordset(string userName, string area);
         Recordset GetUnreadMessagesRecordset(string userName, string area, int priority);
-        Recordset GetUnreadMessagesRecordset(string userName, string area, int priority, double messageDate);
-        Recordset GetUnreadMessagesRecordset(string userName, string area, int priority, double messageStartDate, double messageEndDate);
+        Recordset GetUnreadMessagesRecordset(string userName, string area, int priority, double dtDate);
+        Recordset GetUnreadMessagesRecordset(string userName, string area, int priority, double dtStartDate, double dtEndDate);
         int Count(string area);
         int Count(string area, int priority);
         int Count(string area, int priority, DateTime dtDate);
@@ -34,7 +33,7 @@ namespace MRPlatform.Message
 
 
     [ComVisible(true),
-    Guid("0E0B1122-04BF-4240-862C-969D265654D5"),
+    Guid("39F74C06-CDA0-4677-9CD2-25D39BF540D5"),
     InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IAreaMessageEvents
     {

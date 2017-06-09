@@ -125,6 +125,16 @@ namespace MRPlatformTests.HMI
 
         // MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
         [TestMethod]
+        public void MoveNavigationItemEnd()
+        {
+            int recCount = -1;
+            recCount = _menu.MoveNavigationItem(Menu.ItemMoveDirection.Down, 3);
+            Assert.IsTrue(recCount >= 0);
+        }
+
+
+        // MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
+        [TestMethod]
         public void MoveNavigationItemADO()
         {
             int recCount = -1;

@@ -212,9 +212,9 @@ namespace MRPlatform.HMI
         // Use mrspMoveItem SQL stored procedure
         public int MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
         {
-            if(currentOrderId <= 0) { throw new ArgumentOutOfRangeException("currentOrderId", (object)currentOrderId, "currentOrderId must be greater than or equal to zero."); }
+            if (currentOrderId <= 0) { throw new ArgumentOutOfRangeException("currentOrderId", (object)currentOrderId, "currentOrderId must be greater than or equal to zero."); }
 
-            if(!_dbConnection.UseADODB)
+            if (!_dbConnection.UseADODB)
             {
                 // Use OleDb Connection
                 using (IDbConnection dbConnection = _dbConnection.Connection)
@@ -227,9 +227,9 @@ namespace MRPlatform.HMI
 
                     try
                     {
-                        sqlCmd.ExecuteNonQuery();
+                        int res = (int)sqlCmd.ExecuteScalar();
                         dbConnection.Close();
-                        return 0;
+                        return res;
                     }
                     catch (OleDbException ex)
                     {
@@ -265,9 +265,9 @@ namespace MRPlatform.HMI
                     rs = dbCmd.Execute(out recAffected);
                     dbConnection.Close();
                     dbConnection = null;
-                    return 0;
+                    return (int)recAffected;
                 }
-                catch(COMException ex)
+                catch (COMException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)", ex.Message);
                     if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)

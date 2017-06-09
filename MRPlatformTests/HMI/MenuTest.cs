@@ -32,6 +32,7 @@ namespace MRPlatformTests.HMI
 
         private int _id = 1;
         private string _screenName = "zFS - Test Screen";
+        private int _id = 1;
         private string _titleTop = "Test Screen";
         private string _titleBottom = "Name #1";
         private string _screenNameInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";

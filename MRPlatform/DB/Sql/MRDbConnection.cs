@@ -8,13 +8,12 @@ using ADODB;
 namespace MRPlatform.DB.Sql
 {
     [ComVisible(true)]
-    [Guid("F59194D9-0FF0-4244-994A-E0887AF2B8A1"),
+    [Guid("2C63164B-6B2E-4310-BA3A-7ECA2A44B820"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMRDbConnection))]
     public class MRDbConnection : IMRDbConnection
 	{
         private ErrorLog _errorLog;
-
         public string ConnectionString { get; set; }
         public string Provider { get; set; }
         public string ServerName { get; set; }

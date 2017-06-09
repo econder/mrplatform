@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("44B6ABCC-EA69-4093-A7C6-CB699EC8A9CD"),
+    [Guid("81B698CC-76A1-4D1A-B06F-3C1D97C9AF5C"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenu))]
     public class Menu : IMenu
@@ -227,9 +227,9 @@ namespace MRPlatform.HMI
 
                     try
                     {
-                        int res = (int)sqlCmd.ExecuteScalar();
+                        sqlCmd.ExecuteNonQuery();
                         dbConnection.Close();
-                        return res;
+                        return 0;
                     }
                     catch (OleDbException ex)
                     {
@@ -265,7 +265,7 @@ namespace MRPlatform.HMI
                     rs = dbCmd.Execute(out recAffected);
                     dbConnection.Close();
                     dbConnection = null;
-                    return (int)recAffected;
+                    return 0;
                 }
                 catch (COMException ex)
                 {

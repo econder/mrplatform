@@ -32,7 +32,6 @@ namespace MRPlatformTests.HMI
 
         private int _id = 1;
         private string _screenName = "zFS - Test Screen";
-        private int _id = 1;
         private string _titleTop = "Test Screen";
         private string _titleBottom = "Name #1";
         private string _screenNameInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -175,7 +174,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItem()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottom);
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottom, 0);
             Assert.IsTrue(recCount == 0);
         }
 
@@ -185,7 +184,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemADO()
         {
             int recCount = -1;
-            recCount = _menuADO.AddNavigationItem(_screenName, _titleTop, _titleBottom);
+            recCount = _menuADO.AddNavigationItem(_screenName, _titleTop, _titleBottom, 0);
             Assert.IsTrue(recCount == 0);
         }
 
@@ -196,7 +195,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemNullScreenName()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(null, _titleTop, _titleBottom);
+            recCount = _menu.AddNavigationItem(null, _titleTop, _titleBottom, 0);
         }
 
         // AddNavigationItem(string screenName, string titleTop, string titleBottom)
@@ -205,7 +204,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemEmptyScreenName()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem("", _titleTop, _titleBottom);
+            recCount = _menu.AddNavigationItem("", _titleTop, _titleBottom, 0);
         }
 
 
@@ -215,7 +214,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidScreenName()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenNameInvalid, _titleTop, _titleBottom);
+            recCount = _menu.AddNavigationItem(_screenNameInvalid, _titleTop, _titleBottom, 0);
         }
 
 
@@ -225,7 +224,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidTitleTop()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenName, _titleTopInvalid, _titleBottom);
+            recCount = _menu.AddNavigationItem(_screenName, _titleTopInvalid, _titleBottom, 0);
         }
 
 
@@ -235,7 +234,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidTitleBottom()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid);
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid, 0);
         }
 
 
@@ -244,7 +243,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemBlankTitleBottom()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenName, _titleTop, "");
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, "", 0);
             Assert.IsTrue(recCount == 0);
         }
 
@@ -255,7 +254,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemNullScreenNameADO()
         {
             int recCount = -1;
-            recCount = _menuADO.AddNavigationItem(null, _titleTop, _titleBottom);
+            recCount = _menuADO.AddNavigationItem(null, _titleTop, _titleBottom, 0);
         }
 
         // AddNavigationItem(string screenName, string titleTop, string titleBottom)
@@ -264,7 +263,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemEmptyScreenNameADO()
         {
             int recCount = -1;
-            recCount = _menuADO.AddNavigationItem("", _titleTop, _titleBottom);
+            recCount = _menuADO.AddNavigationItem("", _titleTop, _titleBottom, 0);
         }
 
 
@@ -274,7 +273,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidScreenNameADO()
         {
             int recCount = -1;
-            recCount = _menuADO.AddNavigationItem(_screenNameInvalid, _titleTop, _titleBottom);
+            recCount = _menuADO.AddNavigationItem(_screenNameInvalid, _titleTop, _titleBottom, 0);
         }
 
 
@@ -284,7 +283,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidTitleTopADO()
         {
             int recCount = -1;
-            recCount = _menuADO.AddNavigationItem(_screenName, _titleTopInvalid, _titleBottom);
+            recCount = _menuADO.AddNavigationItem(_screenName, _titleTopInvalid, _titleBottom, 0);
         }
 
 
@@ -294,7 +293,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidTitleBottomADO()
         {
             int recCount = -1;
-            recCount = _menuADO.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid);
+            recCount = _menuADO.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid, 0);
         }
 
         #endregion

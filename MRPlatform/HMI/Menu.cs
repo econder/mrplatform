@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("793B1A51-B69A-4227-B5C3-E67E289E759D"),
+    [Guid("CBC67601-61F1-422E-83D1-6A92C0BC01FA"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenu))]
     public class Menu : IMenu
@@ -70,6 +70,7 @@ namespace MRPlatform.HMI
         public int ResultsPageNumber { get; set; }
         public int ResultsPerPage { get; set; }
         public ItemSortOrder ResultsSortOrder { get; set; }
+        public bool HierarchyView { get; set; }
 
         #endregion
 
@@ -113,7 +114,8 @@ namespace MRPlatform.HMI
                                                        row["screenName"].ToString(),
                                                        row["titleTop"].ToString(),
                                                        row["titleBottom"].ToString(),
-                                                       (int)row["orderMenu"]));
+                                                       (int)row["orderMenu"],
+                                                       (int)row["parentMenuId"]));
                             i++;
                         }
                     }
@@ -132,9 +134,10 @@ namespace MRPlatform.HMI
 
 
         [ComVisible(false)]
-        private string GetNavigationItemsQuery(ItemSortOrder itemSortOrder)
+        private string GetNavigationItemsQuery(ItemSortOrder itemSortOrder, int parentMenuId = 0)
         {
             string sortOrder = null;
+            string hierarchy = null;
 
             switch(itemSortOrder)
             {
@@ -149,10 +152,20 @@ namespace MRPlatform.HMI
                     break;
             }
 
-            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderMenu" +
+            if(HierarchyView)
+            {
+                hierarchy = string.Format("parentMenuId = {0}", parentMenuId);
+            }
+            else
+            {
+                hierarchy = string.Format("parentMenuId = 0");
+            }
+
+            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
                             " FROM NavMenu ORDER BY {0}" +
+                            " WHERE {1}" +
                             " OFFSET ? ROWS" +
-                            " FETCH NEXT ? ROWS ONLY", sortOrder);
+                            " FETCH NEXT ? ROWS ONLY", sortOrder, hierarchy);
 
             return sQuery;
         }
@@ -230,7 +243,7 @@ namespace MRPlatform.HMI
         }
 
 
-        public int AddNavigationItem(string screenName, string titleTop, string titleBottom)
+        public int AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)
         {
             if (screenName == null) { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
             if (screenName == "") { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
@@ -249,6 +262,7 @@ namespace MRPlatform.HMI
                     sqlCmd.Parameters.AddWithValue("@screenName", screenName);
                     sqlCmd.Parameters.AddWithValue("@titleTop", titleTop);
                     sqlCmd.Parameters.AddWithValue("@titleBottom", titleBottom);
+                    sqlCmd.Parameters.AddWithValue("@parentMenuId", parentMenuId);
 
                     try
                     {
@@ -258,7 +272,7 @@ namespace MRPlatform.HMI
                     }
                     catch (OleDbException ex)
                     {
-                        _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom)", ex.Message);
+                        _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)", ex.Message);
                         if (dbConnection.State == ConnectionState.Open)
                             dbConnection.Close();
                         return -1;
@@ -282,6 +296,8 @@ namespace MRPlatform.HMI
                 dbCmd.Parameters.Append(dbParam);
                 dbParam = dbCmd.CreateParameter("titleBottom", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, titleBottom);
                 dbCmd.Parameters.Append(dbParam);
+                dbParam = dbCmd.CreateParameter("parentMenuId", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 999999999, parentMenuId);
+                dbCmd.Parameters.Append(dbParam);
 
                 Recordset rs = new Recordset();
                 rs.CursorType = CursorTypeEnum.adOpenStatic;
@@ -296,7 +312,7 @@ namespace MRPlatform.HMI
                 }
                 catch (COMException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)", ex.Message);
                     if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
                         dbConnection.Close();
                     return -1;
@@ -306,8 +322,8 @@ namespace MRPlatform.HMI
 
         private string GetAddNavigationItemQuery()
         {
-            string sQuery = "INSERT INTO NavMenu(screenName, titleTop, titleBottom, orderMenu)" +
-                            " VALUES(?, ?, ?, (SELECT CASE WHEN MAX(orderMenu) IS NULL THEN 1 ELSE MAX(orderMenu) + 1 END AS calcOrderMenu FROM NavMenu))";
+            string sQuery = "INSERT INTO NavMenu(screenName, titleTop, titleBottom, orderMenu, parentMenuId)" +
+                            " VALUES(?, ?, ?, (SELECT CASE WHEN MAX(orderMenu) IS NULL THEN 1 ELSE MAX(orderMenu) + 1 END AS calcOrderMenu FROM NavMenu), ?)";
             return sQuery;
         }
 

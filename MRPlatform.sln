@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRPlatform", "MRPlatform\MRPlatform.csproj", "{897C6892-EAE0-4BBD-8571-7987FE652D1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MRPlatformTests", "MRPlatformTests\MRPlatformTests.csproj", "{0E5903F3-2C1F-4AF6-BC12-E782F12C8F96}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MRPlatform Setup", "MRPlatform Setup\MRPlatform Setup.vdproj", "{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{0E5903F3-2C1F-4AF6-BC12-E782F12C8F96}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E5903F3-2C1F-4AF6-BC12-E782F12C8F96}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E5903F3-2C1F-4AF6-BC12-E782F12C8F96}.Release|x86.Build.0 = Release|Any CPU
-		{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}.Debug|Any CPU.ActiveCfg = Debug
-		{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}.Debug|x86.ActiveCfg = Debug
-		{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}.Release|Any CPU.ActiveCfg = Release
-		{5C16B72D-661C-4E93-8562-D3E9D2EBC47B}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

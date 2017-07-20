@@ -18,3 +18,19 @@
 2017-06-09 14:50:35   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-06-09 14:50:36   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-06-09 14:50:37   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:01   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:06   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:15   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:15   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-07-20 14:32:15   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-07-20 14:32:15   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:15   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:21   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:21   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:21   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-07-20 14:32:24   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'WHERE'.
+2017-07-20 14:33:53   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'WHERE'.
+2017-07-20 14:34:14   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'WHERE'.

@@ -6,4 +6,3 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\Inter
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\MRPlatform.csproj.ResolveComReference.cache
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\MRPlatform.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\MRPlatform.pdb
-C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\obj\Release\MRPlatform.csprojResolveAssemblyReference.cache

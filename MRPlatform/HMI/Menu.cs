@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("CBC67601-61F1-422E-83D1-6A92C0BC01FA"),
+    [Guid("88514F58-DD87-4DAC-AF26-03005C0176B5"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenu))]
     public class Menu : IMenu
@@ -17,6 +17,7 @@ namespace MRPlatform.HMI
         private ErrorLog _errorLog = new ErrorLog();
         private MRDbConnection _dbConnection;
         private MenuItems _itemsCollection;
+
 
         public enum ItemMoveDirection
         {
@@ -38,6 +39,7 @@ namespace MRPlatform.HMI
             ResultsPageNumber = 1;
             ResultsPerPage = 100;
             ResultsSortOrder = ItemSortOrder.Custom;
+            ParentMenuId = 0;
         }
         
 
@@ -49,6 +51,7 @@ namespace MRPlatform.HMI
             ResultsPageNumber = 1;
             ResultsPerPage = 100;
             ResultsSortOrder = ItemSortOrder.Custom;
+            ParentMenuId = 0;
         }   
 
 
@@ -70,7 +73,7 @@ namespace MRPlatform.HMI
         public int ResultsPageNumber { get; set; }
         public int ResultsPerPage { get; set; }
         public ItemSortOrder ResultsSortOrder { get; set; }
-        public bool HierarchyView { get; set; }
+        public int ParentMenuId { get; set; }
 
         #endregion
 
@@ -92,6 +95,7 @@ namespace MRPlatform.HMI
                 dbConnection.Open();
 
                 OleDbCommand sqlCmd = new OleDbCommand(GetNavigationItemsQuery(ResultsSortOrder), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@parentMenuId", ParentMenuId);
                 sqlCmd.Parameters.AddWithValue("@offset", (ResultsPageNumber - 1) * ResultsPerPage);
                 sqlCmd.Parameters.AddWithValue("@rowCount", ResultsPerPage);
 
@@ -134,10 +138,9 @@ namespace MRPlatform.HMI
 
 
         [ComVisible(false)]
-        private string GetNavigationItemsQuery(ItemSortOrder itemSortOrder, int parentMenuId = 0)
+        private string GetNavigationItemsQuery(ItemSortOrder itemSortOrder)
         {
             string sortOrder = null;
-            string hierarchy = null;
 
             switch(itemSortOrder)
             {
@@ -152,20 +155,11 @@ namespace MRPlatform.HMI
                     break;
             }
 
-            if(HierarchyView)
-            {
-                hierarchy = string.Format("parentMenuId = {0}", parentMenuId);
-            }
-            else
-            {
-                hierarchy = string.Format("parentMenuId = 0");
-            }
-
             string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
                             " FROM NavMenu ORDER BY {0}" +
-                            " WHERE {1}" +
+                            " WHERE parentMenuId = ?" +
                             " OFFSET ? ROWS" +
-                            " FETCH NEXT ? ROWS ONLY", sortOrder, hierarchy);
+                            " FETCH NEXT ? ROWS ONLY", sortOrder);
 
             return sQuery;
         }

@@ -20,6 +20,10 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### Version Information
 
+#### 2.0.5.1
+* Added childCount field to a new SQL View called vNavMenu. Menu.GetItemsCollection now queries the vNavMenu view. The childCount field is used by the HMI to display an arrow on the nav button to indicate the menu item has child menu items. The parent menu item's screenName field should probably be ignored by the HMI and used only as a button to show the child navigation items.
+* Deleting menu items now has the optional ItemOrphanAction parameter set to either "SetToRoot" or "Delete". SetToRoot will set the parentMenuId of each child item to 0, so the items will display as root menu items. The default action is SetToRoot.
+
 #### 2.0.4.0
 * Added new Hierarchy View to view menu items in a hierarchy by specifying the item's parent record ID.
 * Added Guids to the enums in MRPlatform and Menu classes.

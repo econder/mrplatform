@@ -30,7 +30,8 @@ namespace MRPlatformTests.HMI
         private int _resultsPerPage = 20;
         private int _resultsPerPageInvalid = 0;
 
-        private int _id = 1;
+        private int _id = 0;
+        private int _parentMenuId = 6;
         private string _screenName = "zFS - Test Screen";
         private string _titleTop = "Test Screen";
         private string _titleBottom = "Name #1";
@@ -47,24 +48,28 @@ namespace MRPlatformTests.HMI
             // OleDbConnection
             _mrdb = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass);
             _menu = new Menu(_mrdb);
+            _menu.ParentMenuId = _parentMenuId;
 
             // ADODB Connection
             _mrDbADO = new MRDbConnection(_providerADO, _dbServer, _dbName, _dbUser, _dbPass, true);
             _menuADO = new Menu(_mrDbADO);
+            _menuADO.ParentMenuId = _parentMenuId;
         }
 
-
+        
         #region " GetNavigationItems "
 
         [TestMethod]
-        public void Items()
+        public void MenuItems()
         {
             MenuItems items = _menu.MenuItemsCollection;
+
             Assert.IsTrue(items.Count > 0);
 
             MenuItem item = new MenuItem();
-            item = (MenuItem)items[1];
+            item = (MenuItem)items[0];
             Assert.IsTrue(item.ScreenName.Length > 0);
+            Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
         }
 
         /*
@@ -191,25 +196,6 @@ namespace MRPlatformTests.HMI
 
         // AddNavigationItem(string screenName, string titleTop, string titleBottom)
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddNavigationItemNullScreenName()
-        {
-            int recCount = -1;
-            recCount = _menu.AddNavigationItem(null, _titleTop, _titleBottom, 0);
-        }
-
-        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddNavigationItemEmptyScreenName()
-        {
-            int recCount = -1;
-            recCount = _menu.AddNavigationItem("", _titleTop, _titleBottom, 0);
-        }
-
-
-        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
-        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void AddNavigationItemInvalidScreenName()
         {
@@ -245,25 +231,6 @@ namespace MRPlatformTests.HMI
             int recCount = -1;
             recCount = _menu.AddNavigationItem(_screenName, _titleTop, "", 0);
             Assert.IsTrue(recCount == 0);
-        }
-
-
-        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddNavigationItemNullScreenNameADO()
-        {
-            int recCount = -1;
-            recCount = _menuADO.AddNavigationItem(null, _titleTop, _titleBottom, 0);
-        }
-
-        // AddNavigationItem(string screenName, string titleTop, string titleBottom)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddNavigationItemEmptyScreenNameADO()
-        {
-            int recCount = -1;
-            recCount = _menuADO.AddNavigationItem("", _titleTop, _titleBottom, 0);
         }
 
 
@@ -307,6 +274,9 @@ namespace MRPlatformTests.HMI
             int recCount = -1;
             recCount = _menu.DeleteNavigationItem(_id);
             Assert.IsTrue(recCount >= 0);
+
+            MenuItems items = _menu.MenuItemsCollection;
+            Assert.IsTrue(items.Count > 0);
         }
 
 

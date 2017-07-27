@@ -15,7 +15,7 @@ namespace MRPlatform.HMI
 
         }
 
-        public MenuItem(int id, string screenName, string titleTop, string titleBottom, int menuOrder, int parentMenuId)
+        public MenuItem(int id, string screenName, string titleTop, string titleBottom, int menuOrder, int parentMenuId, int childCount = -1)
         {
             MenuId = id;
             ScreenName = screenName;
@@ -23,6 +23,7 @@ namespace MRPlatform.HMI
             TitleBottom = titleBottom;
             MenuOrder = menuOrder;
             ParentMenuId = parentMenuId;
+            ChildCount = childCount;
         }
 
         public int MenuId { get; set; }
@@ -31,5 +32,6 @@ namespace MRPlatform.HMI
         public string TitleBottom { get; set; }
         public int MenuOrder { get; set; }
         public int ParentMenuId { get; set; }
+        public int ChildCount { get; set; }
     }
 }

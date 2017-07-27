@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace MRPlatform
 {
+    [ComVisible(true)]
+    [Guid("E2D7ABBA-3CC5-4677-AFDB-504D9C14E641")]
     public class ErrorLog
     {
         public ErrorLog()

@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("88514F58-DD87-4DAC-AF26-03005C0176B5"),
+    [Guid("D6010ADC-5C7A-479E-AA71-874F383233CF"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenu))]
     public class Menu : IMenu
@@ -19,17 +19,26 @@ namespace MRPlatform.HMI
         private MenuItems _itemsCollection;
 
 
+        [Guid("08AB75E8-88FE-4C8D-8055-364AFFF09C1D")]
         public enum ItemMoveDirection
         {
             Up = 0,
             Down
         }
 
+        [Guid("FB909501-331F-496E-9485-A8E908FC7FE6")]
         public enum ItemSortOrder
         {
             Custom = 0,
             Ascending,
             Descending
+        }
+
+        [Guid("D3C63412-3883-4EA6-BDF9-60B9D44D66EB")]
+        public enum ItemOrphanAction
+        {
+            SetToRoot = 0,
+            Delete
         }
 
 
@@ -75,6 +84,7 @@ namespace MRPlatform.HMI
         public ItemSortOrder ResultsSortOrder { get; set; }
         public int ParentMenuId { get; set; }
 
+
         #endregion
 
         //[DispId(-4)]
@@ -119,7 +129,8 @@ namespace MRPlatform.HMI
                                                        row["titleTop"].ToString(),
                                                        row["titleBottom"].ToString(),
                                                        (int)row["orderMenu"],
-                                                       (int)row["parentMenuId"]));
+                                                       (int)row["parentMenuId"],
+                                                       (int)row["childCount"]));
                             i++;
                         }
                     }
@@ -155,9 +166,10 @@ namespace MRPlatform.HMI
                     break;
             }
 
-            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
-                            " FROM NavMenu ORDER BY {0}" +
+            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId, childCount" +
+                            " FROM vNavMenu" +
                             " WHERE parentMenuId = ?" +
+                            " ORDER BY {0}" + 
                             " OFFSET ? ROWS" +
                             " FETCH NEXT ? ROWS ONLY", sortOrder);
 
@@ -239,8 +251,6 @@ namespace MRPlatform.HMI
 
         public int AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)
         {
-            if (screenName == null) { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
-            if (screenName == "") { throw new ArgumentNullException("screenName", "screenName must not be null or empty."); }
             if (screenName.Length > 50 ) { throw new ArgumentOutOfRangeException("screenName", "screenName must be 50 characters or less."); }
             if (titleTop.Length > 50) { throw new ArgumentOutOfRangeException("titleTop", "titleTop must be 50 characters or less."); }
             if (titleBottom.Length > 50) { throw new ArgumentOutOfRangeException("titleBottom", "titleBottom must be 50 characters or less."); }
@@ -322,7 +332,7 @@ namespace MRPlatform.HMI
         }
 
 
-        public int DeleteNavigationItem(int menuItemId)
+        public int DeleteNavigationItem(int menuItemId, ItemOrphanAction itemOrphanAction = ItemOrphanAction.SetToRoot)
         {
             if (!_dbConnection.UseADODB)
             {
@@ -338,6 +348,9 @@ namespace MRPlatform.HMI
                     {
                         sqlCmd.ExecuteNonQuery();
                         dbConnection.Close();
+
+                        //Take care of any orphaned child menu items
+                        DoOrphanChildMenuAction(menuItemId, itemOrphanAction);
                         return 0;
                     }
                     catch (OleDbException ex)
@@ -387,6 +400,52 @@ namespace MRPlatform.HMI
         private string GetDeleteNavigationItemQuery()
         {
             string sQuery = "DELETE FROM NavMenu WHERE id = ?";
+            return sQuery;
+        }
+
+        [ComVisible(false)]
+        private void DoOrphanChildMenuAction(int menuItemId, ItemOrphanAction itemOrphanAction)
+        {
+            // Use OleDb Connection
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetOrphanChildMenuActionQuery(itemOrphanAction), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@id", menuItemId);
+
+                try
+                {
+                    sqlCmd.ExecuteNonQuery();
+                    dbConnection.Close();
+                    return;
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "DoOrphanChildMenuAction(int menuItemId, ItemOrphanAction itemOrphanAction)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+                    return;
+                }
+            }
+        }
+
+        [ComVisible(false)]
+        private string GetOrphanChildMenuActionQuery(ItemOrphanAction itemOrphanAction)
+        {
+            string sQuery = null;
+
+            switch(itemOrphanAction)
+            {
+                case ItemOrphanAction.Delete:
+                    sQuery = "DELETE FROM NavMenu WHERE parentMenuId = ?";
+                    break;
+
+                case ItemOrphanAction.SetToRoot:
+                    sQuery = "UPDATE NavMenu SET parentMenuId = 0 WHERE parentMenuId = ?";
+                    break;
+            }
+
             return sQuery;
         }
     }

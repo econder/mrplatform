@@ -14,6 +14,7 @@ namespace MRPlatform.HMI
         string TitleBottom { get; set; }
         int MenuOrder { get; set; }
         int ParentMenuId { get; set; }
+        int ChildCount { get; set; }
     }
 
     [ComVisible(true),

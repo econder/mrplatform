@@ -13,7 +13,6 @@
 AppId={{6E522AB6-FE71-4322-891F-CE20398995F5}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-
 AppVerName={#MyAppName}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
@@ -48,7 +47,3 @@ Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister Microsoft.Vis
 Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister MRPlatform.dll"; WorkingDir: "{app}"; Flags: runminimized skipifdoesntexist; StatusMsg: "Unregistering Old Controls..."
 Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/codebase /tlb:Microsoft.VisualBasic.tlb Microsoft.VisualBasic.dll"; WorkingDir: "{app}"; Flags: runminimized; StatusMsg: "Registering New Controls..."
 Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/codebase /tlb:MRPlatform.tlb MRPlatform.dll"; WorkingDir: "{app}"; Flags: runminimized; StatusMsg: "Registering New Controls..."
-
-[UninstallRun]
-Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister Microsoft.VisualBasic.dll"; WorkingDir: "{app}"; Flags: runminimized skipifdoesntexist; StatusMsg: "Unregistering Old Controls..."
-Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister MRPlatform.dll"; WorkingDir: "{app}"; Flags: runminimized skipifdoesntexist; StatusMsg: "Unregistering Old Controls..."

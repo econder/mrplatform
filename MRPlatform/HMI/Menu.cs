@@ -177,6 +177,62 @@ namespace MRPlatform.HMI
         }
 
 
+        public int GetPreviousParentMenuId(int currentParentMenuId)
+        {
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetPreviousParentMenuIdQuery(), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@ID", currentParentMenuId);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
+                DataSet ds = new DataSet();
+
+                MenuItems menuItems = new MenuItems();
+                int previousParentMenuId = 0;
+
+                try
+                {
+                    dbAdapt.Fill(ds);
+                    dbConnection.Close();
+                    
+                    if (ds.Tables.Count > 0)
+                    {
+                        // Should only be 1 row
+                        DataRow row = ds.Tables[0].Rows[0];
+                        previousParentMenuId = (int)row["parentMenuId"];
+
+                        return previousParentMenuId;
+                    }
+                    else
+                    {
+                        return previousParentMenuId;
+                    }
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+
+                    // Return root parentMenuId on error
+                    return previousParentMenuId;
+                }
+            }
+        }
+
+
+        [ComVisible(false)]
+        private string GetPreviousParentMenuIdQuery()
+        {
+            string sQuery = "SELECT parentMenuId" +
+                            " FROM vNavMenu" +
+                            " WHERE ID = ?";
+            return sQuery;
+        }
+
+
         // Use mrspMoveItem SQL stored procedure
         public int MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
         {

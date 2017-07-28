@@ -20,6 +20,7 @@ namespace MRPlatform.HMI
         int ResultsPerPage { get; set; }
         int ParentMenuId { get; set; }
         Menu.ItemSortOrder ResultsSortOrder { get; set; }
+        int GetPreviousParentMenuId(int currentParentMenuId);
     }
 
     [ComVisible(true)]

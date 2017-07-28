@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("FF1EE640-A29C-41B0-B8DF-B8B2E4A81BB4"),
+    [Guid("4B8040F6-C00E-4FED-979C-C21134AA2B66"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenuItem))]
     public class MenuItem : IMenuItem
@@ -15,13 +15,15 @@ namespace MRPlatform.HMI
 
         }
 
-        public MenuItem(int id, string screenName, string titleTop, string titleBottom, int menuOrder)
+        public MenuItem(int id, string screenName, string titleTop, string titleBottom, int menuOrder, int parentMenuId, int childCount = -1)
         {
             MenuId = id;
             ScreenName = screenName;
             TitleTop = titleTop;
             TitleBottom = titleBottom;
             MenuOrder = menuOrder;
+            ParentMenuId = parentMenuId;
+            ChildCount = childCount;
         }
 
         public int MenuId { get; set; }
@@ -29,5 +31,7 @@ namespace MRPlatform.HMI
         public string TitleTop { get; set; }
         public string TitleBottom { get; set; }
         public int MenuOrder { get; set; }
+        public int ParentMenuId { get; set; }
+        public int ChildCount { get; set; }
     }
 }

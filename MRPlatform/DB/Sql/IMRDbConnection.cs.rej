@@ -1,0 +1,9 @@
+diff a/MRPlatform/DB/Sql/IMRDbConnection.cs b/MRPlatform/DB/Sql/IMRDbConnection.cs	(rejected hunks)
+@@ -4,7 +4,6 @@
+ namespace MRPlatform.DB.Sql
+ {
+     [ComVisible(true),
+-    Guid("78480383-748D-4D56-A0C6-036BD66D0F68"),
+     Guid("46677521-57B5-45D8-89ED-7BB58D4222C1"),
+     InterfaceType(ComInterfaceType.InterfaceIsDual)]
+     public interface IMRDbConnection

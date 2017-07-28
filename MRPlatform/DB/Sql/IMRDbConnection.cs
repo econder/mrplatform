@@ -14,7 +14,6 @@ namespace MRPlatform.DB.Sql
         string UserName { get; set; }
         string Password { get; set; }
         bool UseADODB { get; set; }
-        MRDbConnection.State ConnectionState { get; }
         void OpenConnection();
         void OpenConnection(string provider, string serverName, string databaseName, string userName, string password, bool useADODB = false);
     }

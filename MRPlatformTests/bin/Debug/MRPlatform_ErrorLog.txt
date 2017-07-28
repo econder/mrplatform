@@ -411,3 +411,27 @@ Invalid column name 'eventMessage'.
 2017-06-07 10:45:38   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-06-07 10:45:38   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
 2017-06-07 10:45:50   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-07-20 14:39:34   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'WHERE'.
+2017-07-20 17:07:55   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'WHERE'.
+2017-07-20 17:08:05   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'WHERE'.
+2017-07-26 14:23:28   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavMenu'.
+2017-07-26 14:24:08   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavMenu'.
+2017-07-26 14:25:58   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-07-26 14:26:01   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-07-26 14:26:10   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-07-26 14:26:10   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-07-26 14:26:10   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-07-26 14:26:10   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-07-26 14:26:10   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-07-26 14:26:14   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-07-26 14:26:14   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-07-26 14:26:15   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-07-26 14:26:17   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavMenu'.
+2017-07-26 14:26:32   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavMenu'.
+2017-07-26 14:26:47   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavMenu'.
+2017-07-26 14:26:49   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavMenu'.
+2017-07-26 14:31:49   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid column name 'childCount'.
+2017-07-26 14:33:36   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid column name 'childCount'.

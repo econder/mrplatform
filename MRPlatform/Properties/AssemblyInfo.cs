@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MR Systems, Inc.")]
 [assembly: AssemblyProduct("MRPlatform")]
-[assembly: AssemblyCopyright("Copyright 2017")]
+[assembly: AssemblyCopyright("Copyright 2017 Eric Conder")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("2.0.3.*")]
-[assembly: Guid("C6AD295A-3483-472D-A796-4E08A0D181B4")]
+[assembly: AssemblyVersion("2.0.10.*")]
+[assembly: Guid("B4C58A0B-8815-4762-80D6-DEA7DD33CC85")]
 [assembly: NeutralResourcesLanguage("en-US")]
 

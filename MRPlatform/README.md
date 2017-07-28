@@ -20,6 +20,20 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### Version Information
 
+#### 2.0.10
+* Bug fixes with menu hierarchy.
+* Fix menuOrder issue with orphaned menu items
+
+#### 2.0.7
+* Added the ability to get the last parentMenuId to allow navigating backwards in the menu hierarchy.
+
+#### 2.0.6
+* Bug fixes.
+
+#### 2.0.5.1
+* Added childCount field to a new SQL View called vNavMenu. Menu.GetItemsCollection now queries the vNavMenu view. The childCount field is used by the HMI to display an arrow on the nav button to indicate the menu item has child menu items. The parent menu item's screenName field should probably be ignored by the HMI and used only as a button to show the child navigation items.
+* Deleting menu items now has the optional ItemOrphanAction parameter set to either "SetToRoot" or "Delete". SetToRoot will set the parentMenuId of each child item to 0, so the items will display as root menu items. The default action is SetToRoot.
+
 #### 2.0.4.0
 * Added new Hierarchy View to view menu items in a hierarchy by specifying the item's parent record ID.
 * Added Guids to the enums in MRPlatform and Menu classes.
@@ -27,4 +41,3 @@ To prevent COM issues when updating the library, we don't want to automatically 
 #### 2.0.3.0
 * Modified DeleteNavigationItem parameter to use an integer representing the SQL record Id rather than the screen name when deleting menu items.
 * Fixed sort options issue where only custom ascending and descending were available. Now custom, alphabetical ascending, and alphabetical descending are all options using the ItemSortOrder enum in the Menu class.
-* Fixed an index out of range issue when moving the first or last menu items or or down, respectively.

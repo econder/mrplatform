@@ -32,6 +32,7 @@ namespace MRPlatformTests.HMI
 
         private int _id = 0;
         private int _parentMenuId = 6;
+        private int _currentParentMenuId = 20158;
         private string _screenName = "zFS - Test Screen";
         private string _titleTop = "Test Screen";
         private string _titleBottom = "Name #1";
@@ -68,6 +69,18 @@ namespace MRPlatformTests.HMI
 
             MenuItem item = new MenuItem();
             item = (MenuItem)items[0];
+            Assert.IsTrue(item.ScreenName.Length > 0);
+            Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
+        }
+
+
+        [TestMethod]
+        public void GetPreviousParentMenuItem()
+        {
+            MenuItem item = new MenuItem();
+            item = _menu.GetPreviousParentMenuItem(_currentParentMenuId);
+            
+            Assert.IsTrue(item.ParentMenuId > 0);
             Assert.IsTrue(item.ScreenName.Length > 0);
             Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
         }

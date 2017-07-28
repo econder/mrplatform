@@ -177,7 +177,7 @@ namespace MRPlatform.HMI
         }
 
 
-        public int GetPreviousParentMenuId(int currentParentMenuId)
+        public MenuItem GetPreviousParentMenuItem(int currentParentMenuId)
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
@@ -189,8 +189,7 @@ namespace MRPlatform.HMI
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 DataSet ds = new DataSet();
 
-                MenuItems menuItems = new MenuItems();
-                int previousParentMenuId = 0;
+                MenuItem mi = new MenuItem();
 
                 try
                 {
@@ -201,13 +200,33 @@ namespace MRPlatform.HMI
                     {
                         // Should only be 1 row
                         DataRow row = ds.Tables[0].Rows[0];
-                        previousParentMenuId = (int)row["parentMenuId"];
 
-                        return previousParentMenuId;
+                        if (row != null)
+                        {
+                            mi.MenuId = (int)row["ID"];
+                            mi.ScreenName = row["screenName"].ToString();
+                            mi.TitleTop = row["titleTop"].ToString();
+                            mi.TitleBottom = row["titleBottom"].ToString();
+                            mi.MenuOrder = (int)row["orderMenu"];
+                            mi.ParentMenuId = (int)row["parentMenuId"];
+                            mi.ChildCount = (int)row["childCount"];
+                        }
+                        else
+                        {
+                            mi.MenuId = 0;
+                            mi.ScreenName = "";
+                            mi.TitleTop = "";
+                            mi.TitleBottom = "";
+                            mi.MenuOrder = 0;
+                            mi.ParentMenuId = 0;
+                            mi.ChildCount = -1;
+                        }
+
+                        return mi;
                     }
                     else
                     {
-                        return previousParentMenuId;
+                        return mi;
                     }
                 }
                 catch (OleDbException ex)
@@ -217,7 +236,7 @@ namespace MRPlatform.HMI
                         dbConnection.Close();
 
                     // Return root parentMenuId on error
-                    return previousParentMenuId;
+                    return mi;
                 }
             }
         }
@@ -226,9 +245,9 @@ namespace MRPlatform.HMI
         [ComVisible(false)]
         private string GetPreviousParentMenuIdQuery()
         {
-            string sQuery = "SELECT parentMenuId" +
+            string sQuery = "SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId, childCount" +
                             " FROM vNavMenu" +
-                            " WHERE ID = ?";
+                            " WHERE id = ?";
             return sQuery;
         }
 
@@ -467,7 +486,22 @@ namespace MRPlatform.HMI
             {
                 dbConnection.Open();
 
-                OleDbCommand sqlCmd = new OleDbCommand(GetOrphanChildMenuActionQuery(itemOrphanAction), (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand();
+                string sQuery = null;
+
+                switch (itemOrphanAction)
+                {
+                    case ItemOrphanAction.Delete:
+                        sQuery = "DELETE FROM NavMenu WHERE parentMenuId = ?";
+                        break;
+
+                    case ItemOrphanAction.SetToRoot:
+                        sQuery = "UPDATE NavMenu SET orderMenu = orderMenu + parentMenuId, parentMenuId = 0 WHERE parentMenuId = ?";
+                        break;
+                }
+
+                sqlCmd.Connection = (OleDbConnection)dbConnection;
+                sqlCmd.CommandText = sQuery;
                 sqlCmd.Parameters.AddWithValue("@id", menuItemId);
 
                 try

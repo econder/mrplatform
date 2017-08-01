@@ -100,10 +100,13 @@
     <Compile Include="AlarmEvent\IUserEvent.cs" />
     <Compile Include="DB\Sql\IMRDbConnection.cs" />
     <Compile Include="ErrorLog.cs" />
-    <Compile Include="HMI\IMenu.cs" />
+    <Compile Include="HMI\IMenuFavorite.cs" />
+    <Compile Include="HMI\IMenuNavigation.cs" />
     <Compile Include="HMI\IMenuItems.cs" />
     <Compile Include="HMI\IMenuItem.cs" />
     <Compile Include="HMI\Menu.cs" />
+    <Compile Include="HMI\MenuFavorite.cs" />
+    <Compile Include="HMI\MenuNavigation.cs" />
     <Compile Include="HMI\MenuItem.cs" />
     <Compile Include="HMI\MenuItems.cs" />
     <Compile Include="HMI\Rockwell\FTViewSE\IWindow.cs" />

@@ -12,9 +12,9 @@ using MRPlatform.HMI;
 namespace MRPlatformTests.HMI
 {
     [TestClass]
-    public class MenuTest
+    public class MenuNavigationTest
     {
-        private Menu _menu, _menuADO;
+        private MenuNavigation _menu, _menuADO;
 
         private MRDbConnection _mrdb, _mrDbADO;
         private string _provider = "SQLNCLI11";
@@ -24,11 +24,6 @@ namespace MRPlatformTests.HMI
         private string _dbPass = "Reggie#123";
 
         private string _providerADO = "SQLOLEDB";
-
-        private int _pageNumber = 1;
-        private int _pageNumberInvalid = 0;
-        private int _resultsPerPage = 20;
-        private int _resultsPerPageInvalid = 0;
 
         private int _id = 0;
         private int _parentMenuId = 6;
@@ -48,12 +43,12 @@ namespace MRPlatformTests.HMI
         {
             // OleDbConnection
             _mrdb = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass);
-            _menu = new Menu(_mrdb);
+            _menu = new MenuNavigation(_mrdb);
             _menu.ParentMenuId = _parentMenuId;
 
             // ADODB Connection
             _mrDbADO = new MRDbConnection(_providerADO, _dbServer, _dbName, _dbUser, _dbPass, true);
-            _menuADO = new Menu(_mrDbADO);
+            _menuADO = new MenuNavigation(_mrDbADO);
             _menuADO.ParentMenuId = _parentMenuId;
         }
 
@@ -85,47 +80,6 @@ namespace MRPlatformTests.HMI
             Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
         }
 
-        /*
-        // GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)
-        [TestMethod]
-        public void GetNavigationItemsDS()
-        {
-            _ds = new DataSet();
-            _ds = _menu.GetNavigationItemsDataSet(_pageNumber, _resultsPerPage);
-
-            Assert.IsTrue(_ds.Tables.Count == 1);
-            Assert.IsTrue(_ds.Tables[0].Rows.Count == 20);
-        }
-
-        // GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetNavigationItemsDSInvalidParams()
-        {
-            _ds = new DataSet();
-            _ds = _menu.GetNavigationItemsDataSet(_pageNumberInvalid, _resultsPerPageInvalid);
-        }
-
-
-        // GetNavigationItemsRecordset(int pageNumber, int resultsPerPage)
-        [TestMethod]
-        public void GetNavigationItemsRS()
-        {
-            _rs = new Recordset();
-            _rs = _menuADO.GetNavigationItemsRecordset(_pageNumber, _resultsPerPage);
-
-            Assert.IsTrue(_rs.RecordCount == 20);
-        }
-
-        // GetNavigationItemsRecordset(int pageNumber, int resultsPerPage)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetNavigationItemsRSInvalidParams()
-        {
-            _rs = new Recordset();
-            _rs = _menuADO.GetNavigationItemsRecordset(_pageNumberInvalid, _resultsPerPageInvalid);
-        }
-        */
         #endregion
 
 
@@ -136,7 +90,7 @@ namespace MRPlatformTests.HMI
         public void MoveNavigationItem()
         {
             int recCount = -1;
-            recCount = _menu.MoveNavigationItem(Menu.ItemMoveDirection.Up, 4);
+            recCount = _menu.MoveNavigationItem(MenuNavigation.ItemMoveDirection.Up, 4);
             Assert.IsTrue(recCount >= 0);
         }
 
@@ -146,7 +100,7 @@ namespace MRPlatformTests.HMI
         public void MoveNavigationItemEnd()
         {
             int recCount = -1;
-            recCount = _menu.MoveNavigationItem(Menu.ItemMoveDirection.Down, 3);
+            recCount = _menu.MoveNavigationItem(MenuNavigation.ItemMoveDirection.Down, 3);
             Assert.IsTrue(recCount >= 0);
         }
 
@@ -156,7 +110,7 @@ namespace MRPlatformTests.HMI
         public void MoveNavigationItemADO()
         {
             int recCount = -1;
-            recCount = _menuADO.MoveNavigationItem(Menu.ItemMoveDirection.Up, 4);
+            recCount = _menuADO.MoveNavigationItem(MenuNavigation.ItemMoveDirection.Up, 4);
             Assert.IsTrue(recCount >= 0);
         }
 
@@ -167,7 +121,7 @@ namespace MRPlatformTests.HMI
         public void MoveNavigationItemInvalidParams()
         {
             int recCount = -1;
-            recCount = _menu.MoveNavigationItem(Menu.ItemMoveDirection.Up, 0);
+            recCount = _menu.MoveNavigationItem(MenuNavigation.ItemMoveDirection.Up, 0);
             Assert.IsTrue(recCount >= 0);
         }
 
@@ -178,7 +132,7 @@ namespace MRPlatformTests.HMI
         public void MoveNavigationItemInvalidParamsADO()
         {
             int recCount = -1;
-            recCount = _menuADO.MoveNavigationItem(Menu.ItemMoveDirection.Up, 0);
+            recCount = _menuADO.MoveNavigationItem(MenuNavigation.ItemMoveDirection.Up, 0);
             Assert.IsTrue(recCount >= 0);
         }
 

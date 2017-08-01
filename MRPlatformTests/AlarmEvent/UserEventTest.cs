@@ -91,31 +91,6 @@ namespace MRPlatformTests.Message
             Assert.IsTrue(count > countPrev);
         }
 
-        // LogEvent(string userName, string nodeName, string eventMessage, int eventType, string eventSource)
-        [TestMethod]
-        public void LogEventADO()
-        {
-            int count = 0;
-            int countPrev = 0;
-
-            // Get original row count
-            _rs = new Recordset();
-            _rs = _ueADO.GetHistoryRecordset(_pageNumber, _resultsPerPage, _sortAscending);
-            countPrev = _rs.RecordCount;
-            _rs.Close();
-
-            // Log event
-            _ueADO.LogEvent(_userName, _nodeName, _eventMessage, _eventType, _eventSource);
-
-            // Get original row count
-            _rs = new Recordset();
-            _rs = _ueADO.GetHistoryRecordset(_pageNumber, _resultsPerPage, _sortAscending);
-            count = _rs.RecordCount;
-            _rs.Close();
-
-            Assert.IsTrue(count > countPrev);
-        }
-
         #endregion
 
         #region " GetHistory(int pageNumber, int resultsPerPage, bool sortAscending) "

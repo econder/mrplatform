@@ -19,15 +19,15 @@ namespace MRPlatformTests.HMI
         private MRDbConnection _mrdb, _mrDbADO;
         private string _provider = "SQLNCLI11";
         private string _dbServer = "WIN-1I5C3456H92\\SQLEXPRESS";
-        private string _dbName = "mrsystems";
+        private string _dbName = "MRPlatform";
         private string _dbUser = "mrsystems";
         private string _dbPass = "Reggie#123";
 
         private string _providerADO = "SQLOLEDB";
 
         private int _id = 0;
-        private int _parentMenuId = 6;
-        private int _currentParentMenuId = 20158;
+        private int _parentMenuId = 10;
+        private int _currentParentMenuId = 12;
         private string _screenName = "zFS - Test Screen";
         private string _titleTop = "Test Screen";
         private string _titleBottom = "Name #1";
@@ -100,17 +100,7 @@ namespace MRPlatformTests.HMI
         public void MoveNavigationItemEnd()
         {
             int recCount = -1;
-            recCount = _menu.MoveNavigationItem(MenuNavigation.ItemMoveDirection.Down, 3);
-            Assert.IsTrue(recCount >= 0);
-        }
-
-
-        // MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)
-        [TestMethod]
-        public void MoveNavigationItemADO()
-        {
-            int recCount = -1;
-            recCount = _menuADO.MoveNavigationItem(MenuNavigation.ItemMoveDirection.Up, 4);
+            recCount = _menu.MoveNavigationItem(MenuNavigation.ItemMoveDirection.Down, 15);
             Assert.IsTrue(recCount >= 0);
         }
 

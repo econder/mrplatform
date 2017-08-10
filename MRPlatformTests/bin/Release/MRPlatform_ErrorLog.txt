@@ -127,3 +127,37 @@ Incorrect syntax near the keyword 'WHERE'.
 2017-08-01 17:03:13   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-08-01 17:03:13   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-08-01 17:03:13   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:20   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:23   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:31   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:31   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-08-02 11:57:31   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-08-02 11:57:31   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:31   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:35   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:35   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:35   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-02 11:57:37   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->Could not find stored procedure 'dbo.mrspMoveNavMenuItem'.
+2017-08-02 11:57:37   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->Could not find stored procedure 'dbo.mrspMoveNavMenuItem'.
+2017-08-02 11:57:38   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->Could not find stored procedure 'dbo.mrspMoveNavMenuItem'.
+2017-08-02 11:57:38   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavFavorite'.
+2017-08-02 11:57:38   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavFavorite'.
+2017-08-02 11:57:38   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->Could not find stored procedure 'dbo.mrspMoveNavFavoriteItem'.
+2017-08-02 11:57:38   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->Could not find stored procedure 'dbo.mrspMoveNavFavoriteItem'.
+2017-08-02 11:57:38   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->Could not find stored procedure 'dbo.mrspMoveNavFavoriteItem'.
+2017-08-02 11:57:38   MenuFavorite::AddFavoriteItem(string userName, int navMenuId = 0)->There are fewer columns in the INSERT statement than values specified in the VALUES clause. The number of values in the VALUES clause must match the number of columns specified in the INSERT statement.
+Invalid column name 'navMenuId'.
+2017-08-02 11:57:38   MenuFavorite::AddFavoriteItem(string userName, int navMenuId = 0)->Invalid column name 'navMenuId'.
+2017-08-02 11:57:38   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-08-02 11:57:38   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavFavorite'.
+2017-08-10 11:55:29   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 11:55:29   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 11:55:29   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 11:55:29   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-08-10 11:55:29   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-08-10 11:55:29   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 11:55:29   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 11:55:29   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 11:55:29   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 11:55:29   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:01:58   MenuFavorite::AddFavoriteItem(string userName, int navMenuId = 0)->There are fewer columns in the INSERT statement than values specified in the VALUES clause. The number of values in the VALUES clause must match the number of columns specified in the INSERT statement.

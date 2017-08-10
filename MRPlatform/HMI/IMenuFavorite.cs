@@ -13,8 +13,8 @@ namespace MRPlatform.HMI
     {
         MenuItems MenuItemsCollection { get; }
         int MoveFavoriteItem(Menu.ItemMoveDirection direction, int currentOrderId);
-        int AddFavoriteItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0);
-        int DeleteFavoriteItem(int menuItemId, Menu.ItemOrphanAction itemOrphanAction = Menu.ItemOrphanAction.SetToRoot);
+        int AddFavoriteItem(string userName, int parentMenuId = 0);
+        int DeleteFavoriteItem(int menuItemId);
         MRDbConnection DbConnection { get; set; }
         int ResultsPageNumber { get; set; }
         int ResultsPerPage { get; set; }

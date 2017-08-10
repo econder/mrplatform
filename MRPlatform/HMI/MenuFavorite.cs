@@ -70,7 +70,6 @@ namespace MRPlatform.HMI
                 try
                 {
                     dbAdapt.Fill(ds);
-                    dbConnection.Close();
 
                     if (ds.Tables.Count > 0)
                     {
@@ -78,12 +77,12 @@ namespace MRPlatform.HMI
                         foreach (DataRow row in ds.Tables[0].Rows)
                         {
                             menuItems.Add(i, new MenuItem((int)row["id"],
-                                                       row["screenName"].ToString(),
-                                                       row["titleTop"].ToString(),
-                                                       row["titleBottom"].ToString(),
-                                                       (int)row["orderFavorite"],
-                                                       (int)row["parentMenuId"],
-                                                       (int)row["childCount"]));
+                                                          row["screenName"].ToString(),
+                                                          row["titleTop"].ToString(),
+                                                          row["titleBottom"].ToString(),
+                                                          (int)row["orderFavorite"],
+                                                          (int)row["parentMenuId"],
+                                                          (int)row["childCount"]));
                             i++;
                         }
                     }
@@ -272,16 +271,14 @@ namespace MRPlatform.HMI
 
         private string GetMoveFavoriteItemQuery()
         {
-            string sQuery = "EXEC [dbo].[mrspMoveItem] ?, ?";
+            string sQuery = "EXEC [dbo].[mrspMoveNavFavoriteItem] ?, ?";
             return sQuery;
         }
 
 
-        public int AddFavoriteItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)
+        public int AddFavoriteItem(string userName, int navMenuId = 0)
         {
-            if (screenName.Length > 50) { throw new ArgumentOutOfRangeException("screenName", "screenName must be 50 characters or less."); }
-            if (titleTop.Length > 50) { throw new ArgumentOutOfRangeException("titleTop", "titleTop must be 50 characters or less."); }
-            if (titleBottom.Length > 50) { throw new ArgumentOutOfRangeException("titleBottom", "titleBottom must be 50 characters or less."); }
+            if (userName.Length > 50) { throw new ArgumentOutOfRangeException("userName", "userName must be 50 characters or less."); }
 
             if (!_dbConnection.UseADODB)
             {
@@ -291,20 +288,17 @@ namespace MRPlatform.HMI
                     dbConnection.Open();
 
                     OleDbCommand sqlCmd = new OleDbCommand(GetAddFavoriteItemQuery(), (OleDbConnection)dbConnection);
-                    sqlCmd.Parameters.AddWithValue("@screenName", screenName);
-                    sqlCmd.Parameters.AddWithValue("@titleTop", titleTop);
-                    sqlCmd.Parameters.AddWithValue("@titleBottom", titleBottom);
-                    sqlCmd.Parameters.AddWithValue("@parentMenuId", parentMenuId);
+                    sqlCmd.Parameters.AddWithValue("@navMenuId", navMenuId);
+                    sqlCmd.Parameters.AddWithValue("@userName", userName);
 
                     try
                     {
                         sqlCmd.ExecuteNonQuery();
-                        dbConnection.Close();
                         return 0;
                     }
                     catch (OleDbException ex)
                     {
-                        _errorLog.LogMessage(this.GetType().Name, "AddFavoriteItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)", ex.Message);
+                        _errorLog.LogMessage(this.GetType().Name, "AddFavoriteItem(string userName, int navMenuId = 0)", ex.Message);
                         if (dbConnection.State == ConnectionState.Open)
                             dbConnection.Close();
                         return -1;
@@ -322,13 +316,9 @@ namespace MRPlatform.HMI
                 dbCmd.CommandText = GetAddFavoriteItemQuery();
                 dbCmd.CommandType = CommandTypeEnum.adCmdText;
                 Parameter dbParam = new Parameter();
-                dbParam = dbCmd.CreateParameter("screenName", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, screenName);
+                dbParam = dbCmd.CreateParameter("navMenuId", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 999999999, navMenuId);
                 dbCmd.Parameters.Append(dbParam);
-                dbParam = dbCmd.CreateParameter("titleTop", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, titleTop);
-                dbCmd.Parameters.Append(dbParam);
-                dbParam = dbCmd.CreateParameter("titleBottom", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, titleBottom);
-                dbCmd.Parameters.Append(dbParam);
-                dbParam = dbCmd.CreateParameter("parentMenuId", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 999999999, parentMenuId);
+                dbParam = dbCmd.CreateParameter("userName", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, userName);
                 dbCmd.Parameters.Append(dbParam);
 
                 Recordset rs = new Recordset();
@@ -344,7 +334,7 @@ namespace MRPlatform.HMI
                 }
                 catch (COMException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "AddFavoriteItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "AddFavoriteItem(string userName, int navMenuId = 0)", ex.Message);
                     if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
                         dbConnection.Close();
                     return -1;
@@ -354,13 +344,13 @@ namespace MRPlatform.HMI
 
         private string GetAddFavoriteItemQuery()
         {
-            string sQuery = "INSERT INTO NavMenu(screenName, titleTop, titleBottom, orderFavorite, parentMenuId)" +
-                            " VALUES(?, ?, ?, (SELECT CASE WHEN MAX(orderFavorite) IS NULL THEN 1 ELSE MAX(orderFavorite) + 1 END AS calcOrderMenu FROM NavMenu), ?)";
+            string sQuery = "INSERT INTO NavFavorite(navMenuId, userName, orderFavorite)" +
+                            " VALUES(?, ?, (SELECT CASE WHEN MAX(orderFavorite) IS NULL THEN 1 ELSE MAX(orderFavorite) + 1 END AS calcOrderMenu FROM NavFavorite))";
             return sQuery;
         }
 
 
-        public int DeleteFavoriteItem(int menuItemId, ItemOrphanAction itemOrphanAction = ItemOrphanAction.SetToRoot)
+        public int DeleteFavoriteItem(int menuItemId)
         {
             if (!_dbConnection.UseADODB)
             {
@@ -378,7 +368,7 @@ namespace MRPlatform.HMI
                         dbConnection.Close();
 
                         //Take care of any orphaned child menu items
-                        DoOrphanChildMenuAction(menuItemId, itemOrphanAction);
+                        DoOrphanChildMenuAction(menuItemId);
                         return 0;
                     }
                     catch (OleDbException ex)
@@ -427,32 +417,22 @@ namespace MRPlatform.HMI
 
         private string GetDeleteFavoriteItemQuery()
         {
-            string sQuery = "DELETE FROM NavMenu WHERE id = ?";
+            string sQuery = "DELETE FROM NavFavorite WHERE id = ?";
             return sQuery;
         }
 
         [ComVisible(false)]
-        private void DoOrphanChildMenuAction(int menuItemId, ItemOrphanAction itemOrphanAction)
+        private void DoOrphanChildMenuAction(int menuItemId)
         {
             // Use OleDb Connection
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
                 dbConnection.Open();
 
-                OleDbCommand sqlCmd = new OleDbCommand();
                 string sQuery = null;
+                sQuery = "DELETE FROM NavFavorite WHERE parentMenuId = ?";
 
-                switch (itemOrphanAction)
-                {
-                    case ItemOrphanAction.Delete:
-                        sQuery = "DELETE FROM NavMenu WHERE parentMenuId = ?";
-                        break;
-
-                    case ItemOrphanAction.SetToRoot:
-                        sQuery = "UPDATE NavMenu SET orderFavorite = orderFavorite + parentMenuId, parentMenuId = 0 WHERE parentMenuId = ?";
-                        break;
-                }
-
+                OleDbCommand sqlCmd = new OleDbCommand();
                 sqlCmd.Connection = (OleDbConnection)dbConnection;
                 sqlCmd.CommandText = sQuery;
                 sqlCmd.Parameters.AddWithValue("@id", menuItemId);
@@ -465,31 +445,12 @@ namespace MRPlatform.HMI
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "DoOrphanChildMenuAction(int menuItemId, ItemOrphanAction itemOrphanAction)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "DoOrphanChildMenuAction(int menuItemId)", ex.Message);
                     if (dbConnection.State == ConnectionState.Open)
                         dbConnection.Close();
                     return;
                 }
             }
-        }
-
-        [ComVisible(false)]
-        private string GetOrphanChildMenuActionQuery(ItemOrphanAction itemOrphanAction)
-        {
-            string sQuery = null;
-
-            switch (itemOrphanAction)
-            {
-                case ItemOrphanAction.Delete:
-                    sQuery = "DELETE FROM NavMenu WHERE parentMenuId = ?";
-                    break;
-
-                case ItemOrphanAction.SetToRoot:
-                    sQuery = "UPDATE NavMenu SET parentMenuId = 0 WHERE parentMenuId = ?";
-                    break;
-            }
-
-            return sQuery;
         }
     }
 }

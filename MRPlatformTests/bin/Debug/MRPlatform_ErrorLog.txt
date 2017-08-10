@@ -435,3 +435,105 @@ Incorrect syntax near the keyword 'WHERE'.
 2017-07-26 14:26:49   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid object name 'vNavMenu'.
 2017-07-26 14:31:49   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid column name 'childCount'.
 2017-07-26 14:33:36   Menu::GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)->Invalid column name 'childCount'.
+2017-08-10 12:07:10   MenuFavorite::AddFavoriteItem(string userName, int navMenuId = 0)->Conversion failed when converting the nvarchar value 'econder' to data type int.
+2017-08-10 12:09:57   MenuFavorite::AddFavoriteItem(string userName, int navMenuId = 0)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavFavorite_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-08-10 12:12:19   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:19   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:19   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:19   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-08-10 12:12:19   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-08-10 12:12:19   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:19   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:19   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:19   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:19   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:22   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:12:22   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:12:22   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:12:22   MenuFavorite::AddFavoriteItem(string userName, int navMenuId = 0)->The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavFavorite_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-08-10 12:12:22   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-08-10 12:12:50   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:50   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:50   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:50   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-08-10 12:12:50   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-08-10 12:12:50   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:50   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:50   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:50   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:50   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:12:52   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:12:52   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:12:52   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:12:52   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-08-10 12:13:54   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:13:54   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:13:54   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 12:13:54   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-08-10 12:13:54   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-08-10 12:13:54   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:13:54   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 12:13:54   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:13:54   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:13:54   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:13:57   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:13:57   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:13:57   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:13:57   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:13:57   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:13:57   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:13:57   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-08-10 12:15:29   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:16:18   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:16:18   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:16:18   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 12:16:18   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-08-10 12:16:18   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-08-10 12:16:18   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:16:18   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 12:16:18   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:16:18   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:16:18   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 12:16:20   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:16:20   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:16:20   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:16:20   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:16:20   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:16:20   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:16:20   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-08-10 12:20:56   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:20:56   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-08-10 12:20:56   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:20:56   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:20:56   MenuFavorite::MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavFavoriteItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:20:56   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 12:20:56   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 13:09:40   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 13:10:18   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 13:10:41   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 13:10:51   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 13:14:32   MenuNavigation::MoveNavigationItem(ItemMoveDirection direction, int currentOrderId)->The EXECUTE permission was denied on the object 'mrspMoveNavMenuItem', database 'MRPlatform', schema 'dbo'.
+2017-08-10 13:17:30   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:17:30   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:17:30   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 13:17:30   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-08-10 13:17:30   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-08-10 13:17:30   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:17:30   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 13:17:30   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:17:30   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:17:30   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:17:32   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-08-10 13:25:37   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:25:37   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:25:37   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 13:25:37   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-08-10 13:25:37   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-08-10 13:25:37   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:25:37   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-08-10 13:25:37   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:25:37   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:25:37   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-08-10 13:25:40   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-08-10 13:28:30   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.

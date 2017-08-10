@@ -70,7 +70,6 @@ namespace MRPlatform.HMI
                 try
                 {
                     dbAdapt.Fill(ds);
-                    dbConnection.Close();
 
                     if(ds.Tables.Count > 0)
                     {
@@ -471,25 +470,6 @@ namespace MRPlatform.HMI
                     return;
                 }
             }
-        }
-
-        [ComVisible(false)]
-        private string GetOrphanChildMenuActionQuery(ItemOrphanAction itemOrphanAction)
-        {
-            string sQuery = null;
-
-            switch(itemOrphanAction)
-            {
-                case ItemOrphanAction.Delete:
-                    sQuery = "DELETE FROM NavMenu WHERE parentMenuId = ?";
-                    break;
-
-                case ItemOrphanAction.SetToRoot:
-                    sQuery = "UPDATE NavMenu SET parentMenuId = 0 WHERE parentMenuId = ?";
-                    break;
-            }
-
-            return sQuery;
         }
     }
 }

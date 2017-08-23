@@ -20,6 +20,12 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### Version Information
 
+### 2.0.18
+* Bug fixes. Added AssemblyFileVersion attribute.
+
+#### 2.0.11
+* Refactored Menu into MenuNavigation. Add MenuFavorites class for menu items favorited by users.
+
 #### 2.0.10
 * Bug fixes with menu hierarchy.
 * Fix menuOrder issue with orphaned menu items

@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("FDFEF35A-C6B5-4A46-8681-325C83450FE9")]
+    [Guid("D83F2AF5-E891-4BC3-ACDB-DE68AF1D2E75")]
     [ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenuFavorite))]
     public class MenuFavorite : Menu, IMenuFavorite
@@ -39,6 +39,23 @@ namespace MRPlatform.HMI
             ResultsSortOrder = ItemSortOrder.Custom;
             ParentMenuId = 0;
         }
+
+
+        /// <summary>
+        /// DbConnection Property
+        /// </summary>
+        public MRDbConnection DbConnection
+        {
+            get
+            {
+                return _dbConnection;
+            }
+            set
+            {
+                _dbConnection = value;
+            }
+        }
+
 
         //[DispId(-4)]
         public MenuItems MenuItemsCollection
@@ -94,6 +111,9 @@ namespace MRPlatform.HMI
                     _errorLog.LogMessage(this.GetType().Name, "GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)", ex.Message);
                     if (dbConnection.State == ConnectionState.Open)
                         dbConnection.Close();
+
+                    // Return MenuItems collection with one blank MenuItem rather than null object.
+                    menuItems.Add(0, new MenuItem(0, "", "", "", 0, 0));
                     return menuItems;
                 }
             }

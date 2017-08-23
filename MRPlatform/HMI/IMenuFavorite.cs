@@ -7,7 +7,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("621B47AD-3D1A-4B30-9776-4A36111B76E1")]
+    [Guid("CF3DCA39-C410-4A1F-8CD7-F3565F42BC2D")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenuFavorite
     {
@@ -24,7 +24,7 @@ namespace MRPlatform.HMI
     }
 
     [ComVisible(true)]
-    [Guid("E2CBDE66-C914-4B06-A559-C40231BA0425")]
+    [Guid("416FAA99-48E8-435A-AE8B-C9A28ACAA05D")]
     [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMenuFavoriteEvents
     {

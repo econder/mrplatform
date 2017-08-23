@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("80C2B361-7B40-4C7E-804A-E254F8F30013")]
+    [Guid("F5CB24FE-D50A-4DD7-BB1C-82A5DFC5C138")]
     [ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenuNavigation))]
     public class MenuNavigation : Menu, IMenuNavigation
@@ -38,7 +38,25 @@ namespace MRPlatform.HMI
             ResultsPerPage = 100;
             ResultsSortOrder = ItemSortOrder.Custom;
             ParentMenuId = 0;
-        }   
+
+            _itemsCollection = DoGetItems();
+        }
+
+
+        /// <summary>
+        /// DbConnection Property
+        /// </summary>
+        public MRDbConnection DbConnection
+        {
+            get
+            {
+                return _dbConnection;
+            }
+            set
+            {
+                _dbConnection = value;
+            }
+        }
 
 
         public MenuItems MenuItemsCollection
@@ -91,9 +109,12 @@ namespace MRPlatform.HMI
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "DoGetItems()", ex.Message);
                     if (dbConnection.State == ConnectionState.Open)
                         dbConnection.Close();
+
+                    // Return MenuItems collection with one blank MenuItem rather than null object.
+                    menuItems.Add(0, new MenuItem(0, "", "", "", 0, 0));
                     return menuItems;
                 }
             }
@@ -136,17 +157,24 @@ namespace MRPlatform.HMI
                 dbConnection.Open();
 
                 OleDbCommand sqlCmd = new OleDbCommand(GetPreviousParentMenuIdQuery(), (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@ID", currentParentMenuId);
+                sqlCmd.Parameters.AddWithValue("@id", currentParentMenuId);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 DataSet ds = new DataSet();
 
+                // Create menuItem and set default values
                 MenuItem mi = new MenuItem();
+                mi.MenuId = 0;
+                mi.ScreenName = "";
+                mi.TitleTop = "";
+                mi.TitleBottom = "";
+                mi.MenuOrder = 0;
+                mi.ParentMenuId = 0;
+                mi.ChildCount = -1;
 
                 try
                 {
                     dbAdapt.Fill(ds);
-                    dbConnection.Close();
                     
                     if (ds.Tables.Count > 0)
                     {
@@ -155,23 +183,13 @@ namespace MRPlatform.HMI
 
                         if (row != null)
                         {
-                            mi.MenuId = (int)row["ID"];
+                            mi.MenuId = (int)row["id"];
                             mi.ScreenName = row["screenName"].ToString();
                             mi.TitleTop = row["titleTop"].ToString();
                             mi.TitleBottom = row["titleBottom"].ToString();
                             mi.MenuOrder = (int)row["orderMenu"];
                             mi.ParentMenuId = (int)row["parentMenuId"];
                             mi.ChildCount = (int)row["childCount"];
-                        }
-                        else
-                        {
-                            mi.MenuId = 0;
-                            mi.ScreenName = "";
-                            mi.TitleTop = "";
-                            mi.TitleBottom = "";
-                            mi.MenuOrder = 0;
-                            mi.ParentMenuId = 0;
-                            mi.ChildCount = -1;
                         }
 
                         return mi;
@@ -184,8 +202,6 @@ namespace MRPlatform.HMI
                 catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "GetNavigationItemsDataSet(int pageNumber, int resultsPerPage)", ex.Message);
-                    if (dbConnection.State == ConnectionState.Open)
-                        dbConnection.Close();
 
                     // Return root parentMenuId on error
                     return mi;

@@ -14,24 +14,20 @@ namespace MRPlatformTests.HMI
     [TestClass]
     public class MenuFavoriteTest
     {
-        private MenuFavorite _menu, _menuADO;
+        private MenuFavorite _menu;
 
-        private MRDbConnection _mrdb, _mrDbADO;
+        private MRDbConnection _mrdb;
         private string _provider = "SQLNCLI11";
         private string _dbServer = "WIN-1I5C3456H92\\SQLEXPRESS";
         private string _dbName = "MRPlatform";
         private string _dbUser = "mrsystems";
         private string _dbPass = "Reggie#123";
 
-        private string _providerADO = "SQLOLEDB";
-
         private int _id = 0;
         private int _parentMenuId = 0;
         private int _currentParentMenuId = 20158;
         private string _userName = "econder";
 
-        private DataSet _ds;
-        private Recordset _rs;
 
         [TestInitialize]
         public void Initialize()
@@ -40,11 +36,6 @@ namespace MRPlatformTests.HMI
             _mrdb = new MRDbConnection(_provider, _dbServer, _dbName, _dbUser, _dbPass);
             _menu = new MenuFavorite(_mrdb);
             _menu.ParentMenuId = _parentMenuId;
-
-            // ADODB Connection
-            _mrDbADO = new MRDbConnection(_providerADO, _dbServer, _dbName, _dbUser, _dbPass, true);
-            _menuADO = new MenuFavorite(_mrDbADO);
-            _menuADO.ParentMenuId = _parentMenuId;
         }
 
 

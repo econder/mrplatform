@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Data;
-using System.Data.OleDb;
 using System.Runtime.InteropServices;
-using ADODB;
 
-using MRPlatform.DB.Sql;
 
 namespace MRPlatform.HMI
 {
     [ComVisible(false)]
-    public class Menu
+    public abstract class Menu
     {
-        private ErrorLog _errorLog = new ErrorLog();
-        private MRDbConnection _dbConnection;
-        private MenuItems _itemsCollection;
-
-
         [Guid("DC716A2E-68F9-40F2-A861-AD61BB88E0B3")]
         public enum ItemMoveDirection
         {
@@ -40,21 +31,6 @@ namespace MRPlatform.HMI
 
 
         #region " Properties "
-
-        /// <summary>
-        /// DbConnection Property
-        /// </summary>
-        public MRDbConnection DbConnection
-        {
-            get
-            {
-                return _dbConnection;
-            }
-            set
-            {
-                _dbConnection = value;
-            }
-        }
 
         public int ResultsPageNumber { get; set; }
         public int ResultsPerPage { get; set; }

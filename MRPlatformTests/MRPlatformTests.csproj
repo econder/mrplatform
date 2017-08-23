@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AlarmEvent\TagEventTest.cs" />
     <Compile Include="AlarmEvent\UserEventTest.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HMI\MenuNavigationTest.cs" />
     <Compile Include="HMI\MenuFavoriteTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

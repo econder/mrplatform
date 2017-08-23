@@ -100,6 +100,7 @@
     <Compile Include="AlarmEvent\IUserEvent.cs" />
     <Compile Include="DB\Sql\IMRDbConnection.cs" />
     <Compile Include="ErrorLog.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HMI\IMenuFavorite.cs" />
     <Compile Include="HMI\IMenuNavigation.cs" />
     <Compile Include="HMI\IMenuItems.cs" />

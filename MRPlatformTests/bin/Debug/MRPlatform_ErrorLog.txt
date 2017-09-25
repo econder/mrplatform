@@ -537,3 +537,19 @@ The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavFavorite_
 2017-08-10 13:25:37   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
 2017-08-10 13:25:40   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
 2017-08-10 13:28:30   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-09-25 15:19:13   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-09-25 15:19:14   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-09-25 15:19:45   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-09-25 15:19:45   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-09-25 15:19:45   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-09-25 15:19:45   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-09-25 15:19:45   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-09-25 15:19:45   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-09-25 15:19:46   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2017-09-25 15:19:46   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2017-09-25 15:19:46   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2017-09-25 15:19:46   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2017-09-25 15:38:41   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-09-25 15:38:41   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.

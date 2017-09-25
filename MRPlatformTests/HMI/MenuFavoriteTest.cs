@@ -25,7 +25,6 @@ namespace MRPlatformTests.HMI
 
         private int _id = 0;
         private int _parentMenuId = 0;
-        private int _currentParentMenuId = 20158;
         private string _userName = "econder";
 
 

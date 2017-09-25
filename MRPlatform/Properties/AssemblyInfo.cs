@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("2.0.18.*")]
 [assembly: Guid("B4C58A0B-8815-4762-80D6-DEA7DD33CC85")]
 [assembly: NeutralResourcesLanguage("en-US")]
-[assembly: AssemblyFileVersion("2.0.18.0")]
+[assembly: AssemblyFileVersion("2.0.19.0")]
 

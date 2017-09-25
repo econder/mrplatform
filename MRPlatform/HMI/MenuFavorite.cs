@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("D83F2AF5-E891-4BC3-ACDB-DE68AF1D2E75")]
+    [Guid("5EBBAFFB-CA9C-4D6F-AF27-CB06A37232F6")]
     [ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenuFavorite))]
     public class MenuFavorite : Menu, IMenuFavorite

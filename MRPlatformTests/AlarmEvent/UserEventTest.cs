@@ -21,14 +21,10 @@ namespace MRPlatformTests.Message
 
         private UserEvent _ue;
         private string _userName = "mrsystems";
-        private string _userNameInvalid = "";
         private string _nodeName = "WTP-WS1";
-        private string _nodeNameInvalid = "";
         private string _eventMessage = "This is a user event message.";
-        private string _eventMessageInvalid = "";
         private int _eventType = 1;
         private string _eventSource = "FS - Plant Overview";
-        private string _eventSourceInvalid = "";
 
         private int _pageNumber = 1;
         private int _pageNumberInvalid = 0;
@@ -37,7 +33,7 @@ namespace MRPlatformTests.Message
         private bool _sortAscending = false;
 
         private DataSet _ds;
-        private Recordset _rs;
+        //private Recordset _rs;
 
 
         [TestInitialize]

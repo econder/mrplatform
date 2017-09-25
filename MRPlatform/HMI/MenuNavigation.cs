@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("F5CB24FE-D50A-4DD7-BB1C-82A5DFC5C138")]
+    [Guid("700A057E-412F-4D81-B43E-DDD111E81480")]
     [ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenuNavigation))]
     public class MenuNavigation : Menu, IMenuNavigation
@@ -163,14 +163,16 @@ namespace MRPlatform.HMI
                 DataSet ds = new DataSet();
 
                 // Create menuItem and set default values
-                MenuItem mi = new MenuItem();
-                mi.MenuId = 0;
-                mi.ScreenName = "";
-                mi.TitleTop = "";
-                mi.TitleBottom = "";
-                mi.MenuOrder = 0;
-                mi.ParentMenuId = 0;
-                mi.ChildCount = -1;
+                MenuItem mi = new MenuItem()
+                {
+                    MenuId = 0,
+                    ScreenName = "",
+                    TitleTop = "",
+                    TitleBottom = "",
+                    MenuOrder = 0,
+                    ParentMenuId = 0,
+                    ChildCount = -1
+                };
 
                 try
                 {
@@ -505,14 +507,16 @@ namespace MRPlatform.HMI
                 DataSet ds = new DataSet();
 
                 // Create menuItem and set default values
-                MenuItem mi = new MenuItem();
-                mi.MenuId = 0;
-                mi.ScreenName = "";
-                mi.TitleTop = "";
-                mi.TitleBottom = "";
-                mi.MenuOrder = 0;
-                mi.ParentMenuId = 0;
-                mi.ChildCount = -1;
+                MenuItem mi = new MenuItem()
+                {
+                    MenuId = 0,
+                    ScreenName = "",
+                    TitleTop = "",
+                    TitleBottom = "",
+                    MenuOrder = 0,
+                    ParentMenuId = 0,
+                    ChildCount = -1
+                };
 
                 try
                 {
@@ -520,18 +524,17 @@ namespace MRPlatform.HMI
 
                     if (ds.Tables.Count > 0)
                     {
-                        // Should only be 1 row
-                        DataRow row = ds.Tables[0].Rows[0];
-
-                        if (row != null)
+                        if(ds.Tables[0].Rows.Count > 0)
                         {
+                            // Should only be 1 row
+                            DataRow row = ds.Tables[0].Rows[0];
+
                             mi.MenuId = (int)row["id"];
                             mi.ScreenName = row["screenName"].ToString();
                             mi.TitleTop = row["titleTop"].ToString();
                             mi.TitleBottom = row["titleBottom"].ToString();
                             mi.MenuOrder = (int)row["orderMenu"];
                             mi.ParentMenuId = (int)row["parentMenuId"];
-                            mi.ChildCount = (int)row["childCount"];
                         }
 
                         return mi;
@@ -553,7 +556,7 @@ namespace MRPlatform.HMI
 
         private string GetNavigateBackQuery()
         {
-            string sQuery = "SELECT TOP 1 MAX([id]), navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" + 
+            string sQuery = "SELECT TOP 1 MAX([id]) AS [id], navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" + 
                             " FROM vNavHistory" + 
                             " WHERE userName = ?" + 
                             " AND id < ?" + 
@@ -580,14 +583,16 @@ namespace MRPlatform.HMI
                 DataSet ds = new DataSet();
 
                 // Create menuItem and set default values
-                MenuItem mi = new MenuItem();
-                mi.MenuId = 0;
-                mi.ScreenName = "";
-                mi.TitleTop = "";
-                mi.TitleBottom = "";
-                mi.MenuOrder = 0;
-                mi.ParentMenuId = 0;
-                mi.ChildCount = -1;
+                MenuItem mi = new MenuItem()
+                {
+                    MenuId = 0,
+                    ScreenName = "",
+                    TitleTop = "",
+                    TitleBottom = "",
+                    MenuOrder = 0,
+                    ParentMenuId = 0,
+                    ChildCount = -1
+                };
 
                 try
                 {
@@ -595,18 +600,17 @@ namespace MRPlatform.HMI
 
                     if (ds.Tables.Count > 0)
                     {
-                        // Should only be 1 row
-                        DataRow row = ds.Tables[0].Rows[0];
-
-                        if (row != null)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
+                            // Should only be 1 row
+                            DataRow row = ds.Tables[0].Rows[0];
+
                             mi.MenuId = (int)row["id"];
                             mi.ScreenName = row["screenName"].ToString();
                             mi.TitleTop = row["titleTop"].ToString();
                             mi.TitleBottom = row["titleBottom"].ToString();
                             mi.MenuOrder = (int)row["orderMenu"];
                             mi.ParentMenuId = (int)row["parentMenuId"];
-                            mi.ChildCount = (int)row["childCount"];
                         }
 
                         return mi;
@@ -628,12 +632,47 @@ namespace MRPlatform.HMI
 
         private string GetNavigateNextQuery()
         {
-            string sQuery = "SELECT TOP 1 MIN([id]), navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
+            string sQuery = "SELECT TOP 1 MIN([id]) AS [id], navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
                             " FROM vNavHistory" +
                             " WHERE userName = ?" +
                             " AND id > ?" +
                             " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
                             " ORDER BY id ASC";
+
+            return sQuery;
+        }
+
+
+        public int AddNavigationHistory(string userName, int currentNavMenuId)
+        {
+            if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
+
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetAddNavigationHistoryQuery(), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@navMenuId", currentNavMenuId);
+
+                try
+                {
+                    sqlCmd.ExecuteNonQuery();
+                    return 0;
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "AddNavigationHistory(string userName, int currentNavMenuId)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+                    return -1;
+                }
+            }
+        }
+
+        private string GetAddNavigationHistoryQuery()
+        {
+            string sQuery = "INSERT INTO NavHistory(userName, navMenuId) VALUES(?, ?)";
 
             return sQuery;
         }
@@ -668,7 +707,7 @@ namespace MRPlatform.HMI
 
         private string GetDeleteNavigationForwardHistoryQuery()
         {
-            string sQuery = "DELETE FROM vNavHistory" +
+            string sQuery = "DELETE FROM NavHistory" +
                             " WHERE userName = ?" +
                             " AND id > ?";
 
@@ -704,7 +743,7 @@ namespace MRPlatform.HMI
 
         private string GetDeleteNavigationHistoryQuery()
         {
-            string sQuery = "DELETE FROM vNavHistory" +
+            string sQuery = "DELETE FROM NavHistory" +
                             " WHERE userName = ?";
 
             return sQuery;

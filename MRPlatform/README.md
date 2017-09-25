@@ -22,6 +22,7 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### 2.0.19
 * Removed rogue WMI.MenuItems class from WMI namespace.
+* Added forward/back navigation methods to return last/next navigation history items as MenuItem objects. Also added add & delete history methods.
 
 ### 2.0.18
 * Bug fixes. Added AssemblyFileVersion attribute.

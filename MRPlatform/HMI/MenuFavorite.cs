@@ -148,7 +148,8 @@ namespace MRPlatform.HMI
             return sQuery;
         }
 
-
+        /*
+        // This feature isn't needed right for Favorites.
         public MenuItem GetPreviousParentMenuItem(int currentParentMenuId)
         {
             using (IDbConnection dbConnection = _dbConnection.Connection)
@@ -222,7 +223,7 @@ namespace MRPlatform.HMI
                             " WHERE id = ?";
             return sQuery;
         }
-
+        */
 
         // Use mrspMoveItem SQL stored procedure
         public int MoveFavoriteItem(ItemMoveDirection direction, int currentOrderId)

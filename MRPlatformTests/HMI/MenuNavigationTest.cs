@@ -28,6 +28,8 @@ namespace MRPlatformTests.HMI
         private string _screenNameInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         private string _titleTopInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         private string _titleBottomInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        private string _userName = "econder";
+        private string _userNameInvalid = "";
 
         [TestInitialize]
         public void Initialize()
@@ -176,5 +178,16 @@ namespace MRPlatformTests.HMI
         }
 
         #endregion
+
+        #region " GetNavigationForwardHistory "
+
+        [TestMethod]
+        public void GetNavigationHistoryLastItemInvalidUser()
+        {
+
+        }
+
+        #endregion
+
     }
 }

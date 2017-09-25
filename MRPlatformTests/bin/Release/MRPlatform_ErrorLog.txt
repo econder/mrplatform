@@ -205,3 +205,4 @@ Invalid column name 'navMenuId'.
 2017-08-25 15:45:34   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
 2017-08-25 15:45:34   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
 2017-08-25 15:45:34   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2017-09-25 10:41:56   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.

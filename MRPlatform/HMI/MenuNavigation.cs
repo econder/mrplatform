@@ -487,5 +487,227 @@ namespace MRPlatform.HMI
                 }
             }
         }
+
+
+        public MenuItem GetNavigationHistoryLastItem(string userName, int currentNavMenuId)
+        {
+            if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
+
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetNavigateBackQuery(), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@navMenuId", currentNavMenuId);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
+                DataSet ds = new DataSet();
+
+                // Create menuItem and set default values
+                MenuItem mi = new MenuItem();
+                mi.MenuId = 0;
+                mi.ScreenName = "";
+                mi.TitleTop = "";
+                mi.TitleBottom = "";
+                mi.MenuOrder = 0;
+                mi.ParentMenuId = 0;
+                mi.ChildCount = -1;
+
+                try
+                {
+                    dbAdapt.Fill(ds);
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        // Should only be 1 row
+                        DataRow row = ds.Tables[0].Rows[0];
+
+                        if (row != null)
+                        {
+                            mi.MenuId = (int)row["id"];
+                            mi.ScreenName = row["screenName"].ToString();
+                            mi.TitleTop = row["titleTop"].ToString();
+                            mi.TitleBottom = row["titleBottom"].ToString();
+                            mi.MenuOrder = (int)row["orderMenu"];
+                            mi.ParentMenuId = (int)row["parentMenuId"];
+                            mi.ChildCount = (int)row["childCount"];
+                        }
+
+                        return mi;
+                    }
+                    else
+                    {
+                        return mi;
+                    }
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationHistoryLastItem(string userName, int currentNavMenuId)", ex.Message);
+
+                    // Return root parentMenuId on error
+                    return mi;
+                }
+            }
+        }
+
+        private string GetNavigateBackQuery()
+        {
+            string sQuery = "SELECT TOP 1 MAX([id]), navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" + 
+                            " FROM vNavHistory" + 
+                            " WHERE userName = ?" + 
+                            " AND id < ?" + 
+                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" + 
+                            " ORDER BY id DESC";
+
+            return sQuery;
+        }
+
+
+        public MenuItem GetNavigationHistoryNextItem(string userName, int currentNavMenuId)
+        {
+            if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
+
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetNavigateNextQuery(), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@navMenuId", currentNavMenuId);
+
+                OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
+                DataSet ds = new DataSet();
+
+                // Create menuItem and set default values
+                MenuItem mi = new MenuItem();
+                mi.MenuId = 0;
+                mi.ScreenName = "";
+                mi.TitleTop = "";
+                mi.TitleBottom = "";
+                mi.MenuOrder = 0;
+                mi.ParentMenuId = 0;
+                mi.ChildCount = -1;
+
+                try
+                {
+                    dbAdapt.Fill(ds);
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        // Should only be 1 row
+                        DataRow row = ds.Tables[0].Rows[0];
+
+                        if (row != null)
+                        {
+                            mi.MenuId = (int)row["id"];
+                            mi.ScreenName = row["screenName"].ToString();
+                            mi.TitleTop = row["titleTop"].ToString();
+                            mi.TitleBottom = row["titleBottom"].ToString();
+                            mi.MenuOrder = (int)row["orderMenu"];
+                            mi.ParentMenuId = (int)row["parentMenuId"];
+                            mi.ChildCount = (int)row["childCount"];
+                        }
+
+                        return mi;
+                    }
+                    else
+                    {
+                        return mi;
+                    }
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationHistoryNextItem(string userName, int currentNavMenuId)", ex.Message);
+
+                    // Return root parentMenuId on error
+                    return mi;
+                }
+            }
+        }
+
+        private string GetNavigateNextQuery()
+        {
+            string sQuery = "SELECT TOP 1 MIN([id]), navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
+                            " FROM vNavHistory" +
+                            " WHERE userName = ?" +
+                            " AND id > ?" +
+                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
+                            " ORDER BY id ASC";
+
+            return sQuery;
+        }
+
+
+        public int DeleteNavigationForwardHistory(string userName, int currentNavMenuId)
+        {
+            if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
+
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetDeleteNavigationForwardHistoryQuery(), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@navMenuId", currentNavMenuId);
+
+                try
+                {
+                    sqlCmd.ExecuteNonQuery();
+                    return 0;
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "DeleteNavigationForwardHistory(string userName, int currentNavMenuId)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+                    return -1;
+                }
+            }
+        }
+
+        private string GetDeleteNavigationForwardHistoryQuery()
+        {
+            string sQuery = "DELETE FROM vNavHistory" +
+                            " WHERE userName = ?" +
+                            " AND id > ?";
+
+            return sQuery;
+        }
+
+
+        public int DeleteNavigationHistory(string userName)
+        {
+            if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
+
+            using (IDbConnection dbConnection = _dbConnection.Connection)
+            {
+                dbConnection.Open();
+
+                OleDbCommand sqlCmd = new OleDbCommand(GetDeleteNavigationHistoryQuery(), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+
+                try
+                {
+                    sqlCmd.ExecuteNonQuery();
+                    return 0;
+                }
+                catch (OleDbException ex)
+                {
+                    _errorLog.LogMessage(this.GetType().Name, "DeleteNavigationHistory(string userName)", ex.Message);
+                    if (dbConnection.State == ConnectionState.Open)
+                        dbConnection.Close();
+                    return -1;
+                }
+            }
+        }
+
+        private string GetDeleteNavigationHistoryQuery()
+        {
+            string sQuery = "DELETE FROM vNavHistory" +
+                            " WHERE userName = ?";
+
+            return sQuery;
+        }
     }
 }

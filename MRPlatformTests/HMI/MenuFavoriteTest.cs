@@ -54,7 +54,8 @@ namespace MRPlatformTests.HMI
             Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
         }
 
-
+        /*
+        // Not used right now.
         [TestMethod]
         public void GetPreviousFavoriteParentMenuItem()
         {
@@ -65,6 +66,7 @@ namespace MRPlatformTests.HMI
             Assert.IsTrue(item.ScreenName.Length > 0);
             Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
         }
+        */
 
         #endregion
 

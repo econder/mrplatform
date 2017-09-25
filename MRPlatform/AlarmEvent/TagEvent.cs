@@ -76,35 +76,21 @@ namespace MRPlatform.AlarmEvent
 		/// </code></example>
         public void LogEvent(string userName, string nodeName, string tagName, float tagValueOrig, float tagValueNew)
 		{
-            if(_useADODB)
+            using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                ADODB.Connection dbConnection = _dbConnection.ADODBConnection;
                 dbConnection.Open();
 
                 string sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew) " +
-                                "VALUES('" + userName + "', '" + nodeName + "', '" + tagName + "', " + tagValueOrig + ", " + tagValueNew + ")";
+                                "VALUES(?, ?, ?, ?, ?)";
 
-                object recAffected = 0;
-                dbConnection.Execute(sQuery, out recAffected);
-            }
-            else
-            {
-                using (IDbConnection dbConnection = _dbConnection.Connection)
-                {
-                    dbConnection.Open();
+                OleDbCommand dbCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
+                dbCmd.Parameters.AddWithValue("@userName", userName);
+                dbCmd.Parameters.AddWithValue("@nodeName", nodeName);
+                dbCmd.Parameters.AddWithValue("@tagName", tagName);
+                dbCmd.Parameters.AddWithValue("@tagValueOrig", tagValueOrig);
+                dbCmd.Parameters.AddWithValue("@tagValueNew", tagValueNew);
 
-                    string sQuery = "INSERT INTO TagEventLog(userName, nodeName, tagName, tagValueOrig, tagValueNew) " +
-                                    "VALUES(?, ?, ?, ?, ?)";
-
-                    OleDbCommand dbCmd = new OleDbCommand(sQuery, (OleDbConnection)dbConnection);
-                    dbCmd.Parameters.AddWithValue("@userName", userName);
-                    dbCmd.Parameters.AddWithValue("@nodeName", nodeName);
-                    dbCmd.Parameters.AddWithValue("@tagName", tagName);
-                    dbCmd.Parameters.AddWithValue("@tagValueOrig", tagValueOrig);
-                    dbCmd.Parameters.AddWithValue("@tagValueNew", tagValueNew);
-
-                    dbCmd.ExecuteNonQuery();
-                }
+                dbCmd.ExecuteNonQuery();
             }
         }
 

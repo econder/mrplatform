@@ -78,74 +78,30 @@ namespace MRPlatform.Message
             if (message.Length > 5000) { throw new ArgumentOutOfRangeException("message", "message must be 50 characters or less."); }
             if (priority < 1) { throw new ArgumentOutOfRangeException("priority", "priority must be greater than zero."); }
 
-            if (!_dbConnection.UseADODB)
+            using (IDbConnection dbConnection = _dbConnection.Connection)
             {
-                using (IDbConnection dbConnection = _dbConnection.Connection)
-                {
-                    dbConnection.Open();
-
-                    OleDbCommand sqlCmd = new OleDbCommand(GetSendQuery(), (OleDbConnection)dbConnection);
-                    sqlCmd.Parameters.AddWithValue("@sender", sender);
-                    sqlCmd.Parameters.AddWithValue("@recipient", area);
-                    sqlCmd.Parameters.AddWithValue("@message", message);
-                    sqlCmd.Parameters.AddWithValue("@msgTypeId", MESSAGETYPE);
-                    sqlCmd.Parameters.AddWithValue("@priorityId", priority);
-
-                    try
-                    {
-                        sqlCmd.ExecuteNonQuery();
-                        dbConnection.Close();
-                        return 0;
-                    }
-                    catch (OleDbException ex)
-                    {
-                        _errorLog.LogMessage(this.GetType().Name, "Send(string sender, string recipient, string message, int priority = 2)", ex.Message);
-                        return -1;
-                    }
-                }
-            }
-            else
-            {
-                // Use ADODB Connection
-                Connection dbConnection = _dbConnection.ADODBConnection;
                 dbConnection.Open();
 
-                Command dbCmd = new Command();
-                dbCmd.ActiveConnection = dbConnection;
-                dbCmd.CommandText = GetSendQuery();
-                dbCmd.CommandType = CommandTypeEnum.adCmdText;
-
-                Parameter dbParam = new Parameter();
-                dbParam = dbCmd.CreateParameter("sender", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, sender);
-                dbCmd.Parameters.Append(dbParam);
-                dbParam = dbCmd.CreateParameter("recipient", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, area);
-                dbCmd.Parameters.Append(dbParam);
-                dbParam = dbCmd.CreateParameter("message", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 8000, message);
-                dbCmd.Parameters.Append(dbParam);
-                dbParam = dbCmd.CreateParameter("msgTypeId", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 999999999, MESSAGETYPE);
-                dbCmd.Parameters.Append(dbParam);
-                dbParam = dbCmd.CreateParameter("priorityId", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 999999999, priority);
-                dbCmd.Parameters.Append(dbParam);
-
-                Recordset rs = new Recordset();
-                rs.CursorType = CursorTypeEnum.adOpenStatic;
+                OleDbCommand sqlCmd = new OleDbCommand(GetSendQuery(), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@sender", sender);
+                sqlCmd.Parameters.AddWithValue("@recipient", area);
+                sqlCmd.Parameters.AddWithValue("@message", message);
+                sqlCmd.Parameters.AddWithValue("@msgTypeId", MESSAGETYPE);
+                sqlCmd.Parameters.AddWithValue("@priorityId", priority);
 
                 try
                 {
-                    object recAffected;
-                    rs = dbCmd.Execute(out recAffected);
-                    rs = null;
+                    sqlCmd.ExecuteNonQuery();
                     dbConnection.Close();
-
-                    return (int)recAffected;
+                    return 0;
                 }
-                catch (COMException ex)
+                catch (OleDbException ex)
                 {
                     _errorLog.LogMessage(this.GetType().Name, "Send(string sender, string recipient, string message, int priority = 2)", ex.Message);
                     return -1;
                 }
             }
-		}
+        }
 
 
         [ComVisible(false)]

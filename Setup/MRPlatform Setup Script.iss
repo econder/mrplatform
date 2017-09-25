@@ -5,6 +5,7 @@
 #define MyAppVersion GetFileVersion("C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRPlatform.dll")
 #define MyAppPublisher "MR Systems"
 #define MyAppURL "http://www.mrsystems.com/"
+#define MyCopyright "© MR Systems 2017"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -13,6 +14,7 @@
 AppId={{6E522AB6-FE71-4322-891F-CE20398995F5}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
+AppCopyright={#MyCopyright}
 AppVerName={#MyAppName}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
@@ -47,3 +49,7 @@ Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister Microsoft.Vis
 Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister MRPlatform.dll"; WorkingDir: "{app}"; Flags: runminimized skipifdoesntexist; StatusMsg: "Unregistering Old Controls..."
 Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/codebase /tlb:Microsoft.VisualBasic.tlb Microsoft.VisualBasic.dll"; WorkingDir: "{app}"; Flags: runminimized; StatusMsg: "Registering New Controls..."
 Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/codebase /tlb:MRPlatform.tlb MRPlatform.dll"; WorkingDir: "{app}"; Flags: runminimized; StatusMsg: "Registering New Controls..."
+
+[UninstallRun]
+Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister Microsoft.VisualBasic.dll"; WorkingDir: "{app}"; Flags: runminimized skipifdoesntexist; StatusMsg: "Unregistering Old Controls..."
+Filename: "{dotnet4032}\RegAsm.exe"; Parameters: "/tlb /unregister MRPlatform.dll"; WorkingDir: "{app}"; Flags: runminimized skipifdoesntexist; StatusMsg: "Unregistering Old Controls..."

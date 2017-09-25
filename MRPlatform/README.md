@@ -20,6 +20,9 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### Version Information
 
+### 2.0.19
+* Removed rogue WMI.MenuItems class from WMI namespace.
+
 ### 2.0.18
 * Bug fixes. Added AssemblyFileVersion attribute.
 

@@ -20,7 +20,6 @@ namespace MRPlatformTests.HMI
         private string _dbPass = "Reggie#123";
 
         private int _id = 0;
-        private int _parentMenuId = 0;
         private int _currentParentMenuId = 12;
         private string _screenName = "zFS - Test Screen";
         private string _titleTop = "Test Screen";
@@ -28,6 +27,9 @@ namespace MRPlatformTests.HMI
         private string _screenNameInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         private string _titleTopInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         private string _titleBottomInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+        private string _userName = "econder";
+        private string _userNameInvalid = "";
 
         [TestInitialize]
         public void Initialize()
@@ -176,5 +178,199 @@ namespace MRPlatformTests.HMI
         }
 
         #endregion
+
+
+        #region " AddNavigationHistory "
+
+        [TestMethod]
+        public void AddNavigationHistory()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            item = (MenuItem)items[0];
+
+            int result = -2;
+            result = _menu.AddNavigationHistory(_userName, item.MenuId);
+            Assert.IsTrue(result == 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddNavigationHistoryInvalidUser()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            item = (MenuItem)items[0];
+
+            int result = -2;
+            result = _menu.AddNavigationHistory(_userNameInvalid, item.MenuId);
+            Assert.IsTrue(result == 0);
+        }
+
+        [TestMethod]
+        public void AddNavigationHistoryInvalidMenuId()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            item = (MenuItem)items[0];
+
+            int result = -2;
+            result = _menu.AddNavigationHistory(_userName, -1);
+            Assert.IsTrue(result == -1);
+        }
+
+        public int AddNavigationHistoryItem(string userName, int menuId)
+        {
+            return _menu.AddNavigationHistory(userName, menuId);
+        }
+
+        #endregion
+
+
+        #region " GetNavigationForwardBackwardHistory "
+
+        [TestMethod]
+        public void CheckForwardAndBackwardHistory()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            int result = -2;
+            int[] itemId;
+            itemId = new int[2];
+
+            //Add some menu items to the history first
+            for (int i = 0; i < 2; i++)
+            {
+                item = (MenuItem)items[i];
+                itemId[i] = item.MenuId;
+                result = _menu.AddNavigationHistory(_userName, item.MenuId);
+                Assert.IsTrue(result == 0);
+            }
+
+            MenuItem resItem = new MenuItem();
+
+            // Check backward history
+            resItem = _menu.GetNavigationHistoryLastItem(_userName, itemId[1]);
+            Assert.IsTrue(resItem.MenuId == itemId[0]);
+
+            // Check forward history
+            resItem = _menu.GetNavigationHistoryNextItem(_userName, itemId[0]);
+            Assert.IsTrue(resItem.MenuId == itemId[1]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetNavigationHistoryLastItemInvalidUser()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            item = _menu.GetNavigationHistoryLastItem(_userNameInvalid, item.MenuId);
+        }
+
+        [TestMethod]
+        public void GetNavigationHistoryLastItemInvalidMenuId()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            item = _menu.GetNavigationHistoryLastItem(_userName, -1);
+            Assert.IsTrue(item.MenuId == 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetNavigationHistoryNextItemInvalidUser()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            item = _menu.GetNavigationHistoryNextItem(_userNameInvalid, item.MenuId);
+        }
+
+        [TestMethod]
+        public void GetNavigationHistoryNextItemInvalidMenuId()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            item = _menu.GetNavigationHistoryNextItem(_userName, -1);
+            Assert.IsTrue(item.MenuId > 0);
+        }
+
+        #endregion
+
+
+        #region " DeleteNavigationHistory "
+
+        [TestMethod]
+        public void DeleteNavigationHistory()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            MenuItem item = new MenuItem();
+            int result = -2;
+
+            //Add some menu items to the history first
+            for (int i = 0; i < 2; i++)
+            {
+                item = (MenuItem)items[i];
+                result = _menu.AddNavigationHistory(_userName, item.MenuId);
+                Assert.IsTrue(result == 0);
+            }
+
+            // Delete all history
+            result = _menu.DeleteNavigationHistory(_userName);
+            Assert.IsTrue(result == 0);
+
+
+            //Add some more menu items to the history
+            for (int i = 0; i < 2; i++)
+            {
+                item = (MenuItem)items[i];
+                result = _menu.AddNavigationHistory(_userName, item.MenuId);
+                Assert.IsTrue(result == 0);
+            }
+
+            item = (MenuItem)items[0];
+            result = _menu.DeleteNavigationForwardHistory(_userName, item.MenuId);
+            Assert.IsTrue(result == 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DeleteNavigationHistoryInvalidUser()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            int result = _menu.DeleteNavigationHistory(_userNameInvalid);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DeleteNavigationForwardHistoryInvalidUser()
+        {
+            MenuItems items = new MenuItems();
+            items = _menu.MenuItemsCollection;
+
+            int result = _menu.DeleteNavigationForwardHistory(_userNameInvalid, 0);
+        }
+
+        #endregion
+
     }
 }

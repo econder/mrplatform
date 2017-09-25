@@ -7,7 +7,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("CF3DCA39-C410-4A1F-8CD7-F3565F42BC2D")]
+    [Guid("E9C3F17E-B005-4127-957E-5356DC74C5D8")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenuFavorite
     {
@@ -20,11 +20,11 @@ namespace MRPlatform.HMI
         int ResultsPerPage { get; set; }
         int ParentMenuId { get; set; }
         Menu.ItemSortOrder ResultsSortOrder { get; set; }
-        MenuItem GetPreviousParentMenuItem(int currentParentMenuId);
+        //MenuItem GetPreviousParentMenuItem(int currentParentMenuId); // Not used at this time
     }
 
     [ComVisible(true)]
-    [Guid("416FAA99-48E8-435A-AE8B-C9A28ACAA05D")]
+    [Guid("E272993D-BBED-4BC4-B3AD-4B92EF067DD2")]
     [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMenuFavoriteEvents
     {

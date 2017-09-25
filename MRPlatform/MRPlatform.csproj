@@ -127,7 +127,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WMI\ILogicalDisk.cs" />
     <Compile Include="WMI\ILogicalDisks.cs" />
-    <Compile Include="WMI\IMenuItems.cs" />
     <Compile Include="WMI\IOperatingSystem.cs" />
     <Compile Include="WMI\IProcessor.cs" />
     <Compile Include="WMI\LogicalDisk.cs" />

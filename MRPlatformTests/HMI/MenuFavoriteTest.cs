@@ -25,7 +25,6 @@ namespace MRPlatformTests.HMI
 
         private int _id = 0;
         private int _parentMenuId = 0;
-        private int _currentParentMenuId = 20158;
         private string _userName = "econder";
 
 
@@ -54,7 +53,8 @@ namespace MRPlatformTests.HMI
             Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
         }
 
-
+        /*
+        // Not used right now.
         [TestMethod]
         public void GetPreviousFavoriteParentMenuItem()
         {
@@ -65,6 +65,7 @@ namespace MRPlatformTests.HMI
             Assert.IsTrue(item.ScreenName.Length > 0);
             Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
         }
+        */
 
         #endregion
 

@@ -20,6 +20,9 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### Version Information
 
+### 2.0.20
+* Added AlarmGroup property to MenuItem to allow alarm group functions on the menu buttons on a per-button basis.
+
 ### 2.0.19
 * Removed rogue WMI.MenuItems class from WMI namespace.
 * Added forward/back navigation methods to return last/next navigation history items as MenuItem objects. Also added add & delete history methods.

@@ -100,7 +100,8 @@ namespace MRPlatform.HMI
                                                        row["titleBottom"].ToString(),
                                                        (int)row["orderMenu"],
                                                        (int)row["parentMenuId"],
-                                                       (int)row["childCount"]));
+                                                       (int)row["childCount"],
+                                                       row["alarmGroup"].ToString()));
                             i++;
                         }
                     }
@@ -114,7 +115,7 @@ namespace MRPlatform.HMI
                         dbConnection.Close();
 
                     // Return MenuItems collection with one blank MenuItem rather than null object.
-                    menuItems.Add(0, new MenuItem(0, "", "", "", 0, 0));
+                    menuItems.Add(0, new MenuItem(0, "", "", "", 0, 0, -1,""));
                     return menuItems;
                 }
             }
@@ -139,7 +140,7 @@ namespace MRPlatform.HMI
                     break;
             }
 
-            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId, childCount" +
+            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId, childCount, alarmGroup" +
                             " FROM vNavMenu" +
                             " WHERE parentMenuId = ?" +
                             " ORDER BY {0}" + 
@@ -171,7 +172,8 @@ namespace MRPlatform.HMI
                     TitleBottom = "",
                     MenuOrder = 0,
                     ParentMenuId = 0,
-                    ChildCount = -1
+                    ChildCount = -1,
+                    AlarmGroup = ""
                 };
 
                 try
@@ -192,6 +194,7 @@ namespace MRPlatform.HMI
                             mi.MenuOrder = (int)row["orderMenu"];
                             mi.ParentMenuId = (int)row["parentMenuId"];
                             mi.ChildCount = (int)row["childCount"];
+                            mi.AlarmGroup = row["alarmGroup"].ToString();
                         }
 
                         return mi;
@@ -215,7 +218,7 @@ namespace MRPlatform.HMI
         [ComVisible(false)]
         private string GetPreviousParentMenuIdQuery()
         {
-            string sQuery = "SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId, childCount" +
+            string sQuery = "SELECT id, screenName, titleTop, titleBottom, orderMenu, parentMenuId, childCount, alarmGroup" +
                             " FROM vNavMenu" +
                             " WHERE id = ?";
             return sQuery;
@@ -294,7 +297,7 @@ namespace MRPlatform.HMI
         }
 
 
-        public int AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)
+        public int AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0, string alarmGroup = "")
         {
             if (screenName.Length > 50 ) { throw new ArgumentOutOfRangeException("screenName", "screenName must be 50 characters or less."); }
             if (titleTop.Length > 50) { throw new ArgumentOutOfRangeException("titleTop", "titleTop must be 50 characters or less."); }
@@ -312,6 +315,7 @@ namespace MRPlatform.HMI
                     sqlCmd.Parameters.AddWithValue("@titleTop", titleTop);
                     sqlCmd.Parameters.AddWithValue("@titleBottom", titleBottom);
                     sqlCmd.Parameters.AddWithValue("@parentMenuId", parentMenuId);
+                    sqlCmd.Parameters.AddWithValue("@alarmGroup", alarmGroup);
 
                     try
                     {
@@ -321,7 +325,7 @@ namespace MRPlatform.HMI
                     }
                     catch (OleDbException ex)
                     {
-                        _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)", ex.Message);
+                        _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0, string alarmGroup = '')", ex.Message);
                         if (dbConnection.State == ConnectionState.Open)
                             dbConnection.Close();
                         return -1;
@@ -334,12 +338,14 @@ namespace MRPlatform.HMI
                 Connection dbConnection = _dbConnection.ADODBConnection;
                 dbConnection.Open();
 
-                Command dbCmd = new Command();
-                dbCmd.ActiveConnection = dbConnection;
-                dbCmd.CommandText = GetAddNavigationItemQuery();
-                dbCmd.CommandType = CommandTypeEnum.adCmdText;
+                Command dbCmd = new Command()
+                {
+                    ActiveConnection = dbConnection,
+                    CommandText = GetAddNavigationItemQuery(),
+                    CommandType = CommandTypeEnum.adCmdText
+                };
                 Parameter dbParam = new Parameter();
-                dbParam = dbCmd.CreateParameter("screenName", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, screenName);
+                dbParam = dbCmd.CreateParameter("screenName", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 255, screenName);
                 dbCmd.Parameters.Append(dbParam);
                 dbParam = dbCmd.CreateParameter("titleTop", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 50, titleTop);
                 dbCmd.Parameters.Append(dbParam);
@@ -347,21 +353,24 @@ namespace MRPlatform.HMI
                 dbCmd.Parameters.Append(dbParam);
                 dbParam = dbCmd.CreateParameter("parentMenuId", DataTypeEnum.adInteger, ParameterDirectionEnum.adParamInput, 999999999, parentMenuId);
                 dbCmd.Parameters.Append(dbParam);
+                dbParam = dbCmd.CreateParameter("alarmGroup", DataTypeEnum.adVarChar, ParameterDirectionEnum.adParamInput, 255, alarmGroup);
+                dbCmd.Parameters.Append(dbParam);
 
-                Recordset rs = new Recordset();
-                rs.CursorType = CursorTypeEnum.adOpenStatic;
+                Recordset rs = new Recordset()
+                {
+                    CursorType = CursorTypeEnum.adOpenStatic
+                };
 
                 try
                 {
-                    object recAffected;
-                    rs = dbCmd.Execute(out recAffected);
+                    rs = dbCmd.Execute(out object recAffected);
                     dbConnection.Close();
                     dbConnection = null;
                     return 0;
                 }
                 catch (COMException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0, string alarmGroup = '')", ex.Message);
                     if (dbConnection.State == (int)ObjectStateEnum.adStateOpen)
                         dbConnection.Close();
                     return -1;
@@ -371,8 +380,8 @@ namespace MRPlatform.HMI
 
         private string GetAddNavigationItemQuery()
         {
-            string sQuery = "INSERT INTO NavMenu(screenName, titleTop, titleBottom, orderMenu, parentMenuId)" +
-                            " VALUES(?, ?, ?, (SELECT CASE WHEN MAX(orderMenu) IS NULL THEN 1 ELSE MAX(orderMenu) + 1 END AS calcOrderMenu FROM NavMenu), ?)";
+            string sQuery = "INSERT INTO NavMenu(screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup)" +
+                            " VALUES(?, ?, ?, (SELECT CASE WHEN MAX(orderMenu) IS NULL THEN 1 ELSE MAX(orderMenu) + 1 END AS calcOrderMenu FROM NavMenu), ?, ?)";
             return sQuery;
         }
 
@@ -515,7 +524,8 @@ namespace MRPlatform.HMI
                     TitleBottom = "",
                     MenuOrder = 0,
                     ParentMenuId = 0,
-                    ChildCount = -1
+                    ChildCount = -1,
+                    AlarmGroup = ""
                 };
 
                 try
@@ -535,6 +545,7 @@ namespace MRPlatform.HMI
                             mi.TitleBottom = row["titleBottom"].ToString();
                             mi.MenuOrder = (int)row["orderMenu"];
                             mi.ParentMenuId = (int)row["parentMenuId"];
+                            mi.AlarmGroup = row["alarmGroup"].ToString();
                         }
 
                         return mi;
@@ -556,11 +567,11 @@ namespace MRPlatform.HMI
 
         private string GetNavigateBackQuery()
         {
-            string sQuery = "SELECT TOP 1 MAX([id]) AS [id], navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" + 
+            string sQuery = "SELECT TOP 1 MAX([id]) AS [id], navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup" + 
                             " FROM vNavHistory" + 
                             " WHERE userName = ?" + 
                             " AND id < ?" + 
-                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" + 
+                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup" + 
                             " ORDER BY id DESC";
 
             return sQuery;
@@ -591,7 +602,8 @@ namespace MRPlatform.HMI
                     TitleBottom = "",
                     MenuOrder = 0,
                     ParentMenuId = 0,
-                    ChildCount = -1
+                    ChildCount = -1,
+                    AlarmGroup = ""
                 };
 
                 try
@@ -611,6 +623,7 @@ namespace MRPlatform.HMI
                             mi.TitleBottom = row["titleBottom"].ToString();
                             mi.MenuOrder = (int)row["orderMenu"];
                             mi.ParentMenuId = (int)row["parentMenuId"];
+                            mi.AlarmGroup = row["alarmGroup"].ToString();
                         }
 
                         return mi;
@@ -632,11 +645,11 @@ namespace MRPlatform.HMI
 
         private string GetNavigateNextQuery()
         {
-            string sQuery = "SELECT TOP 1 MIN([id]) AS [id], navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
+            string sQuery = "SELECT TOP 1 MIN([id]) AS [id], navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup" +
                             " FROM vNavHistory" +
                             " WHERE userName = ?" +
                             " AND id > ?" +
-                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId" +
+                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup" +
                             " ORDER BY id ASC";
 
             return sQuery;

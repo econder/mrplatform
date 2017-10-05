@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace MRPlatform.HMI
 {
-    [ComVisible(true),
-    Guid("A56C5B12-E1B3-4FA2-8E51-8E130D445EDD"),
-    InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
+    [Guid("3E7AE062-DCE0-4BFA-A780-D034695E7BFF")]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenuItem
     {
         int MenuId { get; set; }
@@ -15,11 +15,12 @@ namespace MRPlatform.HMI
         int MenuOrder { get; set; }
         int ParentMenuId { get; set; }
         int ChildCount { get; set; }
+        string AlarmGroup { get; set; }
     }
 
-    [ComVisible(true),
-    Guid("89BDEF66-FD91-434B-9AAD-7B628F2CA0B7"),
-    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
+    [ComVisible(true)]
+    [Guid("CF521F8D-2CEE-45A0-8BA6-3DCE2B90DCD2")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMenuItemEvents
     {
 

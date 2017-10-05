@@ -27,6 +27,7 @@ namespace MRPlatformTests.HMI
         private string _screenNameInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         private string _titleTopInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         private string _titleBottomInvalid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        private string _alarmGroup = "TotalSystem";
 
         private string _userName = "econder";
         private string _userNameInvalid = "";
@@ -117,7 +118,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItem()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottom, 0);
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottom, 0, _alarmGroup);
             Assert.IsTrue(recCount == 0);
         }
 
@@ -128,7 +129,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidScreenName()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenNameInvalid, _titleTop, _titleBottom, 0);
+            recCount = _menu.AddNavigationItem(_screenNameInvalid, _titleTop, _titleBottom, 0, _alarmGroup);
         }
 
 
@@ -138,7 +139,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidTitleTop()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenName, _titleTopInvalid, _titleBottom, 0);
+            recCount = _menu.AddNavigationItem(_screenName, _titleTopInvalid, _titleBottom, 0, _alarmGroup);
         }
 
 
@@ -148,7 +149,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemInvalidTitleBottom()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid, 0);
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, _titleBottomInvalid, 0, _alarmGroup);
         }
 
 
@@ -157,7 +158,7 @@ namespace MRPlatformTests.HMI
         public void AddNavigationItemBlankTitleBottom()
         {
             int recCount = -1;
-            recCount = _menu.AddNavigationItem(_screenName, _titleTop, "", 0);
+            recCount = _menu.AddNavigationItem(_screenName, _titleTop, "", 0, _alarmGroup);
             Assert.IsTrue(recCount == 0);
         }
 

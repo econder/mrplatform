@@ -14,7 +14,7 @@ namespace MRPlatform.WMI
         void Remove(int index);
         int Count { get; }
         new IEnumerator GetEnumerator();
-        object this[int index] { get; set; }
+        LogicalDisk this[int index] { get; set; }
     }
 
 

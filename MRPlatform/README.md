@@ -20,6 +20,9 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### Version Information
 
+### 2.0.21
+* Fixed a bug with WMI.LogicalDisks creating list of generic objects instead of list of LogicalDisk objects.
+
 ### 2.0.20
 * Added AlarmGroup property to MenuItem to allow alarm group functions on the menu buttons on a per-button basis.
 

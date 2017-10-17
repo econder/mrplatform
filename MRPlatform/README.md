@@ -20,6 +20,9 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### Version Information
 
+### 2.1.0
+* Created new version to get around conflicts in System Platform between build versions.
+
 ### 2.0.21
 * Fixed a bug with WMI.LogicalDisks creating list of generic objects instead of list of LogicalDisk objects.
 

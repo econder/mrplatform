@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 
 namespace MRPlatform.WMI
 {
-    [ComVisible(true),
-    Guid("E8176784-D0AF-46E0-AB08-E43105CAF517"),
-    InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
+    [Guid("2E4F8422-6001-402F-AEB5-780971E2D2E3")]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface ILogicalDisks : IEnumerable
     {
         void Add(int index, LogicalDisk disk);
@@ -18,9 +18,9 @@ namespace MRPlatform.WMI
     }
 
 
-    [ComVisible(true),
-    Guid("3A3AB048-9847-4545-A042-C35B92AF8E9E"),
-    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
+    [ComVisible(true)]
+    [Guid("A1AE76B8-CCF6-486E-B4A9-7BBC289F3C12")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface ILogicalDisksEvents
     {
 

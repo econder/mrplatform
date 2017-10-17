@@ -10,8 +10,8 @@ using System.Threading;
 namespace MRPlatform.WMI
 {
     [ComVisible(true)]
-    [Guid("455EE884-F3F1-46C1-B4E2-35BA2E31CE83"),
-    ClassInterface(ClassInterfaceType.None),
+    [Guid("984E1859-53B9-4B86-AC39-AF5CC0674F34")]
+    [ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(ILogicalDisks))]
     public class LogicalDisks : ILogicalDisks
     {

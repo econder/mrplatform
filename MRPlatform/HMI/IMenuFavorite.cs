@@ -12,6 +12,7 @@ namespace MRPlatform.HMI
     public interface IMenuFavorite
     {
         MenuItems MenuItemsCollection { get; }
+        MenuItems GetItems(string userName);
         int MoveFavoriteItem(Menu.ItemMoveDirection direction, int currentOrderId);
         int AddFavoriteItem(string userName, int parentMenuId = 0);
         int DeleteFavoriteItem(int menuItemId);

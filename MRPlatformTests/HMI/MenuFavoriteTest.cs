@@ -43,13 +43,14 @@ namespace MRPlatformTests.HMI
         [TestMethod]
         public void MenuFavoriteItems()
         {
-            MenuItems items = _menu.MenuItemsCollection;
+            MenuItems items = _menu.GetItems(_userName);
 
             Assert.IsTrue(items.Count > 0);
 
             MenuItem item = new MenuItem();
             item = (MenuItem)items[0];
             Assert.IsTrue(item.ScreenName.Length > 0);
+            Assert.IsTrue(item.ScreenTitle.Length > 0);
             Assert.IsTrue(item.ChildCount == -1 || item.ChildCount >= 1);
         }
 

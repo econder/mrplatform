@@ -387,7 +387,7 @@ namespace MRPlatform.HMI
         private string GetAddNavigationItemQuery()
         {
             string sQuery = "INSERT INTO NavMenu(screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle)" +
-                            " VALUES(?, ?, ?, (SELECT CASE WHEN MAX(orderMenu) IS NULL THEN 1 ELSE MAX(orderMenu) + 1 END AS calcOrderMenu FROM NavMenu), ?, ?)";
+                            " VALUES(?, ?, ?, (SELECT CASE WHEN MAX(orderMenu) IS NULL THEN 1 ELSE MAX(orderMenu) + 1 END AS calcOrderMenu FROM NavMenu), ?, ?, ?)";
             return sQuery;
         }
 
@@ -579,7 +579,7 @@ namespace MRPlatform.HMI
                             " FROM vNavHistory" + 
                             " WHERE userName = ?" + 
                             " AND id < ?" + 
-                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, stringTitle" + 
+                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" + 
                             " ORDER BY id DESC";
 
             return sQuery;

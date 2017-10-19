@@ -266,3 +266,60 @@ Incorrect syntax near the keyword 'DEFAULT'.
 Incorrect syntax near the keyword 'DEFAULT'.
 2017-10-19 10:10:53   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
 Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:56:32   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-10-19 10:56:32   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 10:56:32   MenuNavigation::GetNavigationHistoryNextItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'screenTitle'.
+2017-10-19 10:56:32   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-10-19 10:56:32   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:56:32   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 10:56:35   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-10-19 10:56:35   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 10:56:35   MenuNavigation::GetNavigationHistoryNextItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'screenTitle'.
+2017-10-19 10:56:35   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-10-19 10:56:35   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:56:35   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 10:56:39   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-10-19 10:56:39   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 10:56:39   MenuNavigation::GetNavigationHistoryNextItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'screenTitle'.
+2017-10-19 10:56:39   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-10-19 10:56:39   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:56:39   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 10:58:19   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-10-19 10:58:19   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 10:58:19   MenuNavigation::GetNavigationHistoryNextItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'screenTitle'.
+2017-10-19 10:58:19   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-10-19 10:58:19   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:58:19   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 11:00:03   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-10-19 11:00:03   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 11:00:03   MenuNavigation::GetNavigationHistoryNextItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'screenTitle'.
+2017-10-19 11:00:03   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-10-19 11:00:03   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 11:00:03   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 11:00:07   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.

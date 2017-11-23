@@ -20,13 +20,18 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\MRPlatform
+DefaultDirName={pf}\MR Systems\MRPlatform
 DisableDirPage=yes
-DefaultGroupName={#MyAppName}
+DefaultGroupName=MR Systems
 OutputDir=C:\Users\mrsystems\Documents\VS Projects\MRPlatform\Setup
 OutputBaseFilename=MRPlatform
 Compression=lzma
 SolidCompression=yes
+VersionInfoVersion=2.2.1
+VersionInfoCompany=MR Systems
+VersionInfoCopyright=Copyright © 2017 MR Systems Inc
+VersionInfoProductName=MRPlatform
+DisableProgramGroupPage=auto
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -39,7 +44,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 ; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\Microsoft.Synchronization.xml"; DestDir: "{app}"; Flags: ignoreversion
 ; Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRDbSync.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRPlatform.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\MRPlatform\bin\x86\Release\MRPlatform.dll"; DestDir: "{pf}\MR Systems\MRPlatform\"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 Source: "..\MRPlatform\bin\x86\Release\Microsoft.VisualBasic.tlb"; DestDir: "{sys}"; Flags: 32bit regtypelib regserver; MinVersion: 0,6.1; Permissions: admins-modify
 Source: "..\MRPlatform\bin\x86\Release\MRPlatform.tlb"; DestDir: "{sys}"; Flags: 32bit regtypelib regserver; MinVersion: 0,6.1; Permissions: admins-modify

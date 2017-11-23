@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace MRPlatform.HMI
 {
     [ComVisible(false)]
-    public abstract class Menu
+    public class Menu
     {
         [Guid("DC716A2E-68F9-40F2-A861-AD61BB88E0B3")]
         public enum ItemMoveDirection

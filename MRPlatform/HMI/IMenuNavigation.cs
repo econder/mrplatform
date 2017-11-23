@@ -7,13 +7,13 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("BF66D216-254E-41C2-8515-4A9986A88FA9")]
+    [Guid("30967A7C-013A-495F-9653-91E92892990B")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenuNavigation
     {
         MenuItems MenuItemsCollection { get; }
         int MoveNavigationItem(MenuNavigation.ItemMoveDirection direction, int currentOrderId);
-        int AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0);
+        int AddNavigationItem(string screenName, string titleTop, string titleBottom, int parentMenuId = 0, string alarmGroup = "", string screenTitle = "");
         int DeleteNavigationItem(int menuItemId, Menu.ItemOrphanAction itemOrphanAction = Menu.ItemOrphanAction.SetToRoot);
         MRDbConnection DbConnection { get; set; }
         int ResultsPageNumber { get; set; }
@@ -29,7 +29,7 @@ namespace MRPlatform.HMI
     }
 
     [ComVisible(true)]
-    [Guid("B3C3D236-0641-4AAA-9002-8CE2E4D69B2E")]
+    [Guid("AAAA15C8-E3AD-425C-9624-92E75433356C")]
     [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface IMenuNavigationEvents
     {

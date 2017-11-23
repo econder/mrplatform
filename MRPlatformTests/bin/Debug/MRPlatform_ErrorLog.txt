@@ -553,3 +553,57 @@ The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_N
 2017-09-25 15:38:41   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
 The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
 2017-09-25 15:38:41   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-10-19 10:12:01   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-10-19 10:12:01   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:12:01   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-10-19 10:12:01   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:39:38   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:39:43   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:39:52   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:41:20   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:42:18   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:43:54   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:43:58   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:43:58   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:43:58   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:47:18   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:47:28   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:47:53   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:47:56   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:47:58   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 10:50:57   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid column name 'userName'.
+2017-10-19 10:52:59   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid column name 'userName'.
+2017-10-19 10:53:09   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid column name 'userName'.
+Invalid column name 'userName'.
+2017-10-19 11:03:12   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 11:04:34   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavHistory_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2017-10-19 11:04:34   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 11:04:34   MenuNavigation::GetNavigationHistoryNextItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'screenTitle'.
+2017-10-19 11:04:34   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2017-10-19 11:04:34   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.
+2017-10-19 11:04:34   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'stringTitle'.
+2017-10-19 11:06:18   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
+Invalid column name 'screenTitle'.

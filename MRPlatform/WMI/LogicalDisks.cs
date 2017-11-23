@@ -10,8 +10,8 @@ using System.Threading;
 namespace MRPlatform.WMI
 {
     [ComVisible(true)]
-    [Guid("455EE884-F3F1-46C1-B4E2-35BA2E31CE83"),
-    ClassInterface(ClassInterfaceType.None),
+    [Guid("984E1859-53B9-4B86-AC39-AF5CC0674F34")]
+    [ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(ILogicalDisks))]
     public class LogicalDisks : ILogicalDisks
     {
@@ -29,18 +29,20 @@ namespace MRPlatform.WMI
 
             foreach (ManagementObject obj in objCol)
             {
-                LogicalDisk ld = new LogicalDisk();
-                ld.Caption = Convert.ToString(obj["Caption"]);
-                ld.Description = Convert.ToString(obj["Description"]);
-                ld.DeviceId = Convert.ToString(obj["DeviceId"]);
-                ld.ErrorDescription = Convert.ToString(obj["ErrorDescription"]);
-                ld.FreeSpace = Convert.ToDouble(obj["FreeSpace"]) / 1024 / 1024 / 1024;
-                ld.InstallDate = Convert.ToDateTime(obj["InstallDate"]);
-                ld.LastErrorCode = Convert.ToInt32(obj["LastErrorCode"]);
-                ld.Name = Convert.ToString(obj["Name"]);
-                ld.Size = Convert.ToDouble(obj["Size"]) / 1024 / 1024 / 1024;
-                ld.Status = Convert.ToString(obj["Status"]);
-                ld.SystemName = Convert.ToString(obj["SystemName"]);
+                LogicalDisk ld = new LogicalDisk()
+                {
+                    Caption = Convert.ToString(obj["Caption"]),
+                    Description = Convert.ToString(obj["Description"]),
+                    DeviceId = Convert.ToString(obj["DeviceId"]),
+                    ErrorDescription = Convert.ToString(obj["ErrorDescription"]),
+                    FreeSpace = Convert.ToDouble(obj["FreeSpace"]) / 1024 / 1024 / 1024,
+                    InstallDate = Convert.ToDateTime(obj["InstallDate"]),
+                    LastErrorCode = Convert.ToInt32(obj["LastErrorCode"]),
+                    Name = Convert.ToString(obj["Name"]),
+                    Size = Convert.ToDouble(obj["Size"]) / 1024 / 1024 / 1024,
+                    Status = Convert.ToString(obj["Status"]),
+                    SystemName = Convert.ToString(obj["SystemName"])
+                };
 
                 // Increment counter
                 i++;
@@ -71,11 +73,11 @@ namespace MRPlatform.WMI
             }
         }
 
-        public object this[int index]
+        public LogicalDisk this[int index]
         {
             get
             {
-                return _disks[index];
+                return (LogicalDisk)_disks[index];
             }
             set
             {

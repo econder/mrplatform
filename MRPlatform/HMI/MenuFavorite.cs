@@ -17,6 +17,7 @@ namespace MRPlatform.HMI
         private ErrorLog _errorLog = new ErrorLog();
         private MRDbConnection _dbConnection;
         private MenuItems _itemsCollection;
+        private string _userName;
 
 
         public MenuFavorite()
@@ -62,20 +63,22 @@ namespace MRPlatform.HMI
         {
             get
             {
-                _itemsCollection = DoGetItems();
+                _itemsCollection = GetItems(_userName);
                 return _itemsCollection;
             }
         }
 
 
-        private MenuItems DoGetItems()
+        public MenuItems GetItems(string userName)
         {
+            _userName = userName;
+
             using (IDbConnection dbConnection = _dbConnection.Connection)
             {
                 dbConnection.Open();
 
                 OleDbCommand sqlCmd = new OleDbCommand(GetFavoriteItemsQuery(ResultsSortOrder), (OleDbConnection)dbConnection);
-                sqlCmd.Parameters.AddWithValue("@parentMenuId", ParentMenuId);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
                 sqlCmd.Parameters.AddWithValue("@offset", (ResultsPageNumber - 1) * ResultsPerPage);
                 sqlCmd.Parameters.AddWithValue("@rowCount", ResultsPerPage);
 
@@ -99,7 +102,9 @@ namespace MRPlatform.HMI
                                                           row["titleBottom"].ToString(),
                                                           (int)row["orderFavorite"],
                                                           (int)row["parentMenuId"],
-                                                          (int)row["childCount"]));
+                                                          (int)row["childCount"],
+                                                          row["alarmGroup"].ToString(),
+                                                          row["screenTitle"].ToString()));
                             i++;
                         }
                     }
@@ -138,9 +143,9 @@ namespace MRPlatform.HMI
                     break;
             }
 
-            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderFavorite, parentMenuId, childCount" +
+            string sQuery = String.Format("SELECT id, screenName, titleTop, titleBottom, orderFavorite, parentMenuId, childCount, alarmGroup, screenTitle" +
                             " FROM vNavFavorite" +
-                            " WHERE parentMenuId = ?" +
+                            " WHERE userName = ?" +
                             " ORDER BY {0}" +
                             " OFFSET ? ROWS" +
                             " FETCH NEXT ? ROWS ONLY", sortOrder);
@@ -183,6 +188,8 @@ namespace MRPlatform.HMI
                             mi.MenuOrder = (int)row["orderFavorite"];
                             mi.ParentMenuId = (int)row["parentMenuId"];
                             mi.ChildCount = (int)row["childCount"];
+                            mi.AlarmGroup = row["alarmGroup"].ToString();
+                            mi.ScreenTitle = row["screenTitle"].ToString();
                         }
                         else
                         {
@@ -193,6 +200,8 @@ namespace MRPlatform.HMI
                             mi.MenuOrder = 0;
                             mi.ParentMenuId = 0;
                             mi.ChildCount = -1;
+                            mi.AlarmGroup = "";
+                            mi.ScreenTitle = "";
                         }
 
                         return mi;
@@ -218,7 +227,7 @@ namespace MRPlatform.HMI
         [ComVisible(false)]
         private string GetPreviousParentMenuIdQuery()
         {
-            string sQuery = "SELECT id, screenName, titleTop, titleBottom, orderFavorite, parentMenuId, childCount" +
+            string sQuery = "SELECT id, screenName, titleTop, titleBottom, orderFavorite, parentMenuId, childCount, alarmGroup, screenTitle" +
                             " FROM vNavFavorite" +
                             " WHERE id = ?";
             return sQuery;

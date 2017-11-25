@@ -12,11 +12,13 @@ namespace MRPlatformTests.WMI
     public class LogicalDisksTest
     {
         private LogicalDisks _logicalDisks;
+        private LogicalDisk _logicalDisk;
 
         [TestInitialize]
         public void Initialize()
         {
             _logicalDisks = new LogicalDisks();
+            _logicalDisk = _logicalDisks[0];
         }
 
 
@@ -28,6 +30,7 @@ namespace MRPlatformTests.WMI
             int driveIndex = 1;
             var result = _logicalDisks[driveIndex];
             Assert.IsNotNull(result);
+            Assert.IsTrue(result.DeviceId.Length > 0);
         }
 
         #endregion

@@ -7,7 +7,7 @@
 ### Dependencies
 
 * .NET framework 4.0
-* SQL Server/SQL Express 2012 or greater
+* SQL Server/SQL Express 2012 or greater (2014 if using DACPAC file for automatic schema updates)
 
 ### Who do I talk to?
 
@@ -19,6 +19,19 @@ To prevent COM issues when updating the library, we don't want to automatically 
 * Each enum gets a unique Guid assigned to it.
 
 ### Version Information
+
+### 2.2.0
+* Added screen title field to MenuItem class. Made the screen title field available in the MenuNavigation and MenuFavorites classes.
+* Added userName parameter to MenuFavorites class to only return favorites belonging to the current user. This was already in place for INSERTS just not SELECTS.
+
+### 2.1.0
+* Created new version to get around conflicts in System Platform between build versions.
+
+### 2.0.21
+* Fixed a bug with WMI.LogicalDisks creating list of generic objects instead of list of LogicalDisk objects.
+
+### 2.0.20
+* Added AlarmGroup property to MenuItem to allow alarm group functions on the menu buttons on a per-button basis.
 
 ### 2.0.19
 * Removed rogue WMI.MenuItems class from WMI namespace.

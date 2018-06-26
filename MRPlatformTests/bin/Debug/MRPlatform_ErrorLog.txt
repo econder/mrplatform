@@ -607,3 +607,19 @@ Incorrect syntax near the keyword 'DEFAULT'.
 Invalid column name 'stringTitle'.
 2017-10-19 11:06:18   MenuNavigation::GetNavigationHistoryLastItem(string userName, int currentNavMenuId)->Invalid column name 'screenTitle'.
 Invalid column name 'screenTitle'.
+2018-06-25 22:11:13   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate)->String was not recognized as a valid DateTime.
+2018-06-25 22:11:13   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2018-06-25 22:11:13   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2018-06-25 22:11:13   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date is not a valid DateTime value.
+2018-06-25 22:11:13   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate)->Start date cannot be blank or null.
+2018-06-25 22:11:13   AlarmEventLog::GetTopEventOccurrences(int topCount, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2018-06-25 22:11:13   AlarmEventLog::GetTopAlarmOccurrences(int topCount, string endDate, int numDays)->String was not recognized as a valid DateTime.
+2018-06-25 22:11:13   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2018-06-25 22:11:13   AlarmEventLog::GetTagHistory(string tagName, string startDate, string endDate)->String was not recognized as a valid DateTime.
+2018-06-25 22:11:13   AlarmEventLog::GetTagHistory(string tagName, int topCount, string startDate)->String was not recognized as a valid DateTime.
+2018-06-25 22:11:15   MenuNavigation::AddNavigationHistory(string userName, int currentNavMenuId)->The statement has been terminated.
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_NavBack_NavMenu". The conflict occurred in database "MRPlatform", table "dbo.NavMenu", column 'id'.
+2018-06-25 22:11:15   MenuNavigation::GetNavigationHistoryLastItem(string userName)->No value given for one or more required parameters.
+2018-06-25 22:11:15   MenuFavorite::DoOrphanChildMenuAction(int menuItemId)->Invalid column name 'parentMenuId'.
+2018-06-25 22:11:15   MenuFavorite::GetFavoriteItemsDataSet(int pageNumber, int resultsPerPage)->Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'DEFAULT'.

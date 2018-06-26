@@ -7,3 +7,4 @@ C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Release\
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Release\MRPlatformTests.csproj.ResolveComReference.cache
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Release\MRPlatformTests.dll
 C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Release\MRPlatformTests.pdb
+C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatformTests\obj\Release\MRPlatformTests.csproj.CoreCompileInputs.cache

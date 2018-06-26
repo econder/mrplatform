@@ -516,6 +516,8 @@ namespace MRPlatform.HMI
 
                 OleDbCommand sqlCmd = new OleDbCommand(GetNavigationHistoryLastItemQuery(), (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 DataSet ds = new DataSet();
@@ -586,8 +588,8 @@ namespace MRPlatform.HMI
                             " WHERE navDateTime = (SELECT MAX(navDateTime) FROM NavBack WHERE userName = ?);" +
                             " DELETE FROM NavBack" +
                             " WHERE navDateTime = (SELECT MAX(navDateTime) FROM NavBack WHERE userName = ?); " +
-                            "COMMIT" +
-                            "SELECT id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup" +
+                            "COMMIT;" +
+                            "SELECT id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" +
                             " FROM vNavHistoryBack" +
                             " WHERE navDateTime = (SELECT MAX(navDateTime) FROM vNavHistoryBack WHERE userName = ?)";
 
@@ -604,6 +606,8 @@ namespace MRPlatform.HMI
                 dbConnection.Open();
 
                 OleDbCommand sqlCmd = new OleDbCommand(GetNavigateHistoryNextItemQuery(), (OleDbConnection)dbConnection);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
                 sqlCmd.Parameters.AddWithValue("@userName", userName);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
@@ -675,8 +679,8 @@ namespace MRPlatform.HMI
                             " WHERE navDateTime = (SELECT MAX(navDateTime) FROM NavForward WHERE userName = ?);" +
                             " DELETE FROM NavForward" +
                             " WHERE navDateTime = (SELECT MAX(navDateTime) FROM NavForward WHERE userName = ?); " +
-                            "COMMIT" +
-                            "SELECT id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup" +
+                            "COMMIT;" +
+                            "SELECT id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" +
                             " FROM vNavHistoryForward" +
                             " WHERE navDateTime = (SELECT MAX(navDateTime) FROM vNavHistoryForward WHERE userName = ?)";
 

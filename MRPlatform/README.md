@@ -20,6 +20,13 @@ To prevent COM issues when updating the library, we don't want to automatically 
 
 ### Version Information
 
+### 2.2.2
+* Updated Copyright info in AssemblyInfo
+* Fixed forward/back navigation functionality in MenuNavigation class.
+
+### 2.2.1
+* Minor bug fixes
+
 ### 2.2.0
 * Added screen title field to MenuItem class. Made the screen title field available in the MenuNavigation and MenuFavorites classes.
 * Added userName parameter to MenuFavorites class to only return favorites belonging to the current user. This was already in place for INSERTS just not SELECTS.

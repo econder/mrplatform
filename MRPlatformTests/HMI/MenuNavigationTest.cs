@@ -261,11 +261,11 @@ namespace MRPlatformTests.HMI
             MenuItem resItem = new MenuItem();
 
             // Check backward history
-            resItem = _menu.GetNavigationHistoryLastItem(_userName, itemId[1]);
+            resItem = _menu.GetNavigationHistoryLastItem(_userName);
             Assert.IsTrue(resItem.MenuId == itemId[0]);
 
             // Check forward history
-            resItem = _menu.GetNavigationHistoryNextItem(_userName, itemId[0]);
+            resItem = _menu.GetNavigationHistoryNextItem(_userName);
             Assert.IsTrue(resItem.MenuId == itemId[1]);
         }
 
@@ -277,18 +277,7 @@ namespace MRPlatformTests.HMI
             items = _menu.MenuItemsCollection;
 
             MenuItem item = new MenuItem();
-            item = _menu.GetNavigationHistoryLastItem(_userNameInvalid, item.MenuId);
-        }
-
-        [TestMethod]
-        public void GetNavigationHistoryLastItemInvalidMenuId()
-        {
-            MenuItems items = new MenuItems();
-            items = _menu.MenuItemsCollection;
-
-            MenuItem item = new MenuItem();
-            item = _menu.GetNavigationHistoryLastItem(_userName, -1);
-            Assert.IsTrue(item.MenuId == 0);
+            item = _menu.GetNavigationHistoryLastItem(_userNameInvalid);
         }
 
         [TestMethod]
@@ -299,18 +288,7 @@ namespace MRPlatformTests.HMI
             items = _menu.MenuItemsCollection;
 
             MenuItem item = new MenuItem();
-            item = _menu.GetNavigationHistoryNextItem(_userNameInvalid, item.MenuId);
-        }
-
-        [TestMethod]
-        public void GetNavigationHistoryNextItemInvalidMenuId()
-        {
-            MenuItems items = new MenuItems();
-            items = _menu.MenuItemsCollection;
-
-            MenuItem item = new MenuItem();
-            item = _menu.GetNavigationHistoryNextItem(_userName, -1);
-            Assert.IsTrue(item.MenuId > 0);
+            item = _menu.GetNavigationHistoryNextItem(_userNameInvalid);
         }
 
         #endregion
@@ -336,7 +314,7 @@ namespace MRPlatformTests.HMI
             }
 
             // Delete all history
-            result = _menu.DeleteNavigationHistory(_userName);
+            result = _menu.DeleteNavigationBackHistory(_userName);
             Assert.IsTrue(result == 0);
 
 
@@ -349,7 +327,7 @@ namespace MRPlatformTests.HMI
             }
 
             item = (MenuItem)items[0];
-            result = _menu.DeleteNavigationForwardHistory(_userName, item.MenuId);
+            result = _menu.DeleteNavigationForwardHistory(_userName);
             Assert.IsTrue(result == 0);
         }
 
@@ -360,7 +338,7 @@ namespace MRPlatformTests.HMI
             MenuItems items = new MenuItems();
             items = _menu.MenuItemsCollection;
 
-            int result = _menu.DeleteNavigationHistory(_userNameInvalid);
+            int result = _menu.DeleteNavigationBackHistory(_userNameInvalid);
         }
 
         [TestMethod]
@@ -370,7 +348,7 @@ namespace MRPlatformTests.HMI
             MenuItems items = new MenuItems();
             items = _menu.MenuItemsCollection;
 
-            int result = _menu.DeleteNavigationForwardHistory(_userNameInvalid, 0);
+            int result = _menu.DeleteNavigationForwardHistory(_userNameInvalid);
         }
 
         #endregion

@@ -3,9 +3,9 @@
 
 #define MyAppName "MRPlatform"
 #define MyAppVersion GetFileVersion("C:\Users\mrsystems\Documents\VS Projects\MRPlatform\MRPlatform\bin\x86\Release\MRPlatform.dll")
-#define MyAppPublisher "MR Systems"
-#define MyAppURL "http://www.mrsystems.com/"
-#define MyCopyright "© MR Systems 2017"
+#define MyAppPublisher "MR Systems, Inc"
+#define MyAppURL "https://www.mrsystems.com/"
+#define MyCopyright "© MR Systems 2018"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -27,9 +27,9 @@ OutputDir=C:\Users\mrsystems\Documents\VS Projects\MRPlatform\Setup
 OutputBaseFilename=MRPlatform
 Compression=lzma
 SolidCompression=yes
-VersionInfoVersion=2.2.1
+VersionInfoVersion=2.2.2
 VersionInfoCompany=MR Systems
-VersionInfoCopyright=Copyright © 2017 MR Systems Inc
+VersionInfoCopyright=Copyright © 2018 MR Systems Inc
 VersionInfoProductName=MRPlatform
 DisableProgramGroupPage=auto
 

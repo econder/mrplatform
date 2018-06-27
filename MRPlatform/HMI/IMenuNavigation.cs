@@ -7,7 +7,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("30967A7C-013A-495F-9653-91E92892990B")]
+    [Guid("9BE99A62-435A-49AA-AB3D-D96C0817FA0A")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IMenuNavigation
     {
@@ -21,11 +21,11 @@ namespace MRPlatform.HMI
         int ParentMenuId { get; set; }
         Menu.ItemSortOrder ResultsSortOrder { get; set; }
         MenuItem GetPreviousParentMenuItem(int currentParentMenuId);
-        MenuItem GetNavigationHistoryLastItem(string userName, int currentNavMenuId);
-        MenuItem GetNavigationHistoryNextItem(string userName, int currentNavMenuId);
+        MenuItem GetNavigationHistoryLastItem(string userName);
+        MenuItem GetNavigationHistoryNextItem(string userName);
         int AddNavigationHistory(string userName, int currentNavMenuId);
-        int DeleteNavigationForwardHistory(string userName, int currentNavMenuId);
-        int DeleteNavigationHistory(string userName);
+        int DeleteNavigationForwardHistory(string userName);
+        int DeleteNavigationBackHistory(string userName);
     }
 
     [ComVisible(true)]

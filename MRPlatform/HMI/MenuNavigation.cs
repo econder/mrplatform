@@ -9,7 +9,7 @@ using MRPlatform.DB.Sql;
 namespace MRPlatform.HMI
 {
     [ComVisible(true)]
-    [Guid("9A522181-043E-4DC8-932B-E7A3A79BD36A")]
+    [Guid("070F5B9A-8BC8-40CF-87C9-49131125A8BA")]
     [ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(IMenuNavigation))]
     public class MenuNavigation : Menu, IMenuNavigation
@@ -506,7 +506,7 @@ namespace MRPlatform.HMI
         }
 
 
-        public MenuItem GetNavigationHistoryLastItem(string userName, int currentNavMenuId)
+        public MenuItem GetNavigationHistoryLastItem(string userName)
         {
             if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
 
@@ -514,9 +514,10 @@ namespace MRPlatform.HMI
             {
                 dbConnection.Open();
 
-                OleDbCommand sqlCmd = new OleDbCommand(GetNavigateBackQuery(), (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(GetNavigationHistoryLastItemQuery(), (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@userName", userName);
-                sqlCmd.Parameters.AddWithValue("@navMenuId", currentNavMenuId);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 DataSet ds = new DataSet();
@@ -565,7 +566,7 @@ namespace MRPlatform.HMI
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationHistoryLastItem(string userName, int currentNavMenuId)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationHistoryLastItem(string userName)", ex.Message);
 
                     // Return root parentMenuId on error
                     return mi;
@@ -573,20 +574,30 @@ namespace MRPlatform.HMI
             }
         }
 
-        private string GetNavigateBackQuery()
+        private string GetNavigationHistoryLastItemQuery()
         {
-            string sQuery = "SELECT TOP 1 MAX([id]) AS [id], navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" + 
-                            " FROM vNavHistory" + 
-                            " WHERE userName = ?" + 
-                            " AND id < ?" + 
-                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" + 
-                            " ORDER BY id DESC";
+            // Copy last record in NavBack to NavForward,
+            // Delete last record in NavBack, & 
+            // Return the new last record in vNavHistoryBack.
+            // Returning from joined tables from vNavHistory to
+            // build MenuItem object to return
+            string sQuery = "BEGIN TRANSACTION;" +
+                            "INSERT INTO NavForward(navMenuId, navDateTime, userName)" +
+                            " SELECT navMenuId, navDateTime, userName" +
+                            " FROM NavBack" +
+                            " WHERE navDateTime = (SELECT MAX(navDateTime) FROM NavBack WHERE userName = ?);" +
+                            " DELETE FROM NavBack" +
+                            " WHERE navDateTime = (SELECT MAX(navDateTime) FROM NavBack WHERE userName = ?); " +
+                            "COMMIT;" +
+                            "SELECT id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" +
+                            " FROM vNavHistoryBack" +
+                            " WHERE navDateTime = (SELECT MAX(navDateTime) FROM vNavHistoryBack WHERE userName = ?)";
 
             return sQuery;
         }
 
 
-        public MenuItem GetNavigationHistoryNextItem(string userName, int currentNavMenuId)
+        public MenuItem GetNavigationHistoryNextItem(string userName)
         {
             if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
 
@@ -594,9 +605,10 @@ namespace MRPlatform.HMI
             {
                 dbConnection.Open();
 
-                OleDbCommand sqlCmd = new OleDbCommand(GetNavigateNextQuery(), (OleDbConnection)dbConnection);
+                OleDbCommand sqlCmd = new OleDbCommand(GetNavigateHistoryNextItemQuery(), (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@userName", userName);
-                sqlCmd.Parameters.AddWithValue("@navMenuId", currentNavMenuId);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
+                sqlCmd.Parameters.AddWithValue("@userName", userName);
 
                 OleDbDataAdapter dbAdapt = new OleDbDataAdapter(sqlCmd);
                 DataSet ds = new DataSet();
@@ -645,7 +657,7 @@ namespace MRPlatform.HMI
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationHistoryNextItem(string userName, int currentNavMenuId)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "GetNavigationHistoryNextItem(string userName)", ex.Message);
 
                     // Return root parentMenuId on error
                     return mi;
@@ -653,14 +665,24 @@ namespace MRPlatform.HMI
             }
         }
 
-        private string GetNavigateNextQuery()
+        private string GetNavigateHistoryNextItemQuery()
         {
-            string sQuery = "SELECT TOP 1 MIN([id]) AS [id], navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" +
-                            " FROM vNavHistory" +
-                            " WHERE userName = ?" +
-                            " AND id > ?" +
-                            " GROUP BY id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" +
-                            " ORDER BY id ASC";
+            // Copy last record in NavBack to NavForward,
+            // Delete last record in NavBack, & 
+            // Return the new last record in vNavHistoryBack.
+            // Returning from joined tables from vNavHistory to
+            // build MenuItem object to return
+            string sQuery = "BEGIN TRANSACTION;" +
+                            "INSERT INTO NavBack(navMenuId, navDateTime, userName)" +
+                            " SELECT navMenuId, navDateTime, userName" +
+                            " FROM NavForward" +
+                            " WHERE navDateTime = (SELECT MAX(navDateTime) FROM NavForward WHERE userName = ?);" +
+                            " DELETE FROM NavForward" +
+                            " WHERE navDateTime = (SELECT MAX(navDateTime) FROM NavForward WHERE userName = ?); " +
+                            "COMMIT;" +
+                            "SELECT id, navDateTime, userName, screenName, titleTop, titleBottom, orderMenu, parentMenuId, alarmGroup, screenTitle" +
+                            " FROM vNavHistoryForward" +
+                            " WHERE navDateTime = (SELECT MAX(navDateTime) FROM vNavHistoryForward WHERE userName = ?)";
 
             return sQuery;
         }
@@ -695,13 +717,13 @@ namespace MRPlatform.HMI
 
         private string GetAddNavigationHistoryQuery()
         {
-            string sQuery = "INSERT INTO NavHistory(userName, navMenuId) VALUES(?, ?)";
+            string sQuery = "INSERT INTO NavBack(userName, navMenuId) VALUES(?, ?)";
 
             return sQuery;
         }
 
 
-        public int DeleteNavigationForwardHistory(string userName, int currentNavMenuId)
+        public int DeleteNavigationForwardHistory(string userName)
         {
             if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
 
@@ -711,7 +733,6 @@ namespace MRPlatform.HMI
 
                 OleDbCommand sqlCmd = new OleDbCommand(GetDeleteNavigationForwardHistoryQuery(), (OleDbConnection)dbConnection);
                 sqlCmd.Parameters.AddWithValue("@userName", userName);
-                sqlCmd.Parameters.AddWithValue("@navMenuId", currentNavMenuId);
 
                 try
                 {
@@ -720,7 +741,7 @@ namespace MRPlatform.HMI
                 }
                 catch (OleDbException ex)
                 {
-                    _errorLog.LogMessage(this.GetType().Name, "DeleteNavigationForwardHistory(string userName, int currentNavMenuId)", ex.Message);
+                    _errorLog.LogMessage(this.GetType().Name, "DeleteNavigationForwardHistory(string userName)", ex.Message);
                     if (dbConnection.State == ConnectionState.Open)
                         dbConnection.Close();
                     return -1;
@@ -730,15 +751,14 @@ namespace MRPlatform.HMI
 
         private string GetDeleteNavigationForwardHistoryQuery()
         {
-            string sQuery = "DELETE FROM NavHistory" +
-                            " WHERE userName = ?" +
-                            " AND id > ?";
+            string sQuery = "DELETE FROM NavForward" +
+                            " WHERE userName = ?";
 
             return sQuery;
         }
 
 
-        public int DeleteNavigationHistory(string userName)
+        public int DeleteNavigationBackHistory(string userName)
         {
             if (userName.Length == 0 || userName == null) { throw new ArgumentNullException(userName, "userName cannot be null."); }
 
@@ -766,7 +786,7 @@ namespace MRPlatform.HMI
 
         private string GetDeleteNavigationHistoryQuery()
         {
-            string sQuery = "DELETE FROM NavHistory" +
+            string sQuery = "DELETE FROM NavBack" +
                             " WHERE userName = ?";
 
             return sQuery;
